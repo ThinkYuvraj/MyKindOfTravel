@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import { createServer as createViteServer } from 'vite';
 import { env } from './config/env';
 import { authRouter } from './routes/authRouter';
@@ -35,12 +36,24 @@ app.get('/api/health', (req, res) => {
 
 // Vite Middleware (Development Mode) vs Static File Serving (Production Mode / Hostinger)
 async function startServer() {
-  if (process.env.NODE_ENV === 'development') {
+  if (env.nodeEnv === 'development') {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
     });
     app.use(vite.middlewares);
+
+    app.get('*all', async (req, res, next) => {
+      const url = req.originalUrl;
+      try {
+        const rawIndexHtml = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf-8');
+        const transformedHtml = await vite.transformIndexHtml(url, rawIndexHtml);
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(transformedHtml);
+      } catch (e) {
+        vite.ssrFixStacktrace(e as Error);
+        next(e);
+      }
+    });
   } else {
     // Hostinger production static files serving
     const publicDistPath = path.join(process.cwd(), 'dist');
@@ -86,7 +99,7 @@ async function startServer() {
 
 function fsExists(p: string): boolean {
   try {
-    return require('fs').existsSync(p);
+    return fs.existsSync(p);
   } catch {
     return false;
   }

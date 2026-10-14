@@ -7,10 +7,13 @@ import { EnquiryModal } from '../components/EnquiryModal';
 import { WishlistModal } from '../components/WishlistModal';
 import { FloatingWhatsApp } from '../components/FloatingWhatsApp';
 import { BackToTop } from '../components/BackToTop';
+import { useCms } from '../context/CmsContext';
+import { useScrollPagination } from '../utils/useScrollPagination';
+import { ScrollPaginationFooter } from '../components/ScrollPaginationFooter';
 import { Sparkles, Check, ArrowRight, Compass, Search, MapPin, Heart, ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const EXTENDED_EXPERIENCES = [
+const EXTENDED_EXPERIENCES: ExperiencePillar[] = [
   ...EXPERIENCE_PILLARS,
   {
     number: '07',
@@ -36,6 +39,7 @@ const EXTENDED_EXPERIENCES = [
 
 export default function ExperiencesPage() {
   const navigate = useNavigate();
+  const { experiencePillars } = useCms();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
@@ -43,23 +47,52 @@ export default function ExperiencesPage() {
 
   const types = ['All', 'Honeymoon', 'Luxury Europe', 'Corporate', 'Family', 'Wellness', 'Rail', 'Gourmet'];
 
+  const allExperiences = useMemo(() => {
+    const additional = [
+      {
+        number: '07',
+        title: 'Alpine Rail & Glacier Expeditions',
+        subtitle: 'Panoramic mountain routes and top-of-the-world summits',
+        description: 'First-class Glacier Express, Bernina Express, and Jungfraujoch cogwheel journeys carved across Swiss peaks, viaducts, and pristine alpine lakes.',
+        ctaText: 'Explore rail trips',
+        typeKey: 'Alpine Rail',
+        image: 'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1000&q=80',
+        highlights: ['First-class panoramic glass dome seats', 'Matterhorn view chalet accommodations', 'Luggage transfer between Swiss stations', 'Private glacier guides & chocolate tasting'],
+      },
+      {
+        number: '08',
+        title: 'Michelin Dining & Private Wine Trails',
+        subtitle: 'Epicurean journeys for discerning palates',
+        description: 'After-hours access to Bordeaux vineyards, private Tuscan olive mills, and reserved chef’s tables facing iconic skylines in Paris and Tokyo.',
+        ctaText: 'Discover gourmet',
+        typeKey: 'Gourmet & Wine',
+        image: 'https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1000&q=80',
+        highlights: ['Private sommelier vineyard tastings', 'Eiffel Tower private terrace dinner', 'Truffle hunting in Piedmont', 'Michelin 3-star omakase dining in Kyoto'],
+      },
+    ];
+
+    const existingNumbers = new Set(experiencePillars.map((p) => p.number));
+    const extraToAdd = additional.filter((a) => !existingNumbers.has(a.number));
+    return [...experiencePillars, ...extraToAdd];
+  }, [experiencePillars]);
+
   const filtersWithCounts = useMemo(() => {
     return types.map((type) => {
       let count = 0;
       if (type === 'All') {
-        count = EXTENDED_EXPERIENCES.length;
+        count = allExperiences.length;
       } else {
-        count = EXTENDED_EXPERIENCES.filter((exp) => {
+        count = allExperiences.filter((exp) => {
           const text = (exp.title + ' ' + exp.typeKey).toLowerCase();
           return text.includes(type.toLowerCase());
         }).length;
       }
       return { label: type, count };
     });
-  }, []);
+  }, [allExperiences]);
 
   const filteredExperiences = useMemo(() => {
-    return EXTENDED_EXPERIENCES.filter((exp) => {
+    return allExperiences.filter((exp) => {
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !q ||
@@ -75,7 +108,23 @@ export default function ExperiencesPage() {
 
       return matchesSearch && matchesType;
     });
-  }, [searchQuery, selectedType]);
+  }, [allExperiences, searchQuery, selectedType]);
+
+  // Progressive Scroll-based Pagination
+  const {
+    visibleItems: visibleExperiences,
+    displayedCount,
+    totalCount,
+    hasMore,
+    isLoadingMore,
+    loadMore,
+    sentinelRef,
+  } = useScrollPagination<ExperiencePillar>({
+    items: filteredExperiences,
+    pageSize: 6,
+    initialPageSize: 6,
+    resetDeps: [searchQuery, selectedType],
+  });
 
   const handleStartPlanning = (tripType: string) => {
     setEnquiryTripType(tripType);
@@ -173,73 +222,108 @@ export default function ExperiencesPage() {
           </div>
 
           {/* Experiences Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 sm:gap-8 items-stretch">
-            {filteredExperiences.map((exp) => (
-              <div
-                key={exp.number}
-                className="rounded-3xl overflow-hidden bg-neutral-50 dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 shadow-xs flex flex-col justify-between group hover:-translate-y-1 transition-all duration-300 relative h-[540px]"
-              >
-                <div className="flex flex-col flex-1">
-                  {/* Image with Pillar Number */}
-                  {exp.image && (
-                    <div className="relative w-full h-52 overflow-hidden border-b border-neutral-200 dark:border-white/10 shrink-0">
-                      <img
-                        src={exp.image}
-                        alt={exp.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
-                      <div className="absolute top-3.5 left-3.5 inline-flex items-center justify-center w-9 h-9 rounded-xl bg-black/60 backdrop-blur-md text-white font-serif font-bold text-xs border border-white/20">
-                        {exp.number}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Body */}
-                  <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2">
-                      <div className="h-14 flex items-center">
-                        <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white group-hover:text-[#E37500] transition-colors leading-tight line-clamp-2">
-                          {exp.title}
-                        </h3>
-                      </div>
-                      <div className="h-10 flex items-start">
-                        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed line-clamp-2">
-                          {exp.description}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Highlights */}
-                    <div className="h-24 pt-2.5 border-t border-neutral-200 dark:border-white/10 flex flex-col justify-center space-y-1.5">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#E37500] block">
-                        Signature Highlights:
-                      </span>
-                      {exp.highlights.slice(0, 3).map((h, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs text-neutral-700 dark:text-neutral-300">
-                          <div className="w-3.5 h-3.5 rounded-full bg-[#E37500]/10 flex items-center justify-center shrink-0">
-                            <Check className="w-2.5 h-2.5 text-[#E37500] stroke-[3]" />
+          {filteredExperiences.length > 0 ? (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 sm:gap-6 lg:gap-7 items-stretch">
+                {visibleExperiences.map((exp) => (
+                  <div
+                    key={exp.number}
+                    className="rounded-3xl overflow-hidden bg-neutral-50 dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 shadow-xs flex flex-col justify-between group hover:-translate-y-1 transition-all duration-300 relative min-h-[500px] sm:min-h-[540px]"
+                  >
+                    <div className="flex flex-col flex-1">
+                      {/* Image with Pillar Number */}
+                      {exp.image && (
+                        <div className="relative w-full h-52 overflow-hidden border-b border-neutral-200 dark:border-white/10 shrink-0">
+                          <img
+                            src={exp.image}
+                            alt={exp.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+                          <div className="absolute top-3.5 left-3.5 inline-flex items-center justify-center w-9 h-9 rounded-xl bg-black/60 backdrop-blur-md text-white font-serif font-bold text-xs border border-white/20">
+                            {exp.number}
                           </div>
-                          <span className="truncate">{h}</span>
                         </div>
-                      ))}
+                      )}
+
+                      {/* Body */}
+                      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-3">
+                        <div className="space-y-2">
+                          <div className="h-14 flex items-center">
+                            <h3 className="font-serif text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white group-hover:text-[#E37500] transition-colors leading-tight line-clamp-2">
+                              {exp.title}
+                            </h3>
+                          </div>
+                          <div className="h-10 flex items-start">
+                            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed line-clamp-2">
+                              {exp.description}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Highlights */}
+                        <div className="h-24 pt-2.5 border-t border-neutral-200 dark:border-white/10 flex flex-col justify-center space-y-1.5">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#E37500] block">
+                            Signature Highlights:
+                          </span>
+                          {exp.highlights.slice(0, 3).map((h, i) => (
+                            <div key={i} className="flex items-center gap-2 text-xs text-neutral-700 dark:text-neutral-300">
+                              <div className="w-3.5 h-3.5 rounded-full bg-[#E37500]/10 flex items-center justify-center shrink-0">
+                                <Check className="w-2.5 h-2.5 text-[#E37500] stroke-[3]" />
+                              </div>
+                              <span className="truncate">{h}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bottom CTA Button */}
+                    <div className="p-5 sm:p-6 pt-0 shrink-0">
+                      <button
+                        onClick={() => handleStartPlanning(exp.typeKey)}
+                        className="w-full py-2.5 rounded-full bg-[#E37500] hover:bg-[#C66500] text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md shadow-[#E37500]/25 hover:scale-[1.02] active:scale-95 cursor-pointer"
+                      >
+                        <span>{exp.ctaText}</span>
+                        <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                      </button>
                     </div>
                   </div>
-                </div>
-
-                {/* Bottom CTA Button */}
-                <div className="p-5 sm:p-6 pt-0 shrink-0">
-                  <button
-                    onClick={() => handleStartPlanning(exp.typeKey)}
-                    className="w-full py-2.5 rounded-full bg-[#E37500] hover:bg-[#C66500] text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md shadow-[#E37500]/25 hover:scale-[1.02] active:scale-95 cursor-pointer"
-                  >
-                    <span>{exp.ctaText}</span>
-                    <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-                  </button>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+
+              {/* Progressive Scroll Pagination Footer */}
+              <ScrollPaginationFooter
+                displayedCount={displayedCount}
+                totalCount={totalCount}
+                hasMore={hasMore}
+                isLoadingMore={isLoadingMore}
+                onLoadMore={loadMore}
+                sentinelRef={sentinelRef}
+                itemNoun="experiences"
+                onPlanCustom={() => handleStartPlanning('Custom Experience')}
+              />
+            </>
+          ) : (
+            <div className="text-center py-20 bg-neutral-50 dark:bg-[#0B0B0B] rounded-3xl border border-neutral-200 dark:border-white/10 p-8 space-y-4">
+              <Compass className="w-12 h-12 text-neutral-400 mx-auto mb-2 opacity-50" />
+              <h3 className="font-serif text-xl font-bold text-neutral-900 dark:text-white">
+                No matching experiences found
+              </h3>
+              <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-300 max-w-md mx-auto">
+                We couldn’t find pillars matching your current query. Try resetting your search or exploring all categories.
+              </p>
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  setSelectedType('All');
+                }}
+                className="px-6 py-2.5 rounded-full bg-[#E37500] text-white text-xs font-bold uppercase tracking-wider shadow-sm hover:bg-[#C66500] transition-all"
+              >
+                Reset Filters
+              </button>
+            </div>
+          )}
 
           {/* Bottom Banner */}
           <div className="p-8 sm:p-12 rounded-3xl bg-neutral-900 dark:bg-[#0A0A0A] border border-neutral-800 dark:border-white/15 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">

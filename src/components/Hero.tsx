@@ -140,36 +140,36 @@ export const Hero: React.FC<HeroProps> = ({
       </div>
 
       {/* Hero Centered Content Acquiring Full Main Frame */}
-      <div className="relative z-10 w-full max-w-6xl 2xl:max-w-7xl mx-auto px-5 sm:px-8 md:px-12 lg:px-16 text-center flex flex-col items-center justify-center pt-16 sm:pt-20 pb-16 sm:pb-20">
-        {/* Main Display Headline - Responsive Size */}
-        <h1 className="font-sans font-extrabold uppercase text-white tracking-[0.03em] sm:tracking-[0.06em] md:tracking-[0.08em] text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.75rem] leading-[1.1] sm:leading-[1.06] drop-shadow-[0_4px_22px_rgba(0,0,0,0.9)] max-w-2xl sm:max-w-4xl lg:max-w-5xl mx-auto">
+      <div className="relative z-10 w-full max-w-6xl 2xl:max-w-7xl 3xl:max-w-[88rem] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 text-center flex flex-col items-center justify-center pt-20 sm:pt-24 pb-20 sm:pb-24">
+        {/* Main Display Headline - Responsive Fluid Size */}
+        <h1 className="font-sans font-extrabold uppercase text-white tracking-[0.03em] sm:tracking-[0.06em] md:tracking-[0.08em] text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] 2xl:text-[6.25rem] leading-[1.12] sm:leading-[1.06] drop-shadow-[0_4px_22px_rgba(0,0,0,0.9)] max-w-2xl sm:max-w-4xl lg:max-w-5xl 2xl:max-w-6xl mx-auto">
           {title}
         </h1>
 
         {/* Descriptive Subtitle for My Kind of Travel */}
-        <p className="mt-4 sm:mt-6 px-2 sm:px-4 text-white/95 text-sm sm:text-base md:text-lg lg:text-xl font-normal max-w-[22rem] sm:max-w-xl md:max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] whitespace-pre-line">
+        <p className="mt-4 sm:mt-6 px-1 sm:px-4 text-white/95 text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-[1.35rem] font-normal max-w-xs xs:max-w-md sm:max-w-xl md:max-w-2xl 2xl:max-w-3xl mx-auto leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] whitespace-pre-line">
           {subtitle}
         </p>
 
         {/* Slogan */}
-        <div className="mt-3.5 sm:mt-5 flex flex-col items-center">
+        <div className="mt-3 sm:mt-5 flex flex-col items-center">
           <span className="text-white/90 text-xs sm:text-sm md:text-base font-medium tracking-wide drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">
             Your personal travel designer awaits
           </span>
         </div>
 
         {/* Action Buttons: Crystal Glassmorphic Transparent Styling */}
-        <div className="mt-7 sm:mt-9 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full max-w-[270px] sm:max-w-none mx-auto">
+        <div className="mt-6 sm:mt-9 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-[270px] xs:max-w-[300px] sm:max-w-none mx-auto">
           <button
             onClick={onExploreDestinations}
-            className="w-full sm:w-auto inline-flex items-center justify-center px-7 sm:px-9 md:px-11 py-3.5 sm:py-4 bg-[#E37500]/20 hover:bg-[#E37500]/40 backdrop-blur-xl border border-[#E37500]/80 hover:border-white text-white font-extrabold text-xs sm:text-sm tracking-[0.16em] sm:tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_4px_25px_rgba(227,117,0,0.25)] hover:shadow-[0_8px_35px_rgba(227,117,0,0.45)] hover:scale-[1.03] active:scale-95 text-center rounded-full cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-6 xs:px-7 sm:px-9 md:px-11 py-3 xs:py-3.5 sm:py-4 bg-[#E37500]/20 hover:bg-[#E37500]/40 backdrop-blur-xl border border-[#E37500]/80 hover:border-white text-white font-extrabold text-[11px] xs:text-xs sm:text-sm tracking-[0.14em] sm:tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_4px_25px_rgba(227,117,0,0.25)] hover:shadow-[0_8px_35px_rgba(227,117,0,0.45)] hover:scale-[1.03] active:scale-95 text-center rounded-full cursor-pointer"
           >
             {primaryButtonText}
           </button>
 
           <button
             onClick={onPlanTrip}
-            className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-7 sm:px-9 md:px-10 py-3.5 sm:py-4 bg-white/5 hover:bg-white/15 backdrop-blur-xl border border-white/40 hover:border-white/80 text-white hover:text-white font-bold text-xs sm:text-sm tracking-[0.16em] sm:tracking-[0.18em] uppercase transition-all duration-300 shadow-[0_4px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_35px_rgba(255,255,255,0.2)] hover:scale-[1.03] active:scale-95 rounded-full text-center cursor-pointer"
+            className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-6 xs:px-7 sm:px-9 md:px-10 py-3 xs:py-3.5 sm:py-4 bg-white/5 hover:bg-white/15 backdrop-blur-xl border border-white/40 hover:border-white/80 text-white hover:text-white font-bold text-[11px] xs:text-xs sm:text-sm tracking-[0.14em] sm:tracking-[0.18em] uppercase transition-all duration-300 shadow-[0_4px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_35px_rgba(255,255,255,0.2)] hover:scale-[1.03] active:scale-95 rounded-full text-center cursor-pointer"
           >
             <span>{secondaryButtonText}</span>
             <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />

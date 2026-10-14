@@ -119,12 +119,12 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({
 
           <div
             ref={carouselRef}
-            className="flex gap-4 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch"
+            className="flex gap-3.5 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch touch-carousel"
           >
             {activeReviews.map((review) => (
               <div
                 key={review.id}
-                className="p-6 sm:p-7 md:p-8 rounded-3xl bg-white dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 transition-all duration-300 flex flex-col justify-between shadow-[0_6px_25px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1 relative group shrink-0 w-[90vw] sm:w-[460px] md:w-[480px] lg:w-[520px] h-[310px] sm:h-[320px] snap-start"
+                className="p-5 sm:p-7 md:p-8 rounded-3xl bg-white dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 transition-all duration-300 flex flex-col justify-between shadow-[0_6px_25px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1 relative group shrink-0 w-[88vw] xs:w-[84vw] sm:w-[460px] md:w-[480px] lg:w-[520px] min-h-[300px] sm:min-h-[320px] snap-start"
               >
                 <div className="space-y-3">
                   {/* 5 Stars in vibrant #E37500 */}

@@ -1,0 +1,1238 @@
+{
+  "heroTitle": "EXPLORE. DREAM. DISCOVER.",
+  "heroSubtitle": "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers.",
+  "heroBadge": "My Kind of Travel • Bespoke Journeys",
+  "heroBgImage": "",
+  "primaryButton": "START EXPLORING",
+  "secondaryButton": "PLAN TRIP",
+  "sectionOrder": [
+    "hero",
+    "marquee",
+    "howItWorks",
+    "destinations",
+    "experiences",
+    "vipPrivileges",
+    "packages",
+    "gallery",
+    "testimonials",
+    "whyUs",
+    "contact"
+  ],
+  "sectionVisibility": {
+    "hero": true,
+    "destinations": true,
+    "marquee": true,
+    "experiences": true,
+    "vipPrivileges": true,
+    "howItWorks": true,
+    "packages": true,
+    "gallery": true,
+    "testimonials": true,
+    "whyUs": true,
+    "contact": true
+  },
+  "destinations": [
+    {
+      "id": "bali",
+      "name": "Bali, Indonesia",
+      "country": "Indonesia",
+      "region": "South-East Asia",
+      "tag": "Island Escape",
+      "priceNote": "Starting from ₹65,000 / Person",
+      "image": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=80",
+      "description": "Emerald rice terraces, cliff-edge ocean temples, private jungle pool villas in Ubud, and barefoot luxury in Seminyak and Nusa Penida.",
+      "highlights": [
+        "Private Infinity Pool Villas",
+        "Floating Champagne Breakfast",
+        "Uluwatu Cliff Sunset & Kecak Dance",
+        "Private Speedboat to Nusa Penida"
+      ],
+      "bestTime": "April to October (Dry & Sunny Season)",
+      "idealFor": "Honeymoons, Couples, Wellness, Family Escapes"
+    },
+    {
+      "id": "paris",
+      "name": "Paris, France",
+      "country": "France",
+      "region": "Europe",
+      "tag": "Romantic City",
+      "priceNote": "Starting from ₹1,20,000 / Person",
+      "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80",
+      "description": "The City of Light reimagined through private curated art access, Seine gourmet dining cruises, and boutique 5-star suites with Eiffel Tower vistas.",
+      "highlights": [
+        "Eiffel Tower View Suites",
+        "After-Hours Private Louvre Access",
+        "Gourmet Dinner Cruise on the Seine",
+        "Champagne Day Trip in Private Mercedes"
+      ],
+      "bestTime": "May to October & December for Christmas Magic",
+      "idealFor": "Romance, High Fashion, Gourmet Dining, Culture"
+    },
+    {
+      "id": "switzerland",
+      "name": "Switzerland",
+      "country": "Switzerland",
+      "region": "Central Europe",
+      "tag": "Alpine Luxury",
+      "priceNote": "Starting from ₹1,50,000 / Person",
+      "image": "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1200&q=80",
+      "description": "Glacier peaks, fairytale alpine villages, first-class panoramic train rides on the Glacier Express, and luxury chalets nestled beneath the Matterhorn.",
+      "highlights": [
+        "Jungfraujoch - Top of Europe Private Excursion",
+        "First-Class Glacier & Bernina Panoramic Trains",
+        "Matterhorn Luxury Chalet Stays in Zermatt",
+        "Private Lake Lucerne Sunset Cruise"
+      ],
+      "bestTime": "June to September (Lush Greenery) & Dec to March (Winter Wonderland)",
+      "idealFor": "Alpine Luxury, Nature Lovers, Multi-Generational Families"
+    },
+    {
+      "id": "santorini",
+      "name": "Santorini",
+      "country": "Greece",
+      "region": "Europe",
+      "tag": "Caldera Luxury",
+      "priceNote": "Starting from ₹1,60,000 / Person",
+      "image": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1200&q=80",
+      "description": "Iconic whitewashed cliffside cave suites, world-famous Oia golden hour sunsets, and private catamaran cruises slicing through azure Aegean waters.",
+      "highlights": [
+        "Private Caldera Cliffside Cave Jacuzzi",
+        "Private Sunset Catamaran Sailing & Barbecue",
+        "Akrotiri & Megalochori Boutique Wine Tasting",
+        "Helicopter Transfer to Mykonos (Optional)"
+      ],
+      "bestTime": "May to October",
+      "idealFor": "Honeymooners, Anniversaries, Intimate Escapes"
+    },
+    {
+      "id": "maldives",
+      "name": "Maldives",
+      "country": "Maldives",
+      "region": "Indian Ocean",
+      "tag": "Overwater Villas",
+      "priceNote": "Starting from ₹1,40,000 / Person",
+      "image": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1200&q=80",
+      "description": "Turquoise lagoons, overwater villas with glass floor panels and slides into the sea, private sandbank dinners under the stars, and seaplane flights.",
+      "highlights": [
+        "Direct Lagoon Access Overwater Bungalows",
+        "Scenic Seaplane Transfers",
+        "Private Sandbank Candlelit Dining",
+        "Bioluminescent Snorkeling & Nurse Shark Encounter"
+      ],
+      "bestTime": "November to April",
+      "idealFor": "Pure Relaxation, Overwater Luxury, Diving & Snorkeling"
+    },
+    {
+      "id": "prague",
+      "name": "Prague & Central Europe",
+      "country": "Czech Republic",
+      "region": "Central Europe",
+      "tag": "Historic Elegance",
+      "priceNote": "Starting from ₹95,000 / Person",
+      "image": "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=1200&q=80",
+      "description": "Gothic spires, cobbled medieval lanes, private horse-drawn carriage tours, and baroque palaces that transport you to a timeless European fairy tale.",
+      "highlights": [
+        "Private Twilight Walking Tour of Charles Bridge",
+        "Old Town Square Boutique Heritage Hotel",
+        "Vltava River Private Yacht Cocktail Cruise",
+        "Day Trip to Bohemian Switzerland National Park"
+      ],
+      "bestTime": "May to September & Festive December",
+      "idealFor": "Architecture Enthusiasts, History Lovers, Multi-City Europe Tours"
+    },
+    {
+      "id": "amalfi",
+      "name": "Amalfi Coast & Positano",
+      "country": "Italy",
+      "region": "Southern Europe",
+      "tag": "Coastal Glamour",
+      "priceNote": "Starting from ₹1,75,000 / Person",
+      "image": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=80",
+      "description": "Cliffside pastel villas cascading into azure Mediterranean waves, private Riva speedboat charters to Capri, and lemon grove terrace dining overlooking Positano.",
+      "highlights": [
+        "Private Riva Speedboat Charter to Capri & Blue Grotto",
+        "Cliffside Suite in Positano with Private Plunge Pool",
+        "Vintage Alfa Romeo Coastal Drive with Chauffeur",
+        "Private Cooking Masterclass at an Amalfi Lemon Orchard"
+      ],
+      "bestTime": "May to October",
+      "idealFor": "Couples, Anniversaries, Mediterranean Escapes, Food Lovers"
+    },
+    {
+      "id": "kyoto",
+      "name": "Kyoto & Tokyo, Japan",
+      "country": "Japan",
+      "region": "East Asia",
+      "tag": "Zen & Futurism",
+      "priceNote": "Starting from ₹1,90,000 / Person",
+      "image": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80",
+      "description": "Centuries-old Zen temples, secluded bamboo groves, luxury Ryokans with private hot spring onsens, paired with Tokyo’s neon skyline and private sushi masters.",
+      "highlights": [
+        "Private After-Hours Access to Gion Geisha District",
+        "Luxury Ryokan Stay with Private Forest Onsen",
+        "First-Class Shinkansen Bullet Train with Mt. Fuji Views",
+        "Private 3-Star Michelin Omakase Dining Experience"
+      ],
+      "bestTime": "March to May (Sakura) & October to November (Autumn Foliage)",
+      "idealFor": "Cultural Connoisseurs, Luxury Wellness, Foodies, Explorers"
+    },
+    {
+      "id": "cappadocia",
+      "name": "Cappadocia, Turkey",
+      "country": "Turkey",
+      "region": "Europe & Asia",
+      "tag": "Surreal Escapes",
+      "priceNote": "Starting from ₹85,000 / Person",
+      "image": "https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=1200&q=80",
+      "description": "Fairytale chimneys, private sunrise hot air balloon flights over volcanic valleys, and ultra-luxurious carved cave suites with heated indoor cave pools.",
+      "highlights": [
+        "Private VIP Sunrise Hot Air Balloon Flight with Champagne",
+        "Historic Cave Villa Suite with Private Thermal Pool",
+        "Sunset Horseback Safari through Rose Valley",
+        "Underground City Private Archaeologist Tour"
+      ],
+      "bestTime": "April to June & September to November",
+      "idealFor": "Photographers, Romantic Milestone Trips, Unique Escapes"
+    }
+  ],
+  "packages": [
+    {
+      "id": "classic-europe-romance",
+      "tag": "Honeymoon",
+      "badge": "Popular for Couples",
+      "title": "Classic Europe Romance",
+      "subtitle": "Parisian Charm & Swiss Alpine Grandeur",
+      "duration": "7 nights · Paris & Switzerland",
+      "destination": "France & Switzerland",
+      "startingPrice": "Starting from ₹1,85,000 / Person",
+      "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=80",
+      "features": [
+        "5-star boutique hotels",
+        "Private city tours & guides",
+        "Candlelit dinner — Eiffel Tower view",
+        "Business class flights optional"
+      ],
+      "inclusions": [
+        "3 Nights in central Paris 5-star boutique hotel",
+        "4 Nights in Lucerne/Interlaken luxury alpine resort",
+        "Private Seine evening cruise with champagne",
+        "First-Class High-Speed TGV Lyria train between Paris & Zurich",
+        "Jungfraujoch Top of Europe private day excursion",
+        "Complete Schengen Visa guidance and document processing"
+      ],
+      "dayHighlights": [
+        {
+          "day": 1,
+          "title": "Arrival in Paris & Eiffel Welcome",
+          "details": "Private Mercedes transfer to your boutique hotel, evening champagne reception."
+        },
+        {
+          "day": 2,
+          "title": "Louvre VIP & Candlelit Seine Cruise",
+          "details": "Private art historian guide through the Louvre, followed by a romantic gourmet dinner cruise."
+        },
+        {
+          "day": 3,
+          "title": "Montmartre Secret Walk & High Fashion",
+          "details": "Private walking tour of hidden artists studios and optional personal shopping concierge."
+        },
+        {
+          "day": 4,
+          "title": "First-Class Train to Switzerland",
+          "details": "Scenic high-speed train journey gliding past the Alps to Lucerne lakeside resort."
+        },
+        {
+          "day": 5,
+          "title": "Jungfraujoch - Top of Europe",
+          "details": "Private cable car and cogwheel train to 3,454m glacier wonderland."
+        },
+        {
+          "day": 6,
+          "title": "Lake Brienz & Alpine Spa Day",
+          "details": "Private wooden boat cruise on turquoise waters followed by couple hydrotherapy."
+        },
+        {
+          "day": 7,
+          "title": "Zurich Old Town & Farewell Dinner",
+          "details": "Swiss chocolate tasting and grand farewell dinner overlooking Lake Zurich."
+        },
+        {
+          "day": 8,
+          "title": "Departure Flight Home",
+          "details": "Private chauffeur transfer to Zurich airport with VIP tax refund assistance."
+        }
+      ]
+    },
+    {
+      "id": "bali-private-villa",
+      "tag": "Most loved · Bali Package",
+      "badge": "Most Loved",
+      "title": "Bali Private Villa Experience",
+      "subtitle": "Private Pool Villas, Jungle Retreats & Coastal Sunsets",
+      "duration": "6 nights · Private pool villa",
+      "destination": "Bali, Indonesia",
+      "startingPrice": "Starting from ₹75,000 / Person",
+      "image": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1000&q=80",
+      "features": [
+        "Private pool villa stays throughout",
+        "Floating breakfast included",
+        "Temple tours & rice terrace walks",
+        "Beach dinner — curated menu",
+        "Airport transfers & all visa support"
+      ],
+      "inclusions": [
+        "3 Nights in Ubud luxury jungle pool villa (e.g., Kayon / Viceroy style)",
+        "3 Nights in Seminyak or Uluwatu oceanfront villa",
+        "Daily floating breakfast in private plunge pool",
+        "Full-day private chauffeur and air-conditioned luxury SUV",
+        "Private day trip to Nusa Penida (Kelingking & Diamond Beach)",
+        "Couples 2-hour Balinese herbal spa massage",
+        "Curated candlelit seafood dinner on Jimbaran Bay sands"
+      ],
+      "dayHighlights": [
+        {
+          "day": 1,
+          "title": "Arrive in Denpasar & Ubud Welcome",
+          "details": "VIP flower garland greeting, private transfer to your secluded Ubud jungle villa."
+        },
+        {
+          "day": 2,
+          "title": "Floating Breakfast & Tegallalang Rice Walk",
+          "details": "Iconic morning floating tray in your pool followed by UNESCO rice terrace stroll."
+        },
+        {
+          "day": 3,
+          "title": "Tirta Empul Blessing & Secret Waterfall",
+          "details": "Private cultural water blessing ceremony and hike to pristine jungle falls."
+        },
+        {
+          "day": 4,
+          "title": "Transfer to South Bali & Uluwatu Sunset",
+          "details": "Check-in to ocean villa, sunset cliff temple tour with fire dance tickets."
+        },
+        {
+          "day": 5,
+          "title": "Private Nusa Penida Island Excursion",
+          "details": "Private speedboat to Nusa Penida to witness Kelingking T-Rex cliff and crystal bays."
+        },
+        {
+          "day": 6,
+          "title": "Spa Rejuvenation & Jimbaran Seafood Dinner",
+          "details": "Couples body scrub and floral bath, followed by sunset beach dinner."
+        },
+        {
+          "day": 7,
+          "title": "Seminyak Boutique Shopping & Departure",
+          "details": "Relaxed morning coffee, souvenir shopping, and private airport drop-off."
+        }
+      ]
+    },
+    {
+      "id": "switzerland-paris-grand-tour",
+      "tag": "Alpine Luxury",
+      "badge": "Grand Tour",
+      "title": "Switzerland & Paris Grand Tour",
+      "subtitle": "Ultimate 10-Night European Masterpiece",
+      "duration": "10 nights · 2 countries",
+      "destination": "Switzerland & France",
+      "startingPrice": "Starting from ₹2,20,000 / Person",
+      "image": "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1000&q=80",
+      "features": [
+        "Jungfrau & glacier experiences",
+        "Private Swiss train journeys",
+        "Louvre & Seine river dinner",
+        "Dedicated travel concierge"
+      ],
+      "inclusions": [
+        "4 Nights in Paris 5-star hotel in Opera / Champs-Élysées district",
+        "3 Nights in Interlaken / Grindelwald alpine chalet",
+        "3 Nights in Zermatt facing the iconic Matterhorn",
+        "Swiss Travel Pass First Class with unlimited panoramic journeys",
+        "Private VIP Louvre and Versailles palace tours with historians",
+        "Dedicated 24/7 Indian travel concierge reachable via WhatsApp"
+      ],
+      "dayHighlights": [
+        {
+          "day": 1,
+          "title": "Welcome to Paris",
+          "details": "Private transfer to hotel, evening stroll along the illuminated Champs-Élysées."
+        },
+        {
+          "day": 2,
+          "title": "Private Louvre & Eiffel Summit",
+          "details": "Skip-the-line private Louvre access and champagne toast at the Eiffel Tower summit."
+        },
+        {
+          "day": 3,
+          "title": "Palace of Versailles Guided Day Trip",
+          "details": "Royal chambers, Hall of Mirrors, and private golf cart tour through the Grand Gardens."
+        },
+        {
+          "day": 4,
+          "title": "Paris to Swiss Interlaken via High-Speed TGV",
+          "details": "First-class transit across countryside into the heart of the Bernese Oberland."
+        },
+        {
+          "day": 5,
+          "title": "Jungfraujoch & Ice Palace",
+          "details": "Ascend to the highest railway station in Europe with panoramic snow views."
+        },
+        {
+          "day": 6,
+          "title": "Lauterbrunnen Valley of 72 Waterfalls",
+          "details": "Private exploration of fairytale alpine cliffs and Trümmelbach glacial falls."
+        },
+        {
+          "day": 7,
+          "title": "Scenic Rail to Zermatt (Car-Free Haven)",
+          "details": "Arrive in Zermatt with unobstructed views of the mighty Matterhorn peak."
+        },
+        {
+          "day": 8,
+          "title": "Gornergrat Cogwheel Mountain Railway",
+          "details": "360-degree vistas of 29 four-thousand-meter peaks and pristine alpine lakes."
+        },
+        {
+          "day": 9,
+          "title": "Swiss Alpine Wellness & Fondue Night",
+          "details": "Thermal outdoor pools with mountain views and authentic Swiss cheese fondue dinner."
+        },
+        {
+          "day": 10,
+          "title": "Geneva or Zurich Lakeside Stay",
+          "details": "Final afternoon of luxury watch shopping and lakeside promenade walks."
+        },
+        {
+          "day": 11,
+          "title": "Departure with Lifetime Memories",
+          "details": "Airport lounge access and seamless flight home to India."
+        }
+      ]
+    },
+    {
+      "id": "santorini-odyssey",
+      "tag": "Honeymoon",
+      "badge": "Aegean Romance",
+      "title": "Santorini & Athens Sunset Odyssey",
+      "subtitle": "Caldera Infinity Pools & Aegean Yachting",
+      "duration": "6 nights · Greece",
+      "destination": "Greece",
+      "startingPrice": "Starting from ₹1,65,000 / Person",
+      "image": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1000&q=80",
+      "features": [
+        "Oia cliffside cave suite with private hot tub",
+        "Private sunset catamaran sailing with seafood barbecue",
+        "Acropolis private archaeologist tour",
+        "Boutique volcanic winery tastings"
+      ],
+      "inclusions": [
+        "2 Nights in luxury boutique hotel in Athens Plaka area",
+        "4 Nights in cliffside cave suite in Oia Santorini",
+        "High-speed business class ferry or flight between Athens and Santorini",
+        "Private 5-hour sunset catamaran with Greek barbecue & wine",
+        "Private island driver for sightseeing and photo stops"
+      ],
+      "dayHighlights": [
+        {
+          "day": 1,
+          "title": "Arrive in Athens & Rooftop View",
+          "details": "Acropolis-facing rooftop dinner under illuminated Parthenon."
+        },
+        {
+          "day": 2,
+          "title": "Private Acropolis Tour & Flight to Santorini",
+          "details": "Walk through ancient history before landing on the volcanic jewel of Santorini."
+        },
+        {
+          "day": 3,
+          "title": "Oia Exploration & Cliffside Jacuzzi",
+          "details": "Private photo walk through blue-domed churches and relaxed poolside afternoon."
+        },
+        {
+          "day": 4,
+          "title": "Private Catamaran Aegean Cruise",
+          "details": "Sail past Red Beach, volcanic hot springs, and watch Oia sunset from the water."
+        },
+        {
+          "day": 5,
+          "title": "Santorini Wine Tasting & Megalochori",
+          "details": "Explore ancient vineyards and enjoy crisp Assyrtiko wines paired with local mezze."
+        },
+        {
+          "day": 6,
+          "title": "Akrotiri Prehistoric City & Beach Club",
+          "details": "Visit the Greek Pompeii and spend an afternoon at Perivolos black sand beach club."
+        },
+        {
+          "day": 7,
+          "title": "Departure Flight",
+          "details": "Private transfer to Thira airport for your return flight."
+        }
+      ]
+    },
+    {
+      "id": "maldives-overwater-sanctuary",
+      "tag": "Luxury Escape",
+      "badge": "Island Sanctuary",
+      "title": "Maldives Overwater Villa Sanctuary",
+      "subtitle": "Unrestricted Ocean Views & Turquoise Lagoons",
+      "duration": "5 nights · Private Water Villa",
+      "destination": "Maldives",
+      "startingPrice": "Starting from ₹1,40,000 / Person",
+      "image": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1000&q=80",
+      "features": [
+        "5-Star luxury overwater villa with ocean slide / pool",
+        "Roundtrip scenic seaplane transfers included",
+        "All-inclusive gourmet meal & beverage plans",
+        "Private sandbank picnic setup with personal chef"
+      ],
+      "inclusions": [
+        "5 Nights in private overwater pool villa",
+        "Scenic seaplane transfers to and from Malé airport",
+        "Daily breakfast, lunch, and multi-course dinners",
+        "Complimentary snorkeling gear & non-motorized water sports",
+        "Sunset dolphin safari cruise on a traditional Dhoni",
+        "Spa credit per couple at the overwater wellness sanctuary"
+      ],
+      "dayHighlights": [
+        {
+          "day": 1,
+          "title": "Seaplane Arrival in Paradise",
+          "details": "Breathtaking aerial views of coral atolls before touching down directly at your resort."
+        },
+        {
+          "day": 2,
+          "title": "Lagoon Snorkeling & House Reef",
+          "details": "Swim alongside sea turtles, reef sharks, and vibrant coral formations directly from your deck."
+        },
+        {
+          "day": 3,
+          "title": "Private Sandbank Dining",
+          "details": "Cast away to an isolated sand spit in the middle of the ocean for a champagne lunch."
+        },
+        {
+          "day": 4,
+          "title": "Sunset Dolphin Safari",
+          "details": "Glide across calm waters while pods of spinner dolphins leap alongside the boat."
+        },
+        {
+          "day": 5,
+          "title": "Couples Overwater Spa & Floating Dinner",
+          "details": "Massage with glass floor panels looking into coral gardens below."
+        },
+        {
+          "day": 6,
+          "title": "Farewell Maldivian Sunrise",
+          "details": "Morning dip in your private infinity plunge pool and return seaplane flight."
+        }
+      ]
+    }
+  ],
+  "places": [
+    {
+      "id": "place-soneva-jani",
+      "title": "Overwater Lagoon Reserve with Ocean Slide",
+      "propertySubtitle": "Soneva Jani, Medhufaru Island",
+      "location": "Noonu Atoll, Maldives",
+      "country": "Maldives",
+      "region": "Indian Ocean",
+      "category": "Stays",
+      "theme": "overwater",
+      "image": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1200&q=80",
+      "additionalImages": [
+        "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "caption": "Two-storey overwater sanctuary featuring a curved water slide straight into the turquoise lagoon, retractable master bedroom roof for night stargazing, and private glass sea deck.",
+      "highlights": [
+        "Retractable Stargazing Roof",
+        "Private Lagoon Water Slide",
+        "Barefoot Butler Service",
+        "Catamaran Net Lounges"
+      ],
+      "bestSeason": "November to April (Dry Sun & Clear Waters)",
+      "idealStay": "5 to 7 Nights",
+      "transferNote": "35-minute scenic seaplane from Velana International (Malé)",
+      "startingPriceNote": "Starting from ₹2,40,000 / Night",
+      "curatorNote": "Our top recommendation for milestone honeymoons and romantic anniversaries where sheer privacy is paramount.",
+      "isFeatured": true
+    },
+    {
+      "id": "place-zermatt-matterhorn",
+      "title": "Matterhorn Alpine Glass Chalet Suite",
+      "propertySubtitle": "Omnia Mountain Sanctuary",
+      "location": "Zermatt, Switzerland",
+      "country": "Switzerland",
+      "region": "Europe",
+      "category": "Stays",
+      "theme": "alpine",
+      "image": "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1200&q=80",
+      "additionalImages": [
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "caption": "Floor-to-ceiling glass alpine retreat perched high on the rock face above Zermatt, offering unobstructed panoramic views of the iconic Matterhorn summit from your private cedar hot tub.",
+      "highlights": [
+        "Direct Matterhorn Summit Views",
+        "Private Open Fireplace",
+        "Alpine Spa & Cedar Sauna",
+        "Private Electric Chauffeur"
+      ],
+      "bestSeason": "Dec – Mar (Ski & Snow) & Jun – Sep (Lush Alpine Hikes)",
+      "idealStay": "4 to 6 Nights",
+      "transferNote": "First-class Matterhorn Gotthard Bahn from Zurich or Geneva",
+      "startingPriceNote": "Starting from ₹1,80,000 / Night",
+      "curatorNote": "The indoor-outdoor thermal infinity pool facing the snow-capped peak is unforgettable at sunset.",
+      "isFeatured": true
+    },
+    {
+      "id": "place-hanging-gardens-bali",
+      "title": "Two-Tier Jungle Infinity Hanging Sanctuary",
+      "propertySubtitle": "Ayung River Valley Private Enclave",
+      "location": "Ubud, Bali",
+      "country": "Indonesia",
+      "region": "Southeast Asia",
+      "category": "Stays",
+      "theme": "coastal",
+      "image": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Sensational cantilevered infinity pool suspended dramatically above the sacred Ayung River valley jungle mist, accompanied by morning yoga pavilions and private Balinese temple blessings.",
+      "highlights": [
+        "Cantilevered Split-Level Pool",
+        "Private Bamboo Villa Pavilions",
+        "Floating Sunrise Champagne Breakfast",
+        "Ayung River Valley Vistas"
+      ],
+      "bestSeason": "April to October (Dry & Breeze Season)",
+      "idealStay": "3 to 5 Nights",
+      "transferNote": "75-minute luxury Mercedes chauffeur from Denpasar Airport",
+      "startingPriceNote": "Starting from ₹85,000 / Night",
+      "curatorNote": "The indoor-outdoor thermal infinity pool facing the snow-capped peak is unforgettable at sunset.",
+      "isFeatured": true
+    },
+    {
+      "id": "place-le-sirenuse",
+      "title": "Pastel Cliffside Balcony Over Positano Bay",
+      "propertySubtitle": "Le Sirenuse Historic Clifftop Palace",
+      "location": "Positano, Amalfi Coast",
+      "country": "Italy",
+      "region": "Europe",
+      "category": "Stays",
+      "theme": "coastal",
+      "image": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Legendary clifftop suites bathed in Mediterranean sunshine, adorned with antique Neapolitan majolica tiles, lemon trees, and private balconies directly overlooking the pastel cascade of Positano.",
+      "highlights": [
+        "Private Balcony Over Positano Bay",
+        "Private Riva Yacht Charters to Capri",
+        "Michelin-Starred Champagne Bar",
+        "Handmade Vietri Ceramics"
+      ],
+      "bestSeason": "May to October",
+      "idealStay": "4 to 6 Nights",
+      "transferNote": "Private chauffeur along the Amalfi cliff road or private boat from Naples",
+      "startingPriceNote": "Starting from ₹2,10,000 / Night",
+      "curatorNote": "Indulge in an evening aperitivo at Franco’s Bar overlooking the golden hues reflecting off the bay.",
+      "isFeatured": true
+    },
+    {
+      "id": "place-hoshinoya-kyoto",
+      "title": "Riverside Ryokan & Secluded Forest Onsen",
+      "propertySubtitle": "Hoshinoya Arashiyama River Retreat",
+      "location": "Kyoto, Japan",
+      "country": "Japan",
+      "region": "East Asia",
+      "category": "Stays",
+      "theme": "heritage",
+      "image": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Accessible only by private wooden riverboat gliding through emerald gorges, this centuries-old riverside sanctuary offers handcrafted tatami pavilions, private cedar hot tubs, and authentic Kaiseki dining.",
+      "highlights": [
+        "Private Riverboat Arrival",
+        "Seasonal Kaiseki Multi-Course",
+        "Cypress Wood Onsen Baths",
+        "Arashiyama Bamboo Grove Access"
+      ],
+      "bestSeason": "March to May (Sakura Blossoms) & Oct to Nov (Autumn Maple)",
+      "idealStay": "3 to 5 Nights",
+      "transferNote": "Private car from Kansai International or 15 mins from Kyoto Station",
+      "startingPriceNote": "Starting from ₹1,65,000 / Night",
+      "curatorNote": "A profound immersion in Japanese tranquility where modern stress dissolves into river mist."
+    },
+    {
+      "id": "place-cappadocia-dawn",
+      "title": "Dawn Above the Fairy Valleys & Hot Air Balloons",
+      "propertySubtitle": "Göreme Valley Cave Suite Viewpoint",
+      "location": "Göreme, Cappadocia",
+      "country": "Turkey",
+      "region": "Europe",
+      "category": "Moments",
+      "theme": "heritage",
+      "image": "https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Private rooftop terrace dressed in Turkish kilim carpets and silver samovars, watching over a hundred colourful hot air balloons gently rise across ancient volcanic tufa spires at daybreak.",
+      "highlights": [
+        "Private Sunrise Balloon Flight",
+        "Hand-Carved Volcanic Cave Suite",
+        "Champagne Breakfast on Carpet Terrace",
+        "Underground City Private Guide"
+      ],
+      "bestSeason": "April to June & September to November",
+      "idealStay": "3 Nights",
+      "transferNote": "45-minute private chauffeur from Nevşehir Kapadokya Airport (NAV)",
+      "startingPriceNote": "Starting from ₹75,000 / Night",
+      "curatorNote": "We secure the highest panoramic suite terrace in the valley for uncrowded, private photography."
+    },
+    {
+      "id": "place-glacier-express",
+      "title": "Glacier Express Excellence Class Panoramic Route",
+      "propertySubtitle": "The Slowest Express Train in the World",
+      "location": "Zermatt to St. Moritz",
+      "country": "Switzerland",
+      "region": "Europe",
+      "category": "Journeys",
+      "theme": "alpine",
+      "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+      "caption": "An unforgettable 8-hour scenic voyage through 291 bridges and 91 tunnels across the Swiss Alps in ultra-exclusive Excellence Class with personal concierge, guaranteed window seats, and 5-course gourmet dining.",
+      "highlights": [
+        "Guaranteed First-Class Window Seat",
+        "5-Course Swiss Wine Pairing Menu",
+        "Exclusive Glacier Bar on Board",
+        "Rhine Gorge & Oberalp Pass Views"
+      ],
+      "bestSeason": "Year-Round (Winter Wonderland in Jan-Mar, Alpine Green in Jun-Aug)",
+      "idealStay": "1 Day Epic Journey (Paired with Zermatt & St. Moritz Stays)",
+      "transferNote": "Board directly from Zermatt or St. Moritz rail terminal",
+      "startingPriceNote": "Starting from ₹85,000 / Person",
+      "curatorNote": "Excellence Class is limited to just 20 privileged seats per train. We secure bookings months in advance."
+    },
+    {
+      "id": "place-santorini-oia",
+      "title": "Caldera Cliff Cave Jacuzzi & Golden Hour Sunset",
+      "propertySubtitle": "Canaves Oia Epitome Luxury Suites",
+      "location": "Oia, Santorini",
+      "country": "Greece",
+      "region": "Europe",
+      "category": "Moments",
+      "theme": "coastal",
+      "image": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Perched on the volcanic rim of the Santorini Caldera, featuring private whitewashed cliff-edge cave plunge pools where you savor chilled Assyrtiko wine as the sun melts into the cobalt Aegean.",
+      "highlights": [
+        "Private Caldera Plunge Pool",
+        "Unobstructed Oia Sunset Views",
+        "Private Catamaran Sunset Sailing",
+        "Boutique Volcanic Wine Tasting"
+      ],
+      "bestSeason": "May to October (Sunny & Vibrant)",
+      "idealStay": "4 to 6 Nights",
+      "transferNote": "25-minute VIP Mercedes transfer from Thira Airport (JTR)",
+      "startingPriceNote": "Starting from ₹1,45,000 / Night",
+      "curatorNote": "Located just outside the crowded walking path so you enjoy total quiet and uninterrupted sunset views."
+    },
+    {
+      "id": "place-riva-amalfi",
+      "title": "Private Riva Speedboat Faraglioni Charter",
+      "propertySubtitle": "Custom Mediterranean Sea Excursion",
+      "location": "Amalfi Coast & Capri",
+      "country": "Italy",
+      "region": "Europe",
+      "category": "Journeys",
+      "theme": "coastal",
+      "image": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Skim across the sparkling Gulf of Salerno aboard a mahogany Riva Dolceriva speedboat, cruising past emerald sea caves, private Capri coves, and dining at secluded clifftop restaurants accessible only by boat.",
+      "highlights": [
+        "Private Riva Yacht & Captain",
+        "Secluded Blue & Green Grotto Visits",
+        "Champagne & Fresh Antipasti Onboard",
+        "Cliffside Lunch at Conca del Sogno"
+      ],
+      "bestSeason": "June to September",
+      "idealStay": "Full Day Private Charter",
+      "transferNote": "Direct boarding from Positano, Amalfi, or Capri marina",
+      "startingPriceNote": "Starting from ₹2,20,000 / Day Charter",
+      "curatorNote": "The ultimate way to explore Capri without the crowded public ferry queues."
+    },
+    {
+      "id": "place-michelin-paris",
+      "title": "Private Balcony Michelin Dining Facing Eiffel Tower",
+      "propertySubtitle": "Shangri-La Terrace Panorama",
+      "location": "Paris, France",
+      "country": "France",
+      "region": "Europe",
+      "category": "Gourmet",
+      "theme": "gourmet",
+      "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80",
+      "caption": "A bespoke 7-course culinary symphony prepared by private executive chefs and served on your private suite terrace directly facing the twinkling lights of the Eiffel Tower across the Seine.",
+      "highlights": [
+        "Private Eiffel Tower Terrace",
+        "Sommelier-Selected French Vintages",
+        "Custom 7-Course Caviar & Truffle Menu",
+        "Dedicated Personal Butler for the Evening"
+      ],
+      "bestSeason": "April to October & Festive December",
+      "idealStay": "Signature Evening Experience",
+      "transferNote": "Luxury Maybach chauffeur within central Paris",
+      "startingPriceNote": "Starting from ₹1,20,000 / Couple",
+      "curatorNote": "The quintessential Parisian celebration for proposals, anniversaries, and milestones."
+    },
+    {
+      "id": "place-lake-como",
+      "title": "Villa d’Este Lakeside Renaissance Estate",
+      "propertySubtitle": "Cernobbio Grand Waterfront Palace",
+      "location": "Lake Como, Italy",
+      "country": "Italy",
+      "region": "Europe",
+      "category": "Stays",
+      "theme": "coastal",
+      "image": "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=1200&q=80",
+      "caption": "A 16th-century princely residence surrounded by 25 acres of Renaissance gardens, featuring a world-famous floating pool on the lake and private mahogany water taxi transfers to Bellagio.",
+      "highlights": [
+        "Iconic Floating Pool on Lake Como",
+        "Century-Old Mosaic Nympheum Gardens",
+        "Private Vintage Water Limousine",
+        "Michelin-Selected Terrace Dining"
+      ],
+      "bestSeason": "April to October",
+      "idealStay": "3 to 5 Nights",
+      "transferNote": "50-minute luxury private drive from Milan Malpensa Airport (MXP)",
+      "startingPriceNote": "Starting from ₹2,30,000 / Night",
+      "curatorNote": "Timeless aristocratic glamour. Relaxing with Bellinis on the lakeside terrace is pure poetry."
+    },
+    {
+      "id": "place-al-maha-dubai",
+      "title": "Royal Bedouin Pool Pavilion in Desert Dunes",
+      "propertySubtitle": "Al Maha Luxury Desert Conservation Reserve",
+      "location": "Dubai Desert Reserve, UAE",
+      "country": "UAE",
+      "region": "Middle East",
+      "category": "Stays",
+      "theme": "heritage",
+      "image": "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Secluded tented pavilions styled with authentic Arab antiquities and private temperature-controlled infinity plunge pools overlooking crimson dunes where Arabian oryx and gazelles roam freely.",
+      "highlights": [
+        "Private Dune Plunge Pool",
+        "Arabian Wildlife & Oryx Watching",
+        "Private Falconry Demonstration",
+        "Sunset Camel Caravan & Champagne Dunes"
+      ],
+      "bestSeason": "October to April (Pleasant Desert Winter)",
+      "idealStay": "2 to 3 Nights",
+      "transferNote": "45-minute Range Rover desert transfer from Dubai International (DXB)",
+      "startingPriceNote": "Starting from ₹1,50,000 / Night",
+      "curatorNote": "A serene contrast to downtown Dubai. Total stillness under starlit desert skies."
+    },
+    {
+      "id": "place-charles-bridge",
+      "title": "Charles Bridge Gothic Twilight Walk & Private Chamber Concert",
+      "propertySubtitle": "Bohemian Royalty Heritage Experience",
+      "location": "Prague, Czech Republic",
+      "country": "Czech Republic",
+      "region": "Europe",
+      "category": "Moments",
+      "theme": "heritage",
+      "image": "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Private after-hours twilight walk across the misty 14th-century Charles Bridge with our resident medieval historian, concluding with a private string quartet performance inside a Baroque palace library.",
+      "highlights": [
+        "Privileged After-Hours Access",
+        "Private Baroque Palace Concert",
+        "Vintage Horse Carriage Ride",
+        "Panoramic Vltava River Views"
+      ],
+      "bestSeason": "May to September & December for Christmas Fairytales",
+      "idealStay": "3 to 4 Nights",
+      "transferNote": "25-minute Mercedes chauffeur from Václav Havel Airport Prague",
+      "startingPriceNote": "Starting from ₹60,000 / Experience",
+      "curatorNote": "Prague reveals its genuine soul in the early morning and blue twilight hours when the day crowds vanish."
+    },
+    {
+      "id": "place-nusa-penida",
+      "title": "Kelingking T-Rex Ridge & Private Yacht Seclusion",
+      "propertySubtitle": "Nusa Archipelago Hidden Sanctuary",
+      "location": "Nusa Penida, Bali",
+      "country": "Indonesia",
+      "region": "Southeast Asia",
+      "category": "Moments",
+      "theme": "coastal",
+      "image": "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Breathtaking cobalt ocean swells breaking against towering dinosaur-shaped limestone sea cliffs, paired with private catamaran anchoring in crystal coves for manta ray snorkeling.",
+      "highlights": [
+        "Private Catamaran Charter",
+        "Manta Point Snorkeling with Marine Biologist",
+        "Cliffside Heli-Sightseeing Option",
+        "Secluded Beach Picnic Basket"
+      ],
+      "bestSeason": "April to October",
+      "idealStay": "Full Day Yacht Excursion or 2 Nights Boutique Eco-Chalet",
+      "transferNote": "35-minute private speedboat charter from Sanur Harbour, Bali",
+      "startingPriceNote": "Starting from ₹95,000 / Day Charter",
+      "curatorNote": "Avoid the bumpy island roads by exploring the coastlines aboard our private twin-engine yacht."
+    },
+    {
+      "id": "place-jungfraujoch-alps",
+      "title": "Jungfraujoch 3,454m Glacier Ice Palace Summit",
+      "propertySubtitle": "Top of Europe Alpine Excursion",
+      "location": "Interlaken, Switzerland",
+      "country": "Switzerland",
+      "region": "Europe",
+      "category": "Journeys",
+      "theme": "alpine",
+      "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Ascend to the highest railway station in Europe via the cutting-edge Eiger Express gondola and historic cogwheel mountain train, discovering carved ice tunnels inside the Aletsch Glacier.",
+      "highlights": [
+        "Eiger Express VIP Gondola with Champagne",
+        "Aletsch Glacier Ice Caves Stroll",
+        "Sphinx Observatory Terrace 3,571m",
+        "Private Mountain Guide & Fondue Lunch"
+      ],
+      "bestSeason": "June to October for green valleys & Dec to April for pristine snow",
+      "idealStay": "Day Tour from Interlaken or Grindelwald",
+      "transferNote": "Dedicated cogwheel rail and cableway connections",
+      "startingPriceNote": "Starting from ₹45,000 / Person",
+      "curatorNote": "The scale of the Aletsch Glacier is awe-inspiring. Standing on the Sphinx deck feels like touching the sky."
+    },
+    {
+      "id": "place-private-jet-sky",
+      "title": "Bespoke Private Sky Sanctuary & Long-Range Charter",
+      "propertySubtitle": "Gulfstream G650 & Falcon 8X Fleet",
+      "location": "Global VIP Routing",
+      "country": "International",
+      "region": "Middle East",
+      "category": "Journeys",
+      "theme": "gourmet",
+      "image": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Seamless point-to-point private air transport with dedicated runway tarmac tarmac pickup, gourmet dining tailored to your dietary wishes, lie-flat bedrooms, and custom customs clearance.",
+      "highlights": [
+        "VIP Private Jet Terminal & FBO Lounge",
+        "Lie-Flat Master Stateroom Beds",
+        "Michelin-Trained In-Flight Culinary Team",
+        "Direct Island Runway Access"
+      ],
+      "bestSeason": "On-Demand Year-Round",
+      "idealStay": "Private Charter Flights",
+      "transferNote": "Dedicated private jet terminals in Delhi, Mumbai, Dubai, London & Zurich",
+      "startingPriceNote": "Custom Quote Per Flight Route",
+      "curatorNote": "For families and VIP delegations seeking zero terminal delays, absolute privacy, and custom flight timings."
+    }
+  ],
+  "marquee": [
+    "Bali",
+    "Switzerland",
+    "Paris",
+    "Santorini",
+    "Maldives",
+    "Prague",
+    "Curated Itineraries",
+    "Corporate Tours",
+    "Luxury Villas",
+    "Private Experiences"
+  ],
+  "testimonials": [
+    {
+      "id": "review-1",
+      "rating": 5,
+      "quote": "We told them we wanted something magical for our honeymoon and they delivered beyond our wildest imagination. The private villa in Bali, the floating breakfast, the dinner by the ocean — every detail was perfect.",
+      "initial": "P",
+      "author": "Priya & Arjun Mehta",
+      "tripInfo": "Bali Honeymoon · 2025",
+      "year": "2025",
+      "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": "review-2",
+      "rating": 5,
+      "quote": "Our 25-person corporate retreat to Switzerland was flawless. Every transfer, every meal, every activity was perfectly timed. The team was available around the clock. 10/10 would never plan corporate travel any other way.",
+      "initial": "R",
+      "author": "Rahul Sharma",
+      "tripInfo": "Corporate Retreat · Zurich · 2025",
+      "year": "2025",
+      "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": "review-3",
+      "rating": 5,
+      "quote": "Paris, Interlaken, and Santorini in 12 days — we've done Europe twice before but never like this. Private guides, no crowds, restaurants we'd never have found ourselves. My Kind of Travel is genuinely a different league.",
+      "initial": "S",
+      "author": "Sneha & Vikram Nair",
+      "tripInfo": "Europe Grand Tour · 2024",
+      "year": "2024",
+      "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      "id": "review-4",
+      "rating": 5,
+      "quote": "Took our family of 6 — parents, kids, everyone — to Bali. They managed the different needs of each person so thoughtfully. Even my mother-in-law loved it. That alone deserves 5 stars!",
+      "initial": "A",
+      "author": "Aditya Kapoor",
+      "tripInfo": "Family Holiday · Bali · 2025",
+      "year": "2025",
+      "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80"
+    }
+  ],
+  "experiencePillars": [
+    {
+      "number": "01",
+      "title": "Honeymoon Journeys",
+      "subtitle": "Romantic escapes designed to perfection",
+      "description": "Romantic escapes designed to perfection — candlelit dinners, private villas, couple's spa retreats, and sunsets you'll never forget. Europe, Bali, Maldives and beyond.",
+      "ctaText": "Plan yours",
+      "typeKey": "Honeymoon",
+      "image": "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=1000&q=80",
+      "highlights": [
+        "Private villa plunge pools",
+        "Eiffel tower terrace dining",
+        "Couples massage in tropical jungles",
+        "Bespoke romantic surprise setups"
+      ]
+    },
+    {
+      "number": "02",
+      "title": "Luxury Europe Tours",
+      "subtitle": "Multi-city European itineraries for Indian travellers",
+      "description": "Multi-city European itineraries crafted for Indian travellers — private guides, business class options, premium hotels, and after-hours museum access that money alone can't buy.",
+      "ctaText": "Explore Europe",
+      "typeKey": "Luxury Europe Tour",
+      "image": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=1000&q=80",
+      "highlights": [
+        "Seamless train & private chauffeur connections",
+        "Handpicked Indian & Michelin dining options",
+        "Skip-the-line VIP passes to historic sights",
+        "Luggage concierge between European cities"
+      ]
+    },
+    {
+      "number": "03",
+      "title": "Corporate Travel",
+      "subtitle": "Incentive tours, retreats & executive MICE",
+      "description": "Incentive tours, team retreats, MICE travel, and offsite conferences. We handle end-to-end logistics for groups — so your team simply arrives, inspired.",
+      "ctaText": "Get a quote",
+      "typeKey": "Corporate Travel",
+      "image": "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1000&q=80",
+      "highlights": [
+        "End-to-end group visa assistance",
+        "Luxury team-building activities & galas",
+        "Private charter flights & VIP coach logistics",
+        "Dedicated on-ground operations manager"
+      ]
+    },
+    {
+      "number": "04",
+      "title": "Family Holidays",
+      "subtitle": "Thoughtfully designed for every generation",
+      "description": "Thoughtfully designed for every age — water parks for kids, cultural experiences for adults, and genuine family memories that last a lifetime.",
+      "ctaText": "Start planning",
+      "typeKey": "Family Holiday",
+      "image": "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1000&q=80",
+      "highlights": [
+        "Spacious interconnecting family suites",
+        "Curated kid-friendly activities & theme parks",
+        "Senior-friendly comfortable pacing",
+        "Authentic Indian dining access wherever you go"
+      ]
+    },
+    {
+      "number": "05",
+      "title": "Adventure & Wellness",
+      "subtitle": "Restore and exhilarate in equal measure",
+      "description": "From Swiss Alps trekking to Bali jungle retreats and Ayurvedic healing in Kerala — experiences that restore and exhilarate in equal measure.",
+      "ctaText": "Discover more",
+      "typeKey": "Adventure & Wellness",
+      "image": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1000&q=80",
+      "highlights": [
+        "Alpine hiking & via ferrata with certified guides",
+        "Holistic wellness & detox sanctuaries",
+        "Private yoga pavilions overlooking ravines",
+        "Thermal spring baths & mountain spas"
+      ]
+    },
+    {
+      "number": "06",
+      "title": "Quick Getaways",
+      "subtitle": "Maximum luxury, minimum planning stress",
+      "description": "Long weekend escapes to Bali, Thailand, or Dubai — planned and perfected within your schedule. Maximum luxury, minimum planning stress.",
+      "ctaText": "Book a getaway",
+      "typeKey": "Quick Getaway",
+      "image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1000&q=80",
+      "highlights": [
+        "Fast-track VIP airport arrivals & transfers",
+        "Direct access to top beach clubs & restaurants",
+        "Curated 3-4 day high-impact itineraries",
+        "Instant turn-around planning in under 48 hours"
+      ]
+    }
+  ],
+  "gallery": [
+    {
+      "id": "gal-1",
+      "title": "Overwater Lagoon Haven",
+      "location": "Baa Atoll, Maldives",
+      "category": "Stays",
+      "image": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Direct reef immersion with private water slide and glass observatory floor.",
+      "aspect": "wide"
+    },
+    {
+      "id": "gal-2",
+      "title": "Alpine Glacier Panorama",
+      "location": "Zermatt, Switzerland",
+      "category": "Journeys",
+      "image": "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1200&q=80",
+      "caption": "1st-Class Glacier Express panoramic glass domes carving through snow canyons.",
+      "aspect": "tall"
+    },
+    {
+      "id": "gal-3",
+      "title": "Dawn Above Fairy Valleys",
+      "location": "Göreme, Cappadocia",
+      "category": "Moments",
+      "image": "https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Private basket champagne ascent during sunrise over ancient volcanic chimney towers.",
+      "aspect": "tall"
+    },
+    {
+      "id": "gal-4",
+      "title": "Jungle Infinity Sanctuary",
+      "location": "Ubud, Bali",
+      "category": "Stays",
+      "image": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Two-tier cantilevered infinity pool suspended across the sacred Ayung river valley.",
+      "aspect": "square"
+    },
+    {
+      "id": "gal-5",
+      "title": "Private Mediterranean Cruise",
+      "location": "Amalfi Coast, Italy",
+      "category": "Journeys",
+      "image": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Private custom yacht charter cruising between Capri Faraglioni and Positano cliffs.",
+      "aspect": "wide"
+    },
+    {
+      "id": "gal-6",
+      "title": "Michelin Dining Under the Lights",
+      "location": "Paris, France",
+      "category": "Gourmet",
+      "image": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Curated 7-course tasting menu on a private balcony facing the glittering Eiffel Tower.",
+      "aspect": "square"
+    },
+    {
+      "id": "gal-7",
+      "title": "Caldera Golden Hour Ritual",
+      "location": "Oia, Santorini",
+      "category": "Moments",
+      "image": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Cliffside cave pool jacuzzis painted in twilight amber and Aegean blue.",
+      "aspect": "tall"
+    },
+    {
+      "id": "gal-8",
+      "title": "Pastel Cascades & Lemon Groves",
+      "location": "Positano, Italy",
+      "category": "Stays",
+      "image": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Heritage boutique suites with bougainvillea terraces looking out to the sea.",
+      "aspect": "square"
+    },
+    {
+      "id": "gal-9",
+      "title": "Executive Sky Passage",
+      "location": "Private Jet Charter",
+      "category": "Journeys",
+      "image": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Dedicated long-range aircraft configured for ultimate comfort and bespoke itineraries.",
+      "aspect": "wide"
+    },
+    {
+      "id": "gal-10",
+      "title": "Morning Floating Breakfast",
+      "location": "Seminyak, Bali",
+      "category": "Gourmet",
+      "image": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Artisan tropical fruit, freshly baked croissants, and chilled Mimosa delivered to your pool.",
+      "aspect": "square"
+    },
+    {
+      "id": "gal-11",
+      "title": "Zen Sanctuary & Bamboo Path",
+      "location": "Kyoto, Japan",
+      "category": "Moments",
+      "image": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Private dawn stroll through Arashiyama bamboo forest with traditional tea master.",
+      "aspect": "tall"
+    },
+    {
+      "id": "gal-12",
+      "title": "Grand Canal Heritage Taxi",
+      "location": "Venice, Italy",
+      "category": "Journeys",
+      "image": "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=1200&q=80",
+      "caption": "Mahogany water limousine transfer arriving directly at private palace dock.",
+      "aspect": "wide"
+    }
+  ],
+  "customSections": [],
+  "companyInfo": {
+    "name": "My Kind of Travel",
+    "tagline": "Travel that fits who you are",
+    "phone": "+91 87696 88369",
+    "phoneRaw": "918769688369",
+    "email": "bookings@mykindoftravel.com",
+    "website": "https://mykindoftravel.com/",
+    "supportHours": "Available 9am – 9pm IST",
+    "yearsCrafting": "7+",
+    "establishedYear": "2018",
+    "currentYear": "2026",
+    "promise": "If it's not right, we make it right. Every time, no questions asked.",
+    "philosophy": "At My Kind of Travel, we believe every journey should be as unique as the person taking it. We don't hand you a brochure — we sit with you, understand your dreams, and build something that's entirely, perfectly yours."
+  },
+  "howItWorksSteps": [
+    {
+      "step": "01",
+      "title": "Curated",
+      "subtitle": "Thoughtfully Handcrafted Starting Points",
+      "description": "Never build a trip from zero. Explore insider-crafted journey blueprints with handpicked luxury stays, private villas, scenic routes, and hidden-gem tables.",
+      "actionBadge": "Curated Starting Point"
+    },
+    {
+      "step": "02",
+      "title": "Personalize",
+      "subtitle": "Tailor Every Nuance to Your Taste",
+      "description": "Customize Trip Type (Couple, Honeymoon, Family, Corporate), Property Category (1★ to 5★), and Vibe with budget as a supporting constraint.",
+      "actionBadge": "Ready to Personalize"
+    },
+    {
+      "step": "03",
+      "title": "Confirm",
+      "subtitle": "White-Glove Concierge Precision",
+      "description": "Our dedicated travel director locks in preferred partner rates, private transfers, exclusive dining reservations, and visa logistics.",
+      "actionBadge": "Concierge Confirmation"
+    },
+    {
+      "step": "04",
+      "title": "Depart",
+      "subtitle": "Effortless Luxury Departure",
+      "description": "Board your flight with a complete digital dossier in hand, Google Maps live route navigation, and 24/7 travel director support on WhatsApp.",
+      "actionBadge": "Dream to Departure"
+    }
+  ],
+  "whyUsPillars": [
+    {
+      "title": "Dedicated expert",
+      "description": "Your own travel specialist, not a call centre.",
+      "iconName": "UserCheck"
+    },
+    {
+      "title": "Fully secure",
+      "description": "Verified partners, clear pricing, zero hidden costs.",
+      "iconName": "ShieldCheck"
+    },
+    {
+      "title": "24/7 on-trip support",
+      "description": "We're always one call away, wherever you are.",
+      "iconName": "PhoneCall"
+    },
+    {
+      "title": "Truly bespoke",
+      "description": "No two itineraries we create are ever the same.",
+      "iconName": "Sparkles"
+    }
+  ],
+  "sectionHeaders": {},
+  "lastPublishedAt": "2026-10-14T19:39:20.682Z",
+  "version": 3
+}

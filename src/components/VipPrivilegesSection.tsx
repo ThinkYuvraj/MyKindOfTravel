@@ -140,7 +140,7 @@ export const VipPrivilegesSection: React.FC<VipPrivilegesSectionProps> = ({
           {/* Carousel Track */}
           <div
             ref={carouselRef}
-            className="flex gap-4 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch"
+            className="flex gap-3.5 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch touch-carousel"
           >
             {privileges.map((perk) => {
               const IconComponent = (perk.iconName && ICON_MAP[perk.iconName]) || Sparkles;
@@ -148,10 +148,10 @@ export const VipPrivilegesSection: React.FC<VipPrivilegesSectionProps> = ({
               return (
                 <div
                   key={perk.id}
-                  className="rounded-3xl backdrop-blur-xl bg-white dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1 relative shrink-0 w-[85vw] max-w-[350px] sm:w-[350px] lg:w-[380px] h-[450px] sm:h-[460px] snap-start"
+                  className="rounded-3xl backdrop-blur-xl bg-white dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 transition-all duration-300 overflow-hidden flex flex-col justify-between group shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1 relative shrink-0 w-[86vw] xs:w-[80vw] max-w-[350px] sm:w-[350px] lg:w-[380px] min-h-[440px] sm:min-h-[460px] snap-start"
                 >
                   {/* Top Image & Badge */}
-                  <div className="relative w-full h-48 overflow-hidden bg-neutral-100 dark:bg-[#111111] shrink-0">
+                  <div className="relative w-full h-44 xs:h-48 overflow-hidden bg-neutral-100 dark:bg-[#111111] shrink-0">
                     <GlassImage
                       src={perk.image}
                       alt={perk.title}

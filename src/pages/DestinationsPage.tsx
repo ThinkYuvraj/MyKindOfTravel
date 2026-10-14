@@ -10,6 +10,9 @@ import { BackToTop } from '../components/BackToTop';
 import { GlassImage } from '../components/GlassImage';
 import { useWishlist } from '../context/WishlistContext';
 import { WishlistModal } from '../components/WishlistModal';
+import { useCms } from '../context/CmsContext';
+import { useScrollPagination } from '../utils/useScrollPagination';
+import { ScrollPaginationFooter } from '../components/ScrollPaginationFooter';
 import { Search, MapPin, Clock, Sparkles, ArrowUpRight, Heart, Filter, Compass } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -53,16 +56,17 @@ export default function DestinationsPage() {
   const [enquiryTripType, setEnquiryTripType] = useState('');
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   const { toggleDestinationWishlist, isDestinationSaved } = useWishlist();
+  const { destinations } = useCms();
 
   const filtersWithCounts = useMemo(() => {
     return REGIONS.map((region) => {
-      const count = DESTINATIONS.filter((item) => checkItemRegion(item, region)).length;
+      const count = destinations.filter((item) => checkItemRegion(item, region)).length;
       return { label: region, count };
     });
-  }, []);
+  }, [destinations]);
 
   const filteredDestinations = useMemo(() => {
-    return DESTINATIONS.filter((item) => {
+    return destinations.filter((item) => {
       const matchesSearch =
         item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -72,7 +76,23 @@ export default function DestinationsPage() {
       const matchesRegion = checkItemRegion(item, selectedRegion);
       return matchesSearch && matchesRegion;
     });
-  }, [searchQuery, selectedRegion]);
+  }, [destinations, searchQuery, selectedRegion]);
+
+  // Progressive Scroll-based Pagination
+  const {
+    visibleItems: visibleDestinations,
+    displayedCount,
+    totalCount,
+    hasMore,
+    isLoadingMore,
+    loadMore,
+    sentinelRef,
+  } = useScrollPagination<DestinationItem>({
+    items: filteredDestinations,
+    pageSize: 6,
+    initialPageSize: 6,
+    resetDeps: [searchQuery, selectedRegion],
+  });
 
   const handleEnquire = (destName: string) => {
     setEnquiryDestination(destName);
@@ -158,16 +178,17 @@ export default function DestinationsPage() {
 
           {/* Destinations Grid */}
           {filteredDestinations.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 items-stretch">
-              {filteredDestinations.map((dest) => {
-                const meta = DESTINATION_META[dest.id] || { code: 'Direct', flightTime: 'Curated Route' };
-                const isSaved = isDestinationSaved(dest.id);
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 sm:gap-6 lg:gap-7 items-stretch">
+                {visibleDestinations.map((dest) => {
+                  const meta = DESTINATION_META[dest.id] || { code: 'Direct', flightTime: 'Curated Route' };
+                  const isSaved = isDestinationSaved(dest.id);
 
-                return (
-                  <div
-                    key={dest.id}
-                    className="group rounded-3xl overflow-hidden bg-neutral-50 dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 shadow-xs hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-[520px] relative"
-                  >
+                  return (
+                    <div
+                      key={dest.id}
+                      className="group rounded-3xl overflow-hidden bg-neutral-50 dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 shadow-xs hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[500px] sm:min-h-[520px] relative"
+                    >
                     <div className="flex flex-col flex-1">
                       {/* Clean Image Container without text/badge overlays */}
                       <div className="relative h-48 sm:h-50 overflow-hidden w-full shrink-0 bg-neutral-100 dark:bg-[#111111]">
@@ -265,7 +286,24 @@ export default function DestinationsPage() {
                 );
               })}
             </div>
-          ) : (
+
+            {/* Progressive Scroll Pagination Footer */}
+            <ScrollPaginationFooter
+              displayedCount={displayedCount}
+              totalCount={totalCount}
+              hasMore={hasMore}
+              isLoadingMore={isLoadingMore}
+              onLoadMore={loadMore}
+              sentinelRef={sentinelRef}
+              itemNoun="destinations"
+              onPlanCustom={() => {
+                setEnquiryDestination('Custom Destination');
+                setEnquiryTripType('Tailor-Made Journey');
+                setIsEnquiryOpen(true);
+              }}
+            />
+          </>
+        ) : (
             <div className="text-center py-20 bg-neutral-50 dark:bg-[#0E0E0E] rounded-3xl border border-neutral-200 dark:border-white/10 p-8">
               <Compass className="w-10 h-10 text-neutral-400 mx-auto mb-3" />
               <h3 className="font-serif text-lg font-bold text-neutral-900 dark:text-white">No destinations found</h3>

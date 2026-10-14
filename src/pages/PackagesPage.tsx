@@ -10,6 +10,9 @@ import { BackToTop } from '../components/BackToTop';
 import { GlassImage } from '../components/GlassImage';
 import { useWishlist } from '../context/WishlistContext';
 import { WishlistModal } from '../components/WishlistModal';
+import { useCms } from '../context/CmsContext';
+import { useScrollPagination } from '../utils/useScrollPagination';
+import { ScrollPaginationFooter } from '../components/ScrollPaginationFooter';
 import { Search, Clock, Check, Plane, Heart, Eye, ArrowRight, Ticket, Compass } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -45,16 +48,17 @@ export default function PackagesPage() {
   const [enquiryPackageName, setEnquiryPackageName] = useState('');
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   const { togglePackageWishlist, isPackageSaved } = useWishlist();
+  const { packages } = useCms();
 
   const filtersWithCounts = useMemo(() => {
     return CATEGORIES.map((cat) => {
-      const count = POPULAR_PACKAGES.filter((pkg) => checkPackageCategory(pkg, cat)).length;
+      const count = packages.filter((pkg) => checkPackageCategory(pkg, cat)).length;
       return { label: cat, count };
     });
-  }, []);
+  }, [packages]);
 
   const filteredPackages = useMemo(() => {
-    return POPULAR_PACKAGES.filter((pkg) => {
+    return packages.filter((pkg) => {
       const matchesSearch =
         pkg.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         pkg.destination.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -64,7 +68,23 @@ export default function PackagesPage() {
       const matchesCategory = checkPackageCategory(pkg, selectedCategory);
       return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [packages, searchQuery, selectedCategory]);
+
+  // Progressive Scroll-based Pagination
+  const {
+    visibleItems: visiblePackages,
+    displayedCount,
+    totalCount,
+    hasMore,
+    isLoadingMore,
+    loadMore,
+    sentinelRef,
+  } = useScrollPagination<TravelPackage>({
+    items: filteredPackages,
+    pageSize: 6,
+    initialPageSize: 6,
+    resetDeps: [searchQuery, selectedCategory],
+  });
 
   const handleEnquire = (pkg: TravelPackage) => {
     setEnquiryDestination(pkg.destination);
@@ -150,15 +170,16 @@ export default function PackagesPage() {
 
           {/* Packages Grid */}
           {filteredPackages.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 items-stretch">
-              {filteredPackages.map((pkg) => {
-                const isSaved = isPackageSaved(pkg.id);
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 sm:gap-6 lg:gap-7 items-stretch">
+                {visiblePackages.map((pkg) => {
+                  const isSaved = isPackageSaved(pkg.id);
 
-                return (
-                  <div
-                    key={pkg.id}
-                    className="group rounded-3xl overflow-hidden bg-neutral-50 dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 shadow-xs hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-[560px]"
-                  >
+                  return (
+                    <div
+                      key={pkg.id}
+                      className="group rounded-3xl overflow-hidden bg-neutral-50 dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 shadow-xs hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-h-[530px] sm:min-h-[560px]"
+                    >
                     {/* Image Header */}
                     <div className="flex flex-col flex-1">
                       <div className="relative h-52 overflow-hidden w-full shrink-0 bg-neutral-100 dark:bg-[#111111]">
@@ -260,7 +281,24 @@ export default function PackagesPage() {
                 );
               })}
             </div>
-          ) : (
+
+            {/* Progressive Scroll Pagination Footer */}
+            <ScrollPaginationFooter
+              displayedCount={displayedCount}
+              totalCount={totalCount}
+              hasMore={hasMore}
+              isLoadingMore={isLoadingMore}
+              onLoadMore={loadMore}
+              sentinelRef={sentinelRef}
+              itemNoun="packages"
+              onPlanCustom={() => {
+                setEnquiryDestination('Custom Package');
+                setEnquiryTripType('Bespoke Package');
+                setIsEnquiryOpen(true);
+              }}
+            />
+          </>
+        ) : (
             <div className="text-center py-20 bg-neutral-50 dark:bg-neutral-900/60 rounded-3xl border border-neutral-200 dark:border-white/10 p-8">
               <Compass className="w-10 h-10 text-neutral-400 mx-auto mb-3" />
               <h3 className="font-serif text-lg font-bold text-neutral-900 dark:text-white">No packages match your search</h3>

@@ -61,11 +61,11 @@ export const DestinationModal: React.FC<DestinationModalProps> = ({
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/70 dark:bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2.5 xs:p-3 sm:p-6 bg-black/70 dark:bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
     >
-      <div className="relative w-full max-w-2xl max-h-[90vh] bg-white dark:bg-[#0A0A0A] backdrop-blur-2xl border border-neutral-200 dark:border-white/15 rounded-3xl overflow-hidden shadow-2xl flex flex-col text-neutral-900 dark:text-white transition-colors">
+      <div className="relative w-full max-w-2xl max-h-[94dvh] sm:max-h-[90vh] bg-white dark:bg-[#0A0A0A] backdrop-blur-2xl border border-neutral-200 dark:border-white/15 rounded-3xl overflow-hidden shadow-2xl flex flex-col text-neutral-900 dark:text-white transition-colors">
         {/* Header Image with Glassmorphic Skeleton */}
-        <div className="relative h-48 sm:h-64 overflow-hidden shrink-0 w-full bg-neutral-100 dark:bg-neutral-900">
+        <div className="relative h-40 xs:h-48 sm:h-64 overflow-hidden shrink-0 w-full bg-neutral-100 dark:bg-neutral-900">
           <GlassImage
             src={destination.image}
             alt={destination.name}

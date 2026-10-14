@@ -10,6 +10,7 @@ import {
   HowItWorksStep,
   WhyUsPillar,
   SectionCustomContent,
+  EnrichedPlace,
 } from '../types';
 import {
   Layers,
@@ -33,12 +34,22 @@ import {
   Image as ImageIcon,
   Compass,
   Camera,
+  RefreshCw,
+  Search,
+  UserCheck,
+  ShieldCheck,
+  PhoneCall,
+  Award,
+  Heart,
 } from 'lucide-react';
 import { SectionsManager } from './SectionsManager';
 import { InquiriesManager } from './InquiriesManager';
 import { CredentialsManager } from './CredentialsManager';
 import { GalleryManager } from './GalleryManager';
+import { PlacesManager } from './PlacesManager';
 import { ImageUploadField } from './ImageUploadField';
+import { useCms } from '../context/CmsContext';
+import { CURATED_PLACES_DATA } from '../data/curatedPlacesData';
 import {
   DESTINATIONS,
   POPULAR_PACKAGES,
@@ -49,11 +60,13 @@ import {
   GALLERY_ITEMS,
 } from '../data/travelData';
 
-type Tab = 'sections' | 'hero' | 'destinations' | 'packages' | 'gallery' | 'content' | 'leads' | 'settings';
+type Tab = 'sections' | 'hero' | 'destinations' | 'packages' | 'places' | 'gallery' | 'content' | 'leads' | 'settings';
 
 export default function AdminDashboard() {
+  const { publishCms, lastPublishedAt: serverLastPublishedAt } = useCms();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
   const [saveBanner, setSaveBanner] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('sections');
@@ -81,6 +94,7 @@ export default function AdminDashboard() {
   const [sectionVisibility, setSectionVisibility] = useState<Record<string, boolean>>({});
   const [destinations, setDestinations] = useState<DestinationItem[]>([]);
   const [packages, setPackages] = useState<TravelPackage[]>([]);
+  const [places, setPlaces] = useState<EnrichedPlace[]>([]);
   const [marquee, setMarquee] = useState<string[]>([]);
   const [testimonials, setTestimonials] = useState<TestimonialItem[]>([]);
   const [experiencePillars, setExperiencePillars] = useState<ExperiencePillar[]>([]);
@@ -118,6 +132,7 @@ export default function AdminDashboard() {
         }
         setDestinations(data.destinations || DESTINATIONS);
         setPackages(data.packages || POPULAR_PACKAGES);
+        setPlaces(data.places && data.places.length > 0 ? data.places : CURATED_PLACES_DATA);
         setMarquee(data.marquee || MARQUEE_ITEMS);
         setTestimonials(data.testimonials || TESTIMONIALS);
         setExperiencePillars(data.experiencePillars || EXPERIENCE_PILLARS);
@@ -131,6 +146,7 @@ export default function AdminDashboard() {
         if (data.whyUsPillars && Array.isArray(data.whyUsPillars)) {
           setWhyUsPillars(data.whyUsPillars);
         }
+        setIsDirty(false);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -143,37 +159,38 @@ export default function AdminDashboard() {
     setSaving(true);
     setSaveBanner(null);
     try {
-      const response = await fetch('/api/cms', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          heroTitle,
-          heroSubtitle,
-          heroBadge,
-          heroBgImage,
-          primaryButton,
-          secondaryButton,
-          sectionOrder,
-          sectionVisibility,
-          destinations,
-          packages,
-          marquee,
-          testimonials,
-          experiencePillars,
-          gallery,
-          customSections,
-          companyInfo,
-          sectionHeaders,
-          howItWorksSteps,
-          whyUsPillars,
-        }),
+      const result = await publishCms({
+        heroTitle,
+        heroSubtitle,
+        heroBadge,
+        heroBgImage,
+        primaryButton,
+        secondaryButton,
+        sectionOrder,
+        sectionVisibility,
+        destinations,
+        packages,
+        places,
+        marquee,
+        testimonials,
+        experiencePillars,
+        gallery,
+        customSections,
+        companyInfo,
+        sectionHeaders,
+        howItWorksSteps,
+        whyUsPillars,
       });
 
-      if (response.ok) {
-        setSaveBanner({ type: 'success', message: 'All changes saved & published to live site!' });
-        setTimeout(() => setSaveBanner(null), 4000);
+      if (result.success) {
+        setIsDirty(false);
+        setSaveBanner({
+          type: 'success',
+          message: result.message || 'All changes saved & synced live across all pages and open sessions!',
+        });
+        setTimeout(() => setSaveBanner(null), 5000);
       } else {
-        setSaveBanner({ type: 'error', message: 'Server error saving changes.' });
+        setSaveBanner({ type: 'error', message: result.message || 'Server error saving changes.' });
       }
     } catch (error) {
       console.error('Error saving data:', error);
@@ -216,6 +233,40 @@ export default function AdminDashboard() {
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Live Sync Status Indicator */}
+          <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-[#181818] border border-[#262626] text-xs">
+            {isDirty ? (
+              <span className="flex items-center gap-1.5 text-amber-400 font-semibold">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                <span>Unsaved Drafts Pending</span>
+              </span>
+            ) : (
+              <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span>Live In-Sync</span>
+              </span>
+            )}
+            {serverLastPublishedAt && (
+              <span className="text-[11px] text-neutral-400 border-l border-[#262626] pl-2 hidden lg:inline">
+                Synced {new Date(serverLastPublishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
+            )}
+          </div>
+
+          {/* Discard Drafts Button if dirty */}
+          {isDirty && (
+            <button
+              onClick={() => {
+                if (confirm('Discard your unsaved draft edits and reload from live site?')) {
+                  fetchData();
+                }
+              }}
+              className="px-3 py-1.5 rounded-full text-xs text-neutral-400 hover:text-white hover:bg-[#1E1E1E] transition-colors cursor-pointer"
+            >
+              Discard Drafts
+            </button>
+          )}
+
           <Link
             to="/"
             target="_blank"
@@ -228,10 +279,14 @@ export default function AdminDashboard() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 px-5 py-2 bg-[#E37500] hover:bg-[#C66500] text-white rounded-full text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-50 shadow-md shadow-[#E37500]/25 active:scale-95"
+            className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-50 shadow-md active:scale-95 cursor-pointer ${
+              isDirty
+                ? 'bg-[#E37500] hover:bg-[#C66500] text-white shadow-[#E37500]/30 animate-pulse'
+                : 'bg-[#E37500] hover:bg-[#C66500] text-white shadow-[#E37500]/20'
+            }`}
           >
-            <Save className="w-3.5 h-3.5" />
-            <span>{saving ? 'Saving...' : 'Publish Changes'}</span>
+            <Save className={`w-3.5 h-3.5 ${saving ? 'animate-spin' : ''}`} />
+            <span>{saving ? 'Syncing...' : 'Publish Changes'}</span>
           </button>
 
           <button
@@ -321,6 +376,18 @@ export default function AdminDashboard() {
             >
               <Package className="w-4 h-4" />
               <span>Itineraries & Packages ({packages.length})</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab('places')}
+              className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                activeTab === 'places'
+                  ? 'bg-[#E37500] text-white shadow-md'
+                  : 'text-[#A3A3A3] hover:bg-[#181818] hover:text-white'
+              }`}
+            >
+              <Compass className="w-4 h-4" />
+              <span>Sanctuaries & Places ({places.length})</span>
             </button>
 
             <button
@@ -491,6 +558,38 @@ export default function AdminDashboard() {
                       placeholder="Leave empty for default Bali green terraces, or paste an image URL"
                       helperText="Select from curated luxury travel presets (Zermatt, Paris, Maldives, Bali) or upload an image from your device."
                     />
+
+                    {/* Quick Hero Presets Bar */}
+                    <div className="pt-2">
+                      <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block mb-2">
+                        Quick Popular Backgrounds:
+                      </span>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          { name: 'Default Bali Terraces', url: '' },
+                          { name: 'Zermatt Matterhorn', url: 'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1920&q=80' },
+                          { name: 'Parisian Sunset', url: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=1920&q=80' },
+                          { name: 'Maldives Overwater', url: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1920&q=80' },
+                          { name: 'Amalfi Positano', url: 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?auto=format&fit=crop&w=1920&q=80' },
+                        ].map((preset) => (
+                          <button
+                            key={preset.name}
+                            type="button"
+                            onClick={() => {
+                              setHeroBgImage(preset.url);
+                              setIsDirty(true);
+                            }}
+                            className={`px-3 py-1 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
+                              heroBgImage === preset.url
+                                ? 'bg-[#E37500] text-white border-[#E37500]'
+                                : 'bg-[#181818] text-neutral-300 border-[#262626] hover:border-neutral-500'
+                            }`}
+                          >
+                            {preset.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -523,28 +622,76 @@ export default function AdminDashboard() {
 
             {/* 3. Destinations Tab */}
             {activeTab === 'destinations' && (
-              <DestinationsManager destinations={destinations} setDestinations={setDestinations} />
+              <DestinationsManager
+                destinations={destinations}
+                setDestinations={(val) => {
+                  setDestinations(val);
+                  setIsDirty(true);
+                }}
+              />
             )}
 
             {/* 4. Packages Tab */}
             {activeTab === 'packages' && (
-              <PackagesManager packages={packages} setPackages={setPackages} />
+              <PackagesManager
+                packages={packages}
+                setPackages={(val) => {
+                  setPackages(val);
+                  setIsDirty(true);
+                }}
+              />
+            )}
+
+            {/* 4b. Curated Sanctuaries & Places Tab */}
+            {activeTab === 'places' && (
+              <PlacesManager
+                places={places}
+                onUpdatePlaces={(newPlaces) => {
+                  setPlaces(newPlaces);
+                  setIsDirty(true);
+                }}
+              />
             )}
 
             {/* 5. Wanderlust Visual Gallery Tab */}
             {activeTab === 'gallery' && (
-              <GalleryManager gallery={gallery} setGallery={setGallery} />
+              <GalleryManager
+                gallery={gallery}
+                setGallery={(val) => {
+                  setGallery(val);
+                  setIsDirty(true);
+                }}
+              />
             )}
 
             {/* 6. Stories, Testimonials & Marquee Tab */}
             {activeTab === 'content' && (
               <ContentManager
                 marquee={marquee}
-                setMarquee={setMarquee}
+                setMarquee={(val) => {
+                  setMarquee(val);
+                  setIsDirty(true);
+                }}
                 testimonials={testimonials}
-                setTestimonials={setTestimonials}
+                setTestimonials={(val) => {
+                  setTestimonials(val);
+                  setIsDirty(true);
+                }}
                 experiencePillars={experiencePillars}
-                setExperiencePillars={setExperiencePillars}
+                setExperiencePillars={(val) => {
+                  setExperiencePillars(val);
+                  setIsDirty(true);
+                }}
+                howItWorksSteps={howItWorksSteps}
+                setHowItWorksSteps={(val) => {
+                  setHowItWorksSteps(val);
+                  setIsDirty(true);
+                }}
+                whyUsPillars={whyUsPillars}
+                setWhyUsPillars={(val) => {
+                  setWhyUsPillars(val);
+                  setIsDirty(true);
+                }}
               />
             )}
 
@@ -555,7 +702,10 @@ export default function AdminDashboard() {
             {activeTab === 'settings' && (
               <CredentialsManager
                 companyInfo={companyInfo}
-                setCompanyInfo={setCompanyInfo}
+                setCompanyInfo={(val) => {
+                  setCompanyInfo(val);
+                  setIsDirty(true);
+                }}
               />
             )}
           </div>
@@ -576,6 +726,8 @@ function DestinationsManager({
   setDestinations: React.Dispatch<React.SetStateAction<DestinationItem[]>>;
 }) {
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [quickImageDestId, setQuickImageDestId] = useState<string | null>(null);
 
   const handleAdd = () => {
     const newDest: DestinationItem = {
@@ -604,6 +756,17 @@ function DestinationsManager({
     }
   };
 
+  const filteredDestinations = destinations.filter((dest) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      dest.name.toLowerCase().includes(q) ||
+      dest.country.toLowerCase().includes(q) ||
+      dest.region.toLowerCase().includes(q) ||
+      (dest.idealFor || '').toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#262626]">
@@ -615,15 +778,40 @@ function DestinationsManager({
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 px-4 py-2 bg-[#E37500] hover:bg-[#C66500] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all self-start sm:self-auto"
+          className="flex items-center gap-2 px-4 py-2 bg-[#E37500] hover:bg-[#C66500] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all self-start sm:self-auto cursor-pointer"
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />
           <span>Add Destination</span>
         </button>
       </div>
 
+      {/* Fast Search Filter */}
+      <div className="relative">
+        <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder={`Search ${destinations.length} destinations by title, country, or region...`}
+          className="w-full pl-10 pr-10 py-2.5 bg-[#121212] border border-[#262626] rounded-xl text-xs text-white placeholder-neutral-500 focus:border-[#E37500] outline-none"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery('')}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neutral-400 hover:text-white"
+          >
+            Clear
+          </button>
+        )}
+      </div>
+
       <div className="space-y-4">
-        {destinations.map((dest) => (
+        {filteredDestinations.length === 0 && (
+          <div className="p-8 text-center border border-dashed border-[#262626] rounded-2xl text-neutral-400 text-xs">
+            No destinations found matching "{searchQuery}".
+          </div>
+        )}
+        {filteredDestinations.map((dest) => (
           <div key={dest.id} className="border border-[#262626] rounded-xl p-4 bg-[#121212]/60">
             {editingId === dest.id ? (
               <div className="space-y-4">
@@ -725,13 +913,23 @@ function DestinationsManager({
             ) : (
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-4 min-w-0">
-                  {dest.image ? (
-                    <img src={dest.image} className="w-14 h-14 rounded-xl object-cover shrink-0 border border-white/10" />
-                  ) : (
-                    <div className="w-14 h-14 rounded-xl bg-[#0A0A0A] flex items-center justify-center text-neutral-400">
-                      <ImageIcon className="w-6 h-6" />
-                    </div>
-                  )}
+                  <div className="relative group shrink-0">
+                    {dest.image ? (
+                      <img src={dest.image} className="w-14 h-14 rounded-xl object-cover shrink-0 border border-white/10" />
+                    ) : (
+                      <div className="w-14 h-14 rounded-xl bg-[#0A0A0A] flex items-center justify-center text-neutral-400">
+                        <ImageIcon className="w-6 h-6" />
+                      </div>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setQuickImageDestId(dest.id)}
+                      className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-[#E37500] rounded-xl transition-opacity text-[10px] font-bold cursor-pointer"
+                      title="Quick Change Cover Photo"
+                    >
+                      <Camera className="w-4 h-4" />
+                    </button>
+                  </div>
                   <div className="min-w-0">
                     <h4 className="font-bold text-white truncate">{dest.name}</h4>
                     <p className="text-xs text-[#A3A3A3]/70">
@@ -740,6 +938,14 @@ function DestinationsManager({
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setQuickImageDestId(dest.id)}
+                    className="p-2 bg-[#181818] hover:bg-[#262626] text-[#A3A3A3] hover:text-[#E37500] rounded-lg transition-colors cursor-pointer"
+                    title="Change Photo"
+                  >
+                    <Camera className="w-4 h-4" />
+                  </button>
                   <button
                     onClick={() => setEditingId(dest.id)}
                     className="p-2 bg-[#181818] hover:bg-[#262626] text-[#C66500] rounded-lg transition-colors"
@@ -758,6 +964,46 @@ function DestinationsManager({
           </div>
         ))}
       </div>
+      {/* Quick Image Changer Modal for Destination */}
+      {quickImageDestId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="bg-[#141414] border border-[#262626] rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-[#262626]">
+              <div className="flex items-center gap-2">
+                <Camera className="w-5 h-5 text-[#E37500]" />
+                <h3 className="text-sm font-bold text-white truncate max-w-xs">
+                  Change Image: {destinations.find((d) => d.id === quickImageDestId)?.name}
+                </h3>
+              </div>
+              <button
+                onClick={() => setQuickImageDestId(null)}
+                className="p-1 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <ImageUploadField
+              label="Select or Upload New Cover Photo"
+              value={destinations.find((d) => d.id === quickImageDestId)?.image || ''}
+              onChange={(newUrl) => {
+                handleUpdate(quickImageDestId, 'image', newUrl);
+              }}
+              aspectRatio="video"
+              helperText="Updates this destination card image immediately."
+            />
+
+            <div className="flex justify-end pt-2 border-t border-[#262626]">
+              <button
+                onClick={() => setQuickImageDestId(null)}
+                className="px-5 py-2 bg-[#E37500] hover:bg-[#C66500] text-white rounded-xl text-xs font-bold transition-all shadow-md cursor-pointer"
+              >
+                Done Updating
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -773,6 +1019,8 @@ function PackagesManager({
   setPackages: React.Dispatch<React.SetStateAction<TravelPackage[]>>;
 }) {
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [quickImagePkgId, setQuickImagePkgId] = useState<string | null>(null);
 
   const handleAdd = () => {
     const newPkg: TravelPackage = {
@@ -806,6 +1054,17 @@ function PackagesManager({
     }
   };
 
+  const filteredPackages = packages.filter((pkg) => {
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      pkg.title.toLowerCase().includes(q) ||
+      pkg.destination.toLowerCase().includes(q) ||
+      (pkg.subtitle || '').toLowerCase().includes(q) ||
+      (pkg.tag || '').toLowerCase().includes(q)
+    );
+  });
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#262626]">
@@ -817,15 +1076,40 @@ function PackagesManager({
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 px-4 py-2 bg-[#E37500] hover:bg-[#C66500] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all self-start sm:self-auto"
+          className="flex items-center gap-2 px-4 py-2 bg-[#E37500] hover:bg-[#C66500] text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all self-start sm:self-auto cursor-pointer"
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />
           <span>Add Package</span>
         </button>
       </div>
 
+      {/* Fast Search Filter */}
+      <div className="relative">
+        <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder={`Search ${packages.length} packages by title, destination, or theme...`}
+          className="w-full pl-10 pr-10 py-2.5 bg-[#121212] border border-[#262626] rounded-xl text-xs text-white placeholder-neutral-500 focus:border-[#E37500] outline-none"
+        />
+        {searchQuery && (
+          <button
+            onClick={() => setSearchQuery('')}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-neutral-400 hover:text-white"
+          >
+            Clear
+          </button>
+        )}
+      </div>
+
       <div className="space-y-4">
-        {packages.map((pkg) => (
+        {filteredPackages.length === 0 && (
+          <div className="p-8 text-center border border-dashed border-[#262626] rounded-2xl text-neutral-400 text-xs">
+            No packages found matching "{searchQuery}".
+          </div>
+        )}
+        {filteredPackages.map((pkg) => (
           <div key={pkg.id} className="border border-[#262626] rounded-xl p-4 bg-[#121212]/60">
             {editingId === pkg.id ? (
               <div className="space-y-4">
@@ -931,13 +1215,23 @@ function PackagesManager({
             ) : (
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-4 min-w-0">
-                  {pkg.image ? (
-                    <img src={pkg.image} className="w-14 h-14 rounded-xl object-cover shrink-0 border border-white/10" />
-                  ) : (
-                    <div className="w-14 h-14 rounded-xl bg-[#0A0A0A] flex items-center justify-center text-neutral-400">
-                      <ImageIcon className="w-6 h-6" />
-                    </div>
-                  )}
+                  <div className="relative group shrink-0">
+                    {pkg.image ? (
+                      <img src={pkg.image} className="w-14 h-14 rounded-xl object-cover shrink-0 border border-white/10" />
+                    ) : (
+                      <div className="w-14 h-14 rounded-xl bg-[#0A0A0A] flex items-center justify-center text-neutral-400">
+                        <ImageIcon className="w-6 h-6" />
+                      </div>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setQuickImagePkgId(pkg.id)}
+                      className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-[#E37500] rounded-xl transition-opacity text-[10px] font-bold cursor-pointer"
+                      title="Quick Change Cover Photo"
+                    >
+                      <Camera className="w-4 h-4" />
+                    </button>
+                  </div>
                   <div className="min-w-0">
                     <h4 className="font-bold text-white truncate">{pkg.title}</h4>
                     <p className="text-xs text-[#A3A3A3]/70">
@@ -946,6 +1240,14 @@ function PackagesManager({
                   </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setQuickImagePkgId(pkg.id)}
+                    className="p-2 bg-[#181818] hover:bg-[#262626] text-[#A3A3A3] hover:text-[#E37500] rounded-lg transition-colors cursor-pointer"
+                    title="Change Photo"
+                  >
+                    <Camera className="w-4 h-4" />
+                  </button>
                   <button
                     onClick={() => setEditingId(pkg.id)}
                     className="p-2 bg-[#181818] hover:bg-[#262626] text-[#C66500] rounded-lg transition-colors"
@@ -964,6 +1266,46 @@ function PackagesManager({
           </div>
         ))}
       </div>
+      {/* Quick Image Changer Modal for Package */}
+      {quickImagePkgId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="bg-[#141414] border border-[#262626] rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between pb-3 border-b border-[#262626]">
+              <div className="flex items-center gap-2">
+                <Camera className="w-5 h-5 text-[#E37500]" />
+                <h3 className="text-sm font-bold text-white truncate max-w-xs">
+                  Change Image: {packages.find((p) => p.id === quickImagePkgId)?.title}
+                </h3>
+              </div>
+              <button
+                onClick={() => setQuickImagePkgId(null)}
+                className="p-1 rounded-lg text-neutral-400 hover:text-white hover:bg-neutral-800"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <ImageUploadField
+              label="Select or Upload New Cover Photo"
+              value={packages.find((p) => p.id === quickImagePkgId)?.image || ''}
+              onChange={(newUrl) => {
+                handleUpdate(quickImagePkgId, 'image', newUrl);
+              }}
+              aspectRatio="video"
+              helperText="Updates this package card image immediately."
+            />
+
+            <div className="flex justify-end pt-2 border-t border-[#262626]">
+              <button
+                onClick={() => setQuickImagePkgId(null)}
+                className="px-5 py-2 bg-[#E37500] hover:bg-[#C66500] text-white rounded-xl text-xs font-bold transition-all shadow-md cursor-pointer"
+              >
+                Done Updating
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -978,6 +1320,10 @@ function ContentManager({
   setTestimonials,
   experiencePillars,
   setExperiencePillars,
+  howItWorksSteps,
+  setHowItWorksSteps,
+  whyUsPillars,
+  setWhyUsPillars,
 }: {
   marquee: string[];
   setMarquee: React.Dispatch<React.SetStateAction<string[]>>;
@@ -985,6 +1331,10 @@ function ContentManager({
   setTestimonials: React.Dispatch<React.SetStateAction<TestimonialItem[]>>;
   experiencePillars: ExperiencePillar[];
   setExperiencePillars: React.Dispatch<React.SetStateAction<ExperiencePillar[]>>;
+  howItWorksSteps: HowItWorksStep[];
+  setHowItWorksSteps: React.Dispatch<React.SetStateAction<HowItWorksStep[]>>;
+  whyUsPillars: WhyUsPillar[];
+  setWhyUsPillars: React.Dispatch<React.SetStateAction<WhyUsPillar[]>>;
 }) {
   const [editingTestimonialId, setEditingTestimonialId] = useState<string | null>(null);
 
@@ -1209,6 +1559,159 @@ function ContentManager({
                     className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#262626] rounded-lg text-xs text-white outline-none"
                   />
                 </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 4. How It Works (Interactive Steps) */}
+      <div className="space-y-4 pt-4 border-t border-[#262626]">
+        <div className="pb-3 border-b border-[#262626]">
+          <h3 className="text-lg font-serif font-bold text-white">How It Works Steps (Curated to Departure)</h3>
+          <p className="text-xs text-[#A3A3A3]/70 mt-0.5">
+            The 4-step concierge journey displayed on the homepage process section.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {(howItWorksSteps || []).map((stepItem, idx) => (
+            <div key={idx} className="p-4 rounded-xl bg-[#121212] border border-[#262626] space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-bold text-[#E37500]">
+                  Step {stepItem.step || `0${idx + 1}`}
+                </span>
+                <span className="text-[10px] px-2 py-0.5 rounded-md bg-[#1D1D1D] text-neutral-400 font-semibold border border-[#262626]">
+                  {stepItem.actionBadge || 'Process Step'}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[11px] font-bold text-neutral-400 block mb-1">Title</label>
+                  <input
+                    value={stepItem.title}
+                    onChange={(e) => {
+                      const updated = [...howItWorksSteps];
+                      updated[idx] = { ...updated[idx], title: e.target.value };
+                      setHowItWorksSteps(updated);
+                    }}
+                    className="w-full px-2.5 py-1.5 bg-[#0A0A0A] border border-[#262626] rounded-lg text-xs text-white outline-none focus:border-[#E37500]"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-bold text-neutral-400 block mb-1">Action Badge</label>
+                  <input
+                    value={stepItem.actionBadge || ''}
+                    onChange={(e) => {
+                      const updated = [...howItWorksSteps];
+                      updated[idx] = { ...updated[idx], actionBadge: e.target.value };
+                      setHowItWorksSteps(updated);
+                    }}
+                    className="w-full px-2.5 py-1.5 bg-[#0A0A0A] border border-[#262626] rounded-lg text-xs text-white outline-none focus:border-[#E37500]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-neutral-400 block mb-1">Subtitle</label>
+                <input
+                  value={stepItem.subtitle || ''}
+                  onChange={(e) => {
+                    const updated = [...howItWorksSteps];
+                    updated[idx] = { ...updated[idx], subtitle: e.target.value };
+                    setHowItWorksSteps(updated);
+                  }}
+                  className="w-full px-2.5 py-1.5 bg-[#0A0A0A] border border-[#262626] rounded-lg text-xs text-white outline-none focus:border-[#E37500]"
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-neutral-400 block mb-1">Description</label>
+                <textarea
+                  rows={2}
+                  value={stepItem.description}
+                  onChange={(e) => {
+                    const updated = [...howItWorksSteps];
+                    updated[idx] = { ...updated[idx], description: e.target.value };
+                    setHowItWorksSteps(updated);
+                  }}
+                  className="w-full px-2.5 py-1.5 bg-[#0A0A0A] border border-[#262626] rounded-lg text-xs text-white outline-none focus:border-[#E37500]"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 5. Why Us (Luxury Trust Pillars) */}
+      <div className="space-y-4 pt-4 border-t border-[#262626]">
+        <div className="pb-3 border-b border-[#262626]">
+          <h3 className="text-lg font-serif font-bold text-white">Why Travel With Us (Trust Pillars)</h3>
+          <p className="text-xs text-[#A3A3A3]/70 mt-0.5">
+            The 4 distinctive value propositions highlighting expertise, security, and white-glove 24/7 care.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {(whyUsPillars || []).map((pillar, idx) => (
+            <div key={idx} className="p-4 rounded-xl bg-[#121212] border border-[#262626] space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-bold text-[#E37500]">
+                  Pillar 0{idx + 1}: {pillar.title}
+                </span>
+                <span className="text-[11px] text-neutral-400 font-semibold flex items-center gap-1">
+                  Icon: <code className="text-[#E37500] font-mono">{pillar.iconName || 'UserCheck'}</code>
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[11px] font-bold text-neutral-400 block mb-1">Title</label>
+                  <input
+                    value={pillar.title}
+                    onChange={(e) => {
+                      const updated = [...whyUsPillars];
+                      updated[idx] = { ...updated[idx], title: e.target.value };
+                      setWhyUsPillars(updated);
+                    }}
+                    className="w-full px-2.5 py-1.5 bg-[#0A0A0A] border border-[#262626] rounded-lg text-xs text-white outline-none focus:border-[#E37500]"
+                  />
+                </div>
+                <div>
+                  <label className="text-[11px] font-bold text-neutral-400 block mb-1">Select Icon</label>
+                  <select
+                    value={pillar.iconName || 'UserCheck'}
+                    onChange={(e) => {
+                      const updated = [...whyUsPillars];
+                      updated[idx] = { ...updated[idx], iconName: e.target.value };
+                      setWhyUsPillars(updated);
+                    }}
+                    className="w-full px-2.5 py-1.5 bg-[#0A0A0A] border border-[#262626] rounded-lg text-xs text-white outline-none focus:border-[#E37500]"
+                  >
+                    <option value="UserCheck">UserCheck (Dedicated Expert)</option>
+                    <option value="ShieldCheck">ShieldCheck (Fully Secure)</option>
+                    <option value="PhoneCall">PhoneCall (24/7 Support)</option>
+                    <option value="Sparkles">Sparkles (Truly Bespoke)</option>
+                    <option value="Award">Award (Excellence)</option>
+                    <option value="Heart">Heart (Passion)</option>
+                    <option value="Compass">Compass (Navigation)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-neutral-400 block mb-1">Description</label>
+                <textarea
+                  rows={2}
+                  value={pillar.description}
+                  onChange={(e) => {
+                    const updated = [...whyUsPillars];
+                    updated[idx] = { ...updated[idx], description: e.target.value };
+                    setWhyUsPillars(updated);
+                  }}
+                  className="w-full px-2.5 py-1.5 bg-[#0A0A0A] border border-[#262626] rounded-lg text-xs text-white outline-none focus:border-[#E37500]"
+                />
               </div>
             </div>
           ))}

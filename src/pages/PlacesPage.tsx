@@ -8,6 +8,9 @@ import { FloatingWhatsApp } from '../components/FloatingWhatsApp';
 import { BackToTop } from '../components/BackToTop';
 import { GlassImage } from '../components/GlassImage';
 import { useWishlist } from '../context/WishlistContext';
+import { useCms } from '../context/CmsContext';
+import { useScrollPagination } from '../utils/useScrollPagination';
+import { ScrollPaginationFooter } from '../components/ScrollPaginationFooter';
 import {
   Search,
   MapPin,
@@ -385,6 +388,7 @@ export default function PlacesPage() {
 
   // Wishlist Context
   const { toggleDestinationWishlist, isDestinationSaved } = useWishlist();
+  const { places: cmsPlaces } = useCms();
 
   // Caret Carousel Refs for themed carousels
   const overwaterCarouselRef = useRef<HTMLDivElement>(null);
@@ -392,7 +396,7 @@ export default function PlacesPage() {
 
   // Filtered places calculation
   const filteredPlaces = useMemo(() => {
-    return CURATED_PLACES_DATA.filter((place) => {
+    return cmsPlaces.filter((place) => {
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !q ||
@@ -418,17 +422,33 @@ export default function PlacesPage() {
       if (sortBy === 'region') return a.region.localeCompare(b.region);
       return 0; // curator default order
     });
-  }, [searchQuery, selectedCategory, selectedRegion, selectedTheme, sortBy]);
+  }, [cmsPlaces, searchQuery, selectedCategory, selectedRegion, selectedTheme, sortBy]);
+
+  // Progressive Scroll-based Pagination
+  const {
+    visibleItems: visiblePlaces,
+    displayedCount,
+    totalCount,
+    hasMore,
+    isLoadingMore,
+    loadMore,
+    sentinelRef,
+  } = useScrollPagination<EnrichedPlace>({
+    items: filteredPlaces,
+    pageSize: 6,
+    initialPageSize: 6,
+    resetDeps: [searchQuery, selectedCategory, selectedRegion, selectedTheme, sortBy],
+  });
 
   // Themed places subsets for carousels
   const overwaterPlaces = useMemo(
-    () => CURATED_PLACES_DATA.filter((p) => p.theme === 'overwater' || p.region === 'Indian Ocean'),
-    []
+    () => cmsPlaces.filter((p) => p.theme === 'overwater' || p.region === 'Indian Ocean'),
+    [cmsPlaces]
   );
 
   const alpinePlaces = useMemo(
-    () => CURATED_PLACES_DATA.filter((p) => p.theme === 'alpine' || p.country === 'Switzerland'),
-    []
+    () => cmsPlaces.filter((p) => p.theme === 'alpine' || p.country === 'Switzerland'),
+    [cmsPlaces]
   );
 
   // Active Photo in Lightbox
@@ -888,7 +908,7 @@ export default function PlacesPage() {
               </h2>
             </div>
             <span className="text-xs sm:text-sm font-semibold text-neutral-400">
-              Showing {filteredPlaces.length} of {CURATED_PLACES_DATA.length} Sanctuaries
+              Showing {filteredPlaces.length} of {cmsPlaces.length} Sanctuaries
             </span>
           </div>
 
@@ -1001,16 +1021,18 @@ export default function PlacesPage() {
           {/* PLACES CATALOG CARDS */}
           {/* ============================================================ */}
           {filteredPlaces.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7 items-stretch">
-              {filteredPlaces.map((place, idx) => {
-                const isSaved = isDestinationSaved(place.id);
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 sm:gap-6 lg:gap-7 items-stretch">
+                {visiblePlaces.map((place) => {
+                  const isSaved = isDestinationSaved(place.id);
+                  const origIdx = filteredPlaces.findIndex((p) => p.id === place.id);
 
-                return (
-                  <div
-                    key={place.id}
-                    onClick={() => setActiveLightboxIndex(idx)}
-                    className="group rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 bg-neutral-50 dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 shadow-xs flex flex-col justify-between relative h-[520px]"
-                  >
+                  return (
+                    <div
+                      key={place.id}
+                      onClick={() => setActiveLightboxIndex(origIdx >= 0 ? origIdx : 0)}
+                      className="group rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 bg-neutral-50 dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 shadow-xs flex flex-col justify-between relative min-h-[500px] sm:min-h-[520px]"
+                    >
                     {/* Image Container */}
                     <div className="w-full h-52 shrink-0 overflow-hidden relative bg-neutral-100 dark:bg-[#111111]">
                       <GlassImage
@@ -1105,7 +1127,7 @@ export default function PlacesPage() {
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              setActiveLightboxIndex(idx);
+                              setActiveLightboxIndex(origIdx >= 0 ? origIdx : 0);
                             }}
                             className="px-3 py-1.5 rounded-full text-xs font-semibold text-neutral-600 dark:text-neutral-300 hover:text-[#E37500] dark:hover:text-[#E37500] flex items-center gap-1 transition-colors cursor-pointer"
                           >
@@ -1129,7 +1151,24 @@ export default function PlacesPage() {
                 );
               })}
             </div>
-          ) : (
+
+            {/* Progressive Scroll Pagination Footer */}
+            <ScrollPaginationFooter
+              displayedCount={displayedCount}
+              totalCount={totalCount}
+              hasMore={hasMore}
+              isLoadingMore={isLoadingMore}
+              onLoadMore={loadMore}
+              sentinelRef={sentinelRef}
+              itemNoun="sanctuaries"
+              onPlanCustom={() => {
+                setEnquiryDestination('Custom Sanctuary');
+                setEnquiryTripType('Bespoke Luxury');
+                setIsEnquiryOpen(true);
+              }}
+            />
+          </>
+        ) : (
             <div className="text-center py-20 bg-neutral-50 dark:bg-neutral-900/60 rounded-3xl border border-neutral-200 dark:border-white/10 p-8 space-y-4">
               <Compass className="w-12 h-12 text-neutral-400 mx-auto mb-2 opacity-50" />
               <h3 className="font-serif text-xl font-bold text-neutral-900 dark:text-white">

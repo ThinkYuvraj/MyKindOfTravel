@@ -244,7 +244,7 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
 
           <div
             ref={carouselRef}
-            className="flex gap-4 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch"
+            className="flex gap-3.5 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch touch-carousel"
           >
           {filteredData.map((dest) => {
             const meta = DESTINATION_META[dest.id] || { code: 'Direct', flightTime: 'Curated Flight Route' };
@@ -252,11 +252,11 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
             return (
               <div
                 key={dest.id}
-                className="group rounded-3xl overflow-hidden backdrop-blur-xl bg-white dark:bg-[#0B0B0B]/95 border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 transition-all duration-300 flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.6)] hover:-translate-y-1 relative shrink-0 w-[85vw] max-w-[340px] sm:w-[340px] lg:w-[350px] h-[520px] snap-start"
+                className="group rounded-3xl overflow-hidden backdrop-blur-xl bg-white dark:bg-[#0B0B0B]/95 border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 transition-all duration-300 flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.6)] hover:-translate-y-1 relative shrink-0 w-[86vw] xs:w-[80vw] max-w-[340px] sm:w-[340px] lg:w-[350px] xl:w-[360px] min-h-[500px] sm:min-h-[520px] snap-start"
               >
                 <div className="flex flex-col flex-1">
                   {/* Image */}
-                  <div className="relative h-48 sm:h-50 overflow-hidden w-full shrink-0 bg-neutral-100 dark:bg-[#111111]">
+                  <div className="relative h-44 xs:h-48 sm:h-50 overflow-hidden w-full shrink-0 bg-neutral-100 dark:bg-[#111111]">
                     <GlassImage
                       src={dest.image}
                       alt={dest.name}

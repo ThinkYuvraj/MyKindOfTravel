@@ -122,16 +122,16 @@ export const ExperiencesSection: React.FC<ExperiencesSectionProps> = ({
 
           <div
             ref={carouselRef}
-            className="flex gap-4 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch"
+            className="flex gap-3.5 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch touch-carousel"
           >
           {activePillars.map((exp) => (
             <div
               key={exp.number}
-              className="rounded-3xl backdrop-blur-xl bg-white dark:bg-[#0B0B0B]/95 border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 overflow-hidden flex flex-col justify-between group transition-all duration-300 shadow-[0_6px_25px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1 relative shrink-0 w-[85vw] max-w-[350px] sm:w-[350px] md:w-[360px] lg:w-[380px] h-[510px] sm:h-[520px] snap-start"
+              className="rounded-3xl backdrop-blur-xl bg-white dark:bg-[#0B0B0B]/95 border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 overflow-hidden flex flex-col justify-between group transition-all duration-300 shadow-[0_6px_25px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1 relative shrink-0 w-[86vw] xs:w-[80vw] max-w-[350px] sm:w-[350px] md:w-[360px] lg:w-[380px] min-h-[490px] sm:min-h-[520px] snap-start"
             >
               {/* Pillar Image Header */}
               {exp.image && (
-                <div className="relative w-full h-44 overflow-hidden border-b border-neutral-200 dark:border-white/10 shrink-0">
+                <div className="relative w-full h-40 xs:h-44 overflow-hidden border-b border-neutral-200 dark:border-white/10 shrink-0">
                   <img
                     src={exp.image}
                     alt={exp.title}

@@ -152,14 +152,14 @@ export const WhyUsSection: React.FC<WhyUsSectionProps> = ({
 
             <div
               ref={carouselRef}
-              className="flex gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch"
+              className="flex gap-3.5 sm:gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch touch-carousel"
             >
               {activePillars.map((item, idx) => {
                 const IconComp = item.icon;
                 return (
                   <div
                     key={idx}
-                    className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 transition-all duration-300 space-y-3 group shadow-[0_6px_25px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1 shrink-0 w-[82vw] max-w-[320px] sm:w-[320px] h-[260px] flex flex-col justify-between snap-start"
+                    className="p-5 sm:p-7 rounded-3xl bg-white dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 transition-all duration-300 space-y-3 group shadow-[0_6px_25px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] hover:-translate-y-1 shrink-0 w-[82vw] xs:w-[78vw] max-w-[320px] sm:w-[320px] min-h-[250px] sm:min-h-[260px] flex flex-col justify-between snap-start"
                   >
                     <div>
                       <div className="flex items-center justify-between">

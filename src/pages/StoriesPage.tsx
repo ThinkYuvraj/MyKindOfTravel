@@ -1,18 +1,38 @@
 import React, { useState } from 'react';
 import { TESTIMONIALS, COMPANY_INFO } from '../data/travelData';
+import { TestimonialItem } from '../types';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { FloatingWhatsApp } from '../components/FloatingWhatsApp';
 import { BackToTop } from '../components/BackToTop';
 import { WishlistModal } from '../components/WishlistModal';
 import { EnquiryModal } from '../components/EnquiryModal';
+import { useCms } from '../context/CmsContext';
+import { useScrollPagination } from '../utils/useScrollPagination';
+import { ScrollPaginationFooter } from '../components/ScrollPaginationFooter';
 import { Heart, Star, MapPin, Quote, ShieldCheck, ArrowRight, MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function StoriesPage() {
   const navigate = useNavigate();
+  const { testimonials } = useCms();
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   const [enquiryTripType, setEnquiryTripType] = useState('');
+
+  // Progressive Scroll-based Pagination
+  const {
+    visibleItems: visibleStories,
+    displayedCount,
+    totalCount,
+    hasMore,
+    isLoadingMore,
+    loadMore,
+    sentinelRef,
+  } = useScrollPagination<TestimonialItem>({
+    items: testimonials,
+    pageSize: 4,
+    initialPageSize: 4,
+  });
 
   return (
     <div className="min-h-screen bg-white dark:bg-black text-neutral-900 dark:text-white flex flex-col font-sans transition-colors duration-300">
@@ -37,7 +57,7 @@ export default function StoriesPage() {
 
           {/* Stories Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-7 sm:gap-8 items-stretch">
-            {TESTIMONIALS.map((review) => (
+            {visibleStories.map((review) => (
               <div
                 key={review.id}
                 className="p-6 sm:p-8 rounded-3xl bg-neutral-50 dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 shadow-xs flex flex-col justify-between space-y-4 relative group hover:-translate-y-1 transition-all duration-300 h-[290px] sm:h-[310px]"
@@ -95,6 +115,18 @@ export default function StoriesPage() {
               </div>
             ))}
           </div>
+
+          {/* Progressive Scroll Pagination Footer */}
+          <ScrollPaginationFooter
+            displayedCount={displayedCount}
+            totalCount={totalCount}
+            hasMore={hasMore}
+            isLoadingMore={isLoadingMore}
+            onLoadMore={loadMore}
+            sentinelRef={sentinelRef}
+            itemNoun="stories"
+            onPlanCustom={() => setIsEnquiryOpen(true)}
+          />
 
           {/* Bottom Banner */}
           <div className="p-8 sm:p-12 rounded-3xl sm:rounded-4xl bg-neutral-900 dark:bg-[#0A0A0A] border border-neutral-800 dark:border-white/15 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">

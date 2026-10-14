@@ -318,7 +318,7 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 overflow-y-auto bg-black/75 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2.5 xs:p-3 sm:p-5 overflow-y-auto bg-black/75 backdrop-blur-md animate-in fade-in duration-200"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -326,14 +326,14 @@ export const EnquiryModal: React.FC<EnquiryModalProps> = ({
     >
       {/* Popup Enquiry Card */}
       <div
-        className="relative w-full max-w-xl md:max-w-2xl my-auto rounded-3xl bg-white dark:bg-[#0E0E0E] text-neutral-900 dark:text-white border border-neutral-200 dark:border-white/10 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 max-h-[92vh] flex flex-col transition-all"
+        className="relative w-full max-w-xl md:max-w-2xl my-auto rounded-3xl bg-white dark:bg-[#0E0E0E] text-neutral-900 dark:text-white border border-neutral-200 dark:border-white/10 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 max-h-[94dvh] sm:max-h-[90vh] flex flex-col transition-all"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Accent Strip */}
         <div className="h-1.5 w-full bg-[#E37500] shrink-0" />
 
         {/* Modal Header */}
-        <div className="px-5 sm:px-7 pt-5 pb-4 border-b border-neutral-200 dark:border-white/10 flex items-start justify-between gap-4 shrink-0 bg-white/70 dark:bg-[#141414]/70 backdrop-blur-md">
+        <div className="px-4 sm:px-7 pt-4 sm:pt-5 pb-3.5 sm:pb-4 border-b border-neutral-200 dark:border-white/10 flex items-start justify-between gap-3 sm:gap-4 shrink-0 bg-white/70 dark:bg-[#141414]/70 backdrop-blur-md">
           <div className="space-y-1">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E37500]/10 dark:bg-[#E37500]/20 text-[#E37500] text-[10px] font-bold uppercase tracking-widest border border-[#E37500]/30">
               <Sparkles className="w-3 h-3 text-[#E37500]" />

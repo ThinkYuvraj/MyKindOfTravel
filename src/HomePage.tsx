@@ -21,6 +21,7 @@ import { CustomSectionRenderer } from './components/CustomSectionRenderer';
 import { VipPrivilegesSection } from './components/VipPrivilegesSection';
 import { DESTINATIONS, POPULAR_PACKAGES, MARQUEE_ITEMS, TESTIMONIALS, EXPERIENCE_PILLARS, COMPANY_INFO, GALLERY_ITEMS } from './data/travelData';
 import { DestinationItem, TravelPackage, CMSData } from './types';
+import { useCms } from './context/CmsContext';
 
 const DEFAULT_ORDER = [
   'hero',
@@ -52,66 +53,7 @@ export default function HomePage() {
     setIsMapsAgentOpen(true);
   };
 
-  const [cmsData, setCmsData] = useState<CMSData>({
-    heroTitle: 'EXPLORE. DREAM. DISCOVER.',
-    heroSubtitle: "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers.",
-    heroBadge: 'My Kind of Travel • Bespoke Journeys',
-    heroBgImage: '',
-    primaryButton: 'START EXPLORING',
-    secondaryButton: 'PLAN TRIP',
-    sectionOrder: DEFAULT_ORDER,
-    sectionVisibility: {
-      hero: true,
-      destinations: true,
-      marquee: true,
-      experiences: true,
-      howItWorks: true,
-      packages: true,
-      gallery: true,
-      testimonials: true,
-      whyUs: true,
-      contact: true,
-    },
-    destinations: DESTINATIONS,
-    packages: POPULAR_PACKAGES,
-    marquee: MARQUEE_ITEMS,
-    testimonials: TESTIMONIALS,
-    experiencePillars: EXPERIENCE_PILLARS,
-    gallery: GALLERY_ITEMS,
-    customSections: [],
-    companyInfo: COMPANY_INFO,
-  });
-
-useEffect(() => {
-  const fetchCmsData = async () => {
-    try {
-      const response = await fetch('/api/cms');
-
-      if (response.ok) {
-        const data = await response.json();
-
-        setCmsData((prev) => ({
-          ...prev,
-          ...data,
-          sectionOrder: data.sectionOrder || prev.sectionOrder,
-          sectionVisibility: data.sectionVisibility || prev.sectionVisibility,
-          destinations: data.destinations || prev.destinations,
-          packages: data.packages || prev.packages,
-          marquee: data.marquee || prev.marquee,
-          testimonials: data.testimonials || prev.testimonials,
-          experiencePillars: data.experiencePillars || prev.experiencePillars,
-          gallery: data.gallery || prev.gallery,
-          customSections: data.customSections || prev.customSections,
-          companyInfo: data.companyInfo || prev.companyInfo,
-        }));
-      }
-    } catch (e) {
-      console.error("Error loading CMS data", e);
-    }
-  };
-
-  fetchCmsData();
-}, []);
+  const { cmsData } = useCms();
 
   const scrollToSection = (sectionId: string) => {
     if (sectionId === 'contact') {

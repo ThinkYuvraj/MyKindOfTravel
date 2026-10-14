@@ -63,6 +63,27 @@ export interface GalleryItem {
   aspect?: 'tall' | 'wide' | 'square';
 }
 
+export interface EnrichedPlace {
+  id: string;
+  title: string;
+  propertySubtitle: string;
+  location: string;
+  country: string;
+  region: 'Indian Ocean' | 'Europe' | 'Southeast Asia' | 'East Asia' | 'Middle East' | string;
+  category: 'Stays' | 'Journeys' | 'Moments' | 'Gourmet' | string;
+  theme: 'overwater' | 'alpine' | 'coastal' | 'heritage' | 'gourmet' | string;
+  image: string;
+  additionalImages?: string[];
+  caption: string;
+  highlights: string[];
+  bestSeason: string;
+  idealStay: string;
+  transferNote: string;
+  startingPriceNote: string;
+  curatorNote: string;
+  isFeatured?: boolean;
+}
+
 export interface EnquiryForm {
   firstName: string;
   lastName: string;
@@ -117,6 +138,7 @@ export interface CustomSection {
 export interface HowItWorksStep {
   step: string;
   title: string;
+  subtitle?: string;
   description: string;
   actionBadge?: string;
   badge?: string;

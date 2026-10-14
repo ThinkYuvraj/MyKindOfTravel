@@ -226,13 +226,13 @@ export const WanderlustGallery: React.FC<WanderlustGalleryProps> = ({
 
           <div
             ref={carouselRef}
-            className="flex gap-4 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch"
+            className="flex gap-3.5 sm:gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth no-scrollbar items-stretch touch-carousel"
           >
           {filteredItems.map((item, idx) => (
             <div
               key={item.id || idx}
               onClick={() => setActiveLightboxIndex(idx)}
-              className="group rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 shadow-[0_8px_24px_rgba(0,0,0,0.05)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.6)] flex flex-col justify-between relative shrink-0 w-[80vw] max-w-[340px] sm:w-[340px] lg:w-[360px] h-[450px] sm:h-[460px] snap-start"
+              className="group rounded-3xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-[#0B0B0B] border border-neutral-200 dark:border-white/10 hover:border-[#E37500]/60 dark:hover:border-[#E37500]/60 shadow-[0_8px_24px_rgba(0,0,0,0.05)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.6)] flex flex-col justify-between relative shrink-0 w-[84vw] xs:w-[78vw] max-w-[340px] sm:w-[340px] lg:w-[360px] min-h-[440px] sm:min-h-[460px] snap-start"
             >
               {/* Image Frame with Clean Aspect Ratio */}
               <div className="w-full aspect-[4/3] overflow-hidden relative bg-neutral-100 dark:bg-[#111111] shrink-0">

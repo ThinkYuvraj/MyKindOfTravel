@@ -109,23 +109,23 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <>
       {/* Floating Slim Luxury Navbar */}
-      <header className="fixed top-2.5 sm:top-3.5 inset-x-0 mx-auto w-[95%] max-w-6xl z-50 transition-all duration-300 pointer-events-auto">
+      <header className="fixed top-2.5 sm:top-3.5 inset-x-0 mx-auto w-[96%] sm:w-[94%] max-w-6xl 2xl:max-w-7xl z-50 transition-all duration-300 pointer-events-auto">
         <div
-          className="w-full h-13 sm:h-14 rounded-full transition-all duration-300 px-3.5 sm:px-5 flex items-center justify-between gap-3 bg-white/95 dark:bg-[#0A0A0A]/95 backdrop-blur-2xl border border-neutral-200 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_10px_35px_rgba(0,0,0,0.8)] text-neutral-900 dark:text-white"
+          className="w-full h-12.5 sm:h-14 rounded-full transition-all duration-300 px-3 sm:px-4 md:px-5 flex items-center justify-between gap-2 sm:gap-3 bg-white/95 dark:bg-[#0A0A0A]/95 backdrop-blur-2xl border border-neutral-200 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_10px_35px_rgba(0,0,0,0.8)] text-neutral-900 dark:text-white"
         >
           {/* Left: Compass Monogram & Branding */}
           <div className="flex items-center shrink-0">
             <Link
               to="/"
               onClick={handleLogoClick}
-              className="flex items-center gap-2 group focus:outline-none cursor-pointer py-1.5 px-1 -my-1.5 touch-manipulation select-none active:opacity-85"
+              className="flex items-center gap-1.5 sm:gap-2 group focus:outline-none cursor-pointer py-1.5 px-0.5 sm:px-1 -my-1.5 touch-manipulation select-none active:opacity-85"
               aria-label="My Kind of Travel Home"
             >
               <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#E37500] text-white flex items-center justify-center group-hover:scale-105 transition-all shadow-xs shrink-0">
                 <Compass className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2] transition-transform duration-300 group-hover:rotate-45" />
               </div>
               <div className="flex items-baseline gap-1.5 min-w-0">
-                <span className="font-serif text-sm sm:text-base font-bold tracking-tight text-[#E37500] group-hover:text-[#C66500] transition-colors leading-none truncate max-w-[130px] xs:max-w-[160px] sm:max-w-none">
+                <span className="font-serif text-[13px] xs:text-sm sm:text-base font-bold tracking-tight text-[#E37500] group-hover:text-[#C66500] transition-colors leading-none truncate max-w-[125px] xs:max-w-[160px] sm:max-w-none">
                   My Kind of Travel
                 </span>
                 <span className="hidden md:inline text-[9px] uppercase tracking-widest text-[#E37500]/70 dark:text-[#E37500]/80 font-semibold shrink-0">
@@ -136,7 +136,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Center: Sleek Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2 text-[12px] xl:text-[13px] font-medium text-neutral-700 dark:text-neutral-200">
+          <nav className="hidden lg:flex items-center space-x-0.5 xl:space-x-1.5 2xl:space-x-2 text-[11.5px] xl:text-[13px] font-medium text-neutral-700 dark:text-neutral-200">
             {/* DESTINATIONS Dropdown */}
             <div
               className="relative"

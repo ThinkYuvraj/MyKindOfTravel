@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { WishlistProvider } from './context/WishlistContext';
+import { CmsProvider } from './context/CmsContext';
 
 /**
  * Robust lazy import wrapper with auto-retry on stale chunk hashes.
@@ -116,28 +117,30 @@ export default function App() {
   return (
     <BrowserRouter>
       <WishlistProvider>
-        <Suspense
-          fallback={
-            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black text-neutral-900 dark:text-white font-serif text-lg">
-              <div className="flex items-center gap-3">
-                <span className="w-3 h-3 rounded-full bg-[#E37500] animate-ping" />
-                <span>Loading My Kind of Travel...</span>
+        <CmsProvider>
+          <Suspense
+            fallback={
+              <div className="min-h-screen flex items-center justify-center bg-white dark:bg-black text-neutral-900 dark:text-white font-serif text-lg">
+                <div className="flex items-center gap-3">
+                  <span className="w-3 h-3 rounded-full bg-[#E37500] animate-ping" />
+                  <span>Loading My Kind of Travel...</span>
+                </div>
               </div>
-            </div>
-          }
-        >
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/destinations" element={<DestinationsPage />} />
-            <Route path="/packages" element={<PackagesPage />} />
-            <Route path="/plan" element={<PlanTripPage />} />
-            <Route path="/stories" element={<StoriesPage />} />
-            <Route path="/places" element={<PlacesPage />} />
-            <Route path="/experiences" element={<ExperiencesPage />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
-          </Routes>
-        </Suspense>
+            }
+          >
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/destinations" element={<DestinationsPage />} />
+              <Route path="/packages" element={<PackagesPage />} />
+              <Route path="/plan" element={<PlanTripPage />} />
+              <Route path="/stories" element={<StoriesPage />} />
+              <Route path="/places" element={<PlacesPage />} />
+              <Route path="/experiences" element={<ExperiencesPage />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+            </Routes>
+          </Suspense>
+        </CmsProvider>
       </WishlistProvider>
     </BrowserRouter>
   );
