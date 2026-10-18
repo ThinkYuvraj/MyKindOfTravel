@@ -18,4 +18,9 @@ export const env = {
     'AIzaSyDSXpG7hgCo6-ldcQ6BoUOZhRAl0SkYhQg',
   geminiApiKey: process.env.GEMINI_API_KEY || '',
   allowedOrigins: (process.env.ALLOWED_ORIGINS || '').split(',').map((s) => s.trim()).filter(Boolean),
+  smtpHost: process.env.SMTP_HOST || 'smtp.gmail.com',
+  smtpPort: parseInt(process.env.SMTP_PORT || '465', 10),
+  smtpSecure: process.env.SMTP_SECURE !== 'false',
+  smtpUser: process.env.SMTP_USER || 'marketing2glue@gmail.com',
+  smtpPass: (process.env.SMTP_PASS || '').replace(/\s+/g, ''),
 };

@@ -41,6 +41,11 @@ This guide provides step-by-step instructions to deploy the **My Kind of Travel*
    ADMIN_PASSWORD=YourSecurePassword123!
    GOOGLE_MAPS_API_KEY=AIzaSy...
    GEMINI_API_KEY=AIzaSy...
+   SMTP_HOST=smtp.gmail.com
+   SMTP_PORT=465
+   SMTP_SECURE=true
+   SMTP_USER=marketing2glue@gmail.com
+   SMTP_PASS=znmx pweu zfmt osnq
    ```
 
 ### Step 4: Run NPM Install & Build
