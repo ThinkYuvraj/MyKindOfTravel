@@ -64,7 +64,7 @@ import {
 type Tab = 'sections' | 'hero' | 'destinations' | 'packages' | 'places' | 'gallery' | 'content' | 'leads' | 'settings';
 
 export default function AdminDashboard() {
-  const { publishCms, syncToGitHub, lastPublishedAt: serverLastPublishedAt } = useCms();
+  const { cmsData, publishCms, syncToGitHub, lastPublishedAt: serverLastPublishedAt } = useCms();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [gitSyncing, setGitSyncing] = useState(false);
@@ -73,39 +73,46 @@ export default function AdminDashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('sections');
 
-  // CMS State
-  const [heroTitle, setHeroTitle] = useState('');
-  const [heroSubtitle, setHeroSubtitle] = useState('');
-  const [heroBadge, setHeroBadge] = useState('');
-  const [heroBgImage, setHeroBgImage] = useState('');
-  const [primaryButton, setPrimaryButton] = useState('');
-  const [secondaryButton, setSecondaryButton] = useState('');
+  // CMS State initialized from cmsData
+  const [heroTitle, setHeroTitle] = useState(cmsData.heroTitle || 'EXPLORE. DREAM. DISCOVER.');
+  const [heroSubtitle, setHeroSubtitle] = useState(
+    cmsData.heroSubtitle ||
+      "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers."
+  );
+  const [heroBadge, setHeroBadge] = useState(cmsData.heroBadge || 'My Kind of Travel • Bespoke Journeys');
+  const [heroBgImage, setHeroBgImage] = useState(cmsData.heroBgImage || '');
+  const [primaryButton, setPrimaryButton] = useState(cmsData.primaryButton || 'START EXPLORING');
+  const [secondaryButton, setSecondaryButton] = useState(cmsData.secondaryButton || 'PLAN TRIP');
 
-  const [sectionOrder, setSectionOrder] = useState<string[]>([
-    'hero',
-    'marquee',
-    'howItWorks',
-    'destinations',
-    'experiences',
-    'packages',
-    'gallery',
-    'testimonials',
-    'whyUs',
-    'contact',
-  ]);
-  const [sectionVisibility, setSectionVisibility] = useState<Record<string, boolean>>({});
-  const [destinations, setDestinations] = useState<DestinationItem[]>([]);
-  const [packages, setPackages] = useState<TravelPackage[]>([]);
-  const [places, setPlaces] = useState<EnrichedPlace[]>([]);
-  const [marquee, setMarquee] = useState<string[]>([]);
-  const [testimonials, setTestimonials] = useState<TestimonialItem[]>([]);
-  const [experiencePillars, setExperiencePillars] = useState<ExperiencePillar[]>([]);
-  const [gallery, setGallery] = useState<GalleryItem[]>([]);
-  const [customSections, setCustomSections] = useState<CustomSection[]>([]);
-  const [companyInfo, setCompanyInfo] = useState<any>(COMPANY_INFO);
-  const [sectionHeaders, setSectionHeaders] = useState<Record<string, SectionCustomContent>>({});
-  const [howItWorksSteps, setHowItWorksSteps] = useState<HowItWorksStep[]>([]);
-  const [whyUsPillars, setWhyUsPillars] = useState<WhyUsPillar[]>([]);
+  const [sectionOrder, setSectionOrder] = useState<string[]>(
+    cmsData.sectionOrder && cmsData.sectionOrder.length > 0
+      ? cmsData.sectionOrder
+      : [
+          'hero',
+          'marquee',
+          'howItWorks',
+          'destinations',
+          'experiences',
+          'packages',
+          'gallery',
+          'testimonials',
+          'whyUs',
+          'contact',
+        ]
+  );
+  const [sectionVisibility, setSectionVisibility] = useState<Record<string, boolean>>(cmsData.sectionVisibility || {});
+  const [destinations, setDestinations] = useState<DestinationItem[]>(cmsData.destinations || DESTINATIONS);
+  const [packages, setPackages] = useState<TravelPackage[]>(cmsData.packages || POPULAR_PACKAGES);
+  const [places, setPlaces] = useState<EnrichedPlace[]>(cmsData.places && cmsData.places.length > 0 ? cmsData.places : CURATED_PLACES_DATA);
+  const [marquee, setMarquee] = useState<string[]>(cmsData.marquee || MARQUEE_ITEMS);
+  const [testimonials, setTestimonials] = useState<TestimonialItem[]>(cmsData.testimonials || TESTIMONIALS);
+  const [experiencePillars, setExperiencePillars] = useState<ExperiencePillar[]>(cmsData.experiencePillars || EXPERIENCE_PILLARS);
+  const [gallery, setGallery] = useState<GalleryItem[]>(cmsData.gallery || GALLERY_ITEMS);
+  const [customSections, setCustomSections] = useState<CustomSection[]>(cmsData.customSections || []);
+  const [companyInfo, setCompanyInfo] = useState<any>(cmsData.companyInfo || COMPANY_INFO);
+  const [sectionHeaders, setSectionHeaders] = useState<Record<string, SectionCustomContent>>(cmsData.sectionHeaders || {});
+  const [howItWorksSteps, setHowItWorksSteps] = useState<HowItWorksStep[]>(cmsData.howItWorksSteps || []);
+  const [whyUsPillars, setWhyUsPillars] = useState<WhyUsPillar[]>(cmsData.whyUsPillars || []);
 
   useEffect(() => {
     if (localStorage.getItem('isAdminLoggedIn') !== 'true') {
@@ -122,16 +129,17 @@ export default function AdminDashboard() {
       if (response.ok && contentType.includes('application/json')) {
         const data = await response.json();
         const heroHdr = data.sectionHeaders?.hero || {};
-        setHeroTitle(data.heroTitle?.trim() || heroHdr.title?.trim() || 'EXPLORE. DREAM. DISCOVER.');
+        setHeroTitle(data.heroTitle?.trim() || heroHdr.title?.trim() || cmsData.heroTitle || 'EXPLORE. DREAM. DISCOVER.');
         setHeroSubtitle(
           data.heroSubtitle?.trim() ||
-          heroHdr.subtitle?.trim() ||
-          "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers."
+            heroHdr.subtitle?.trim() ||
+            cmsData.heroSubtitle ||
+            "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers."
         );
-        setHeroBadge(data.heroBadge?.trim() || heroHdr.badge?.trim() || 'My Kind of Travel • Bespoke Journeys');
-        setHeroBgImage(data.heroBgImage?.trim() || heroHdr.image?.trim() || '');
-        setPrimaryButton(data.primaryButton?.trim() || 'START EXPLORING');
-        setSecondaryButton(data.secondaryButton?.trim() || 'PLAN TRIP');
+        setHeroBadge(data.heroBadge?.trim() || heroHdr.badge?.trim() || cmsData.heroBadge || 'My Kind of Travel • Bespoke Journeys');
+        setHeroBgImage(data.heroBgImage !== undefined ? data.heroBgImage : (heroHdr.image || cmsData.heroBgImage || ''));
+        setPrimaryButton(data.primaryButton?.trim() || cmsData.primaryButton || 'START EXPLORING');
+        setSecondaryButton(data.secondaryButton?.trim() || cmsData.secondaryButton || 'PLAN TRIP');
         if (data.sectionOrder && Array.isArray(data.sectionOrder)) {
           setSectionOrder(data.sectionOrder.filter((k: string) => k !== 'dreamToDeparture'));
         }
@@ -155,9 +163,37 @@ export default function AdminDashboard() {
           setWhyUsPillars(data.whyUsPillars);
         }
         setIsDirty(false);
+      } else {
+        // Fallback to cmsData from context
+        const heroHdr = cmsData.sectionHeaders?.hero || {};
+        setHeroTitle(cmsData.heroTitle?.trim() || heroHdr.title?.trim() || 'EXPLORE. DREAM. DISCOVER.');
+        setHeroSubtitle(
+          cmsData.heroSubtitle?.trim() ||
+            heroHdr.subtitle?.trim() ||
+            "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers."
+        );
+        setHeroBadge(cmsData.heroBadge?.trim() || heroHdr.badge?.trim() || 'My Kind of Travel • Bespoke Journeys');
+        setHeroBgImage(cmsData.heroBgImage || heroHdr.image || '');
+        setPrimaryButton(cmsData.primaryButton?.trim() || 'START EXPLORING');
+        setSecondaryButton(cmsData.secondaryButton?.trim() || 'PLAN TRIP');
+        if (cmsData.sectionOrder) setSectionOrder(cmsData.sectionOrder);
+        if (cmsData.sectionVisibility) setSectionVisibility(cmsData.sectionVisibility);
+        setDestinations(cmsData.destinations || DESTINATIONS);
+        setPackages(cmsData.packages || POPULAR_PACKAGES);
+        setPlaces(cmsData.places && cmsData.places.length > 0 ? cmsData.places : CURATED_PLACES_DATA);
+        setMarquee(cmsData.marquee || MARQUEE_ITEMS);
+        setTestimonials(cmsData.testimonials || TESTIMONIALS);
+        setExperiencePillars(cmsData.experiencePillars || EXPERIENCE_PILLARS);
+        setGallery(cmsData.gallery || GALLERY_ITEMS);
+        setCustomSections(cmsData.customSections || []);
+        setCompanyInfo(cmsData.companyInfo || COMPANY_INFO);
+        setSectionHeaders(cmsData.sectionHeaders || {});
+        if (cmsData.howItWorksSteps) setHowItWorksSteps(cmsData.howItWorksSteps);
+        if (cmsData.whyUsPillars) setWhyUsPillars(cmsData.whyUsPillars);
+        setIsDirty(false);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching data, using context data:', error);
     } finally {
       setLoading(false);
     }
@@ -567,9 +603,15 @@ export default function AdminDashboard() {
                 setHeroSubtitle={setHeroSubtitle}
                 heroBadge={heroBadge}
                 setHeroBadge={setHeroBadge}
+                primaryButton={primaryButton}
+                setPrimaryButton={setPrimaryButton}
+                secondaryButton={secondaryButton}
+                setSecondaryButton={setSecondaryButton}
                 experiencePillars={experiencePillars}
                 setExperiencePillars={setExperiencePillars}
                 onNavigateTab={(tab) => setActiveTab(tab)}
+                setIsDirty={setIsDirty}
+                onSaveAndPublish={handleSave}
               />
             )}
 
@@ -592,7 +634,10 @@ export default function AdminDashboard() {
                     <input
                       type="text"
                       value={heroBadge}
-                      onChange={(e) => setHeroBadge(e.target.value)}
+                      onChange={(e) => {
+                        setHeroBadge(e.target.value);
+                        setIsDirty(true);
+                      }}
                       placeholder="My Kind of Travel • Bespoke Journeys"
                       className="w-full px-4 py-2 bg-[#121212] border border-[#262626] text-[#FFFFFF] rounded-xl text-sm outline-none focus:border-[#E37500]"
                     />
@@ -605,7 +650,10 @@ export default function AdminDashboard() {
                     <input
                       type="text"
                       value={heroTitle}
-                      onChange={(e) => setHeroTitle(e.target.value)}
+                      onChange={(e) => {
+                        setHeroTitle(e.target.value);
+                        setIsDirty(true);
+                      }}
                       className="w-full px-4 py-2 bg-[#121212] border border-[#262626] text-[#FFFFFF] rounded-xl text-sm outline-none focus:border-[#E37500]"
                     />
                   </div>
@@ -617,7 +665,10 @@ export default function AdminDashboard() {
                     <textarea
                       rows={3}
                       value={heroSubtitle}
-                      onChange={(e) => setHeroSubtitle(e.target.value)}
+                      onChange={(e) => {
+                        setHeroSubtitle(e.target.value);
+                        setIsDirty(true);
+                      }}
                       className="w-full px-4 py-2 bg-[#121212] border border-[#262626] text-[#FFFFFF] rounded-xl text-sm outline-none focus:border-[#E37500]"
                     />
                   </div>
@@ -626,7 +677,10 @@ export default function AdminDashboard() {
                     <ImageUploadField
                       label="Hero Background Panorama Image"
                       value={heroBgImage}
-                      onChange={(url) => setHeroBgImage(url)}
+                      onChange={(url) => {
+                        setHeroBgImage(url);
+                        setIsDirty(true);
+                      }}
                       aspectRatio="wide"
                       placeholder="Leave empty for default Bali green terraces, or paste an image URL"
                       helperText="Select from curated luxury travel presets (Zermatt, Paris, Maldives, Bali) or upload an image from your device."
@@ -673,7 +727,10 @@ export default function AdminDashboard() {
                       <input
                         type="text"
                         value={primaryButton}
-                        onChange={(e) => setPrimaryButton(e.target.value)}
+                        onChange={(e) => {
+                          setPrimaryButton(e.target.value);
+                          setIsDirty(true);
+                        }}
                         className="w-full px-4 py-2 bg-[#121212] border border-[#262626] text-[#FFFFFF] rounded-xl text-sm outline-none focus:border-[#E37500]"
                       />
                     </div>
@@ -684,7 +741,10 @@ export default function AdminDashboard() {
                       <input
                         type="text"
                         value={secondaryButton}
-                        onChange={(e) => setSecondaryButton(e.target.value)}
+                        onChange={(e) => {
+                          setSecondaryButton(e.target.value);
+                          setIsDirty(true);
+                        }}
                         className="w-full px-4 py-2 bg-[#121212] border border-[#262626] text-[#FFFFFF] rounded-xl text-sm outline-none focus:border-[#E37500]"
                       />
                     </div>

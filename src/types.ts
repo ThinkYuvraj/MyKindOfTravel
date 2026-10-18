@@ -157,6 +157,8 @@ export interface SectionCustomContent {
   badge?: string;
   image?: string;
   backgroundImage?: string;
+  primaryButton?: string;
+  secondaryButton?: string;
 }
 
 export interface CMSData {

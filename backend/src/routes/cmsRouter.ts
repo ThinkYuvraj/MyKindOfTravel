@@ -16,7 +16,12 @@ import { CURATED_PLACES_DATA } from '../../../src/data/curatedPlacesData';
 import { commitAndPushCmsData, GitSyncResult } from '../services/gitService';
 
 export const cmsRouter = express.Router();
-export const DATA_FILE = path.join(process.cwd(), 'cms-data.json');
+const rootDir = fs.existsSync(path.join(process.cwd(), 'cms-data.json'))
+  ? process.cwd()
+  : fs.existsSync(path.join(process.cwd(), '..', 'cms-data.json'))
+  ? path.join(process.cwd(), '..')
+  : process.cwd();
+export const DATA_FILE = path.join(rootDir, 'cms-data.json');
 
 const DEFAULT_SECTION_ORDER = [
   'hero',
@@ -82,6 +87,12 @@ if (fs.existsSync(DATA_FILE)) {
     cmsData = {
       ...cmsData,
       ...parsed,
+      heroTitle: parsed.heroTitle?.trim() || cmsData.heroTitle,
+      heroSubtitle: parsed.heroSubtitle?.trim() || cmsData.heroSubtitle,
+      heroBadge: parsed.heroBadge?.trim() || cmsData.heroBadge,
+      heroBgImage: parsed.heroBgImage !== undefined ? parsed.heroBgImage : (cmsData.heroBgImage || ''),
+      primaryButton: parsed.primaryButton?.trim() || 'START EXPLORING',
+      secondaryButton: parsed.secondaryButton?.trim() || 'PLAN TRIP',
       sectionOrder: (parsed.sectionOrder || DEFAULT_SECTION_ORDER).filter((k: string) => k !== 'about' && k !== 'vip-perks' && k !== 'dreamToDeparture'),
       sectionVisibility: { ...DEFAULT_SECTION_VISIBILITY, ...(parsed.sectionVisibility || {}) },
       destinations: parsed.destinations || DESTINATIONS,
@@ -124,9 +135,34 @@ cmsRouter.post('/', async (req, res) => {
     const newVersion = (cmsData.version || 1) + 1;
     const publishedTimestamp = new Date().toISOString();
 
+    const cleanHeroTitle = req.body.heroTitle?.trim() || cmsData.heroTitle || 'EXPLORE. DREAM. DISCOVER.';
+    const cleanHeroSubtitle =
+      req.body.heroSubtitle?.trim() ||
+      cmsData.heroSubtitle ||
+      "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers.";
+    const cleanHeroBadge = req.body.heroBadge?.trim() || cmsData.heroBadge || 'My Kind of Travel • Bespoke Journeys';
+    const cleanHeroBg = req.body.heroBgImage !== undefined ? req.body.heroBgImage : (cmsData.heroBgImage || '');
+    const cleanPrimaryBtn = req.body.primaryButton?.trim() || cmsData.primaryButton || 'START EXPLORING';
+    const cleanSecondaryBtn = req.body.secondaryButton?.trim() || cmsData.secondaryButton || 'PLAN TRIP';
+
+    const cleanSectionHeaders = { ...(req.body.sectionHeaders || cmsData.sectionHeaders || {}) };
+    cleanSectionHeaders.hero = {
+      ...(cleanSectionHeaders.hero || {}),
+      title: cleanSectionHeaders.hero?.title?.trim() || cleanHeroTitle,
+      subtitle: cleanSectionHeaders.hero?.subtitle?.trim() || cleanHeroSubtitle,
+      badge: cleanSectionHeaders.hero?.badge?.trim() || cleanHeroBadge,
+      image: cleanSectionHeaders.hero?.image !== undefined ? cleanSectionHeaders.hero.image : cleanHeroBg,
+    };
+
     cmsData = {
       ...cmsData,
       ...req.body,
+      heroTitle: cleanHeroTitle,
+      heroSubtitle: cleanHeroSubtitle,
+      heroBadge: cleanHeroBadge,
+      heroBgImage: cleanHeroBg,
+      primaryButton: cleanPrimaryBtn,
+      secondaryButton: cleanSecondaryBtn,
       sectionOrder: req.body.sectionOrder || cmsData.sectionOrder || DEFAULT_SECTION_ORDER,
       sectionVisibility: req.body.sectionVisibility || cmsData.sectionVisibility || DEFAULT_SECTION_VISIBILITY,
       customSections: req.body.customSections || cmsData.customSections || [],
@@ -139,7 +175,7 @@ cmsRouter.post('/', async (req, res) => {
       companyInfo: req.body.companyInfo || cmsData.companyInfo || COMPANY_INFO,
       howItWorksSteps: req.body.howItWorksSteps || cmsData.howItWorksSteps || HOW_IT_WORKS_STEPS,
       whyUsPillars: req.body.whyUsPillars || cmsData.whyUsPillars || WHY_US_PILLARS,
-      sectionHeaders: req.body.sectionHeaders || cmsData.sectionHeaders || {},
+      sectionHeaders: cleanSectionHeaders,
       lastPublishedAt: publishedTimestamp,
       version: newVersion,
     };

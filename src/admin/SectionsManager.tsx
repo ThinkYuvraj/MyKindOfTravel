@@ -33,6 +33,7 @@ import {
   CheckCircle2,
   Camera,
   Image as ImageIcon,
+  Loader2,
 } from 'lucide-react';
 
 export type AdminTab =
@@ -66,9 +67,15 @@ interface SectionsManagerProps {
   setHeroSubtitle?: React.Dispatch<React.SetStateAction<string>>;
   heroBadge?: string;
   setHeroBadge?: React.Dispatch<React.SetStateAction<string>>;
+  primaryButton?: string;
+  setPrimaryButton?: React.Dispatch<React.SetStateAction<string>>;
+  secondaryButton?: string;
+  setSecondaryButton?: React.Dispatch<React.SetStateAction<string>>;
   experiencePillars?: ExperiencePillar[];
   setExperiencePillars?: React.Dispatch<React.SetStateAction<ExperiencePillar[]>>;
   onNavigateTab?: (tab: AdminTab) => void;
+  setIsDirty?: (dirty: boolean) => void;
+  onSaveAndPublish?: () => Promise<void>;
 }
 
 interface BuiltInSectionConfig {
@@ -328,19 +335,28 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
   setHeroSubtitle,
   heroBadge,
   setHeroBadge,
+  primaryButton,
+  setPrimaryButton,
+  secondaryButton,
+  setSecondaryButton,
   experiencePillars,
   setExperiencePillars,
   onNavigateTab,
+  setIsDirty,
+  onSaveAndPublish,
 }) => {
   // Modal states
   const [editingBuiltInKey, setEditingBuiltInKey] = useState<string | null>(null);
   const [modalTab, setModalTab] = useState<'content' | 'images'>('content');
+  const [isPublishing, setIsPublishing] = useState(false);
   const [builtInForm, setBuiltInForm] = useState<SectionCustomContent>({
     badge: '',
     title: '',
     subtitle: '',
     image: '',
     backgroundImage: '',
+    primaryButton: '',
+    secondaryButton: '',
   });
 
   // Local copies for special sub-editors
@@ -383,12 +399,16 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
     let currentBadge = currentHeader.badge;
     let currentTitle = currentHeader.title;
     let currentSubtitle = currentHeader.subtitle;
+    let currentPrimaryBtn = currentHeader.primaryButton;
+    let currentSecondaryBtn = currentHeader.secondaryButton;
 
     if (key === 'hero') {
       if (!currentImg && heroBgImage) currentImg = heroBgImage;
       if (currentBadge === undefined && heroBadge) currentBadge = heroBadge;
       if (currentTitle === undefined && heroTitle) currentTitle = heroTitle;
       if (currentSubtitle === undefined && heroSubtitle) currentSubtitle = heroSubtitle;
+      if (!currentPrimaryBtn && primaryButton) currentPrimaryBtn = primaryButton;
+      if (!currentSecondaryBtn && secondaryButton) currentSecondaryBtn = secondaryButton;
     }
 
     setBuiltInForm({
@@ -397,6 +417,8 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
       subtitle: currentSubtitle !== undefined ? currentSubtitle : config?.defaultSubtitle || '',
       image: currentImg,
       backgroundImage: currentHeader.backgroundImage || '',
+      primaryButton: currentPrimaryBtn || 'START EXPLORING',
+      secondaryButton: currentSecondaryBtn || 'PLAN TRIP',
     });
 
     if (key === 'howItWorks') {
@@ -413,7 +435,7 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
     setEditingBuiltInKey(key);
   };
 
-  // Save Built-in Editor Changes
+  // Save Built-in Editor Changes Locally
   const handleSaveBuiltInEditor = () => {
     if (!editingBuiltInKey) return;
 
@@ -426,22 +448,30 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
           subtitle: builtInForm.subtitle,
           image: builtInForm.image,
           backgroundImage: builtInForm.backgroundImage,
+          primaryButton: builtInForm.primaryButton,
+          secondaryButton: builtInForm.secondaryButton,
         },
       }));
     }
 
     if (editingBuiltInKey === 'hero') {
-      if (setHeroBgImage && builtInForm.image) {
-        setHeroBgImage(builtInForm.image);
+      if (setHeroBgImage) {
+        setHeroBgImage(builtInForm.image || '');
       }
-      if (setHeroTitle && builtInForm.title) {
-        setHeroTitle(builtInForm.title);
+      if (setHeroTitle) {
+        setHeroTitle(builtInForm.title || '');
       }
-      if (setHeroSubtitle && builtInForm.subtitle) {
-        setHeroSubtitle(builtInForm.subtitle);
+      if (setHeroSubtitle) {
+        setHeroSubtitle(builtInForm.subtitle || '');
       }
-      if (setHeroBadge && builtInForm.badge) {
-        setHeroBadge(builtInForm.badge);
+      if (setHeroBadge) {
+        setHeroBadge(builtInForm.badge || '');
+      }
+      if (setPrimaryButton && builtInForm.primaryButton) {
+        setPrimaryButton(builtInForm.primaryButton);
+      }
+      if (setSecondaryButton && builtInForm.secondaryButton) {
+        setSecondaryButton(builtInForm.secondaryButton);
       }
     }
 
@@ -457,7 +487,24 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
       setWhyUsPillars(localPillars);
     }
 
+    if (setIsDirty) {
+      setIsDirty(true);
+    }
+
     setEditingBuiltInKey(null);
+  };
+
+  // Save Built-in & Immediately Publish
+  const handleSaveAndPublishBuiltIn = async () => {
+    handleSaveBuiltInEditor();
+    if (onSaveAndPublish) {
+      setIsPublishing(true);
+      try {
+        await onSaveAndPublish();
+      } finally {
+        setIsPublishing(false);
+      }
+    }
   };
 
   // Reset Built-in Section to Default
@@ -471,6 +518,8 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
       subtitle: config.defaultSubtitle,
       image: '',
       backgroundImage: '',
+      primaryButton: 'START EXPLORING',
+      secondaryButton: 'PLAN TRIP',
     });
 
     if (key === 'howItWorks') {
@@ -478,6 +527,9 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
     }
     if (key === 'whyUs') {
       setLocalPillars([...DEFAULT_WHY_US]);
+    }
+    if (setIsDirty) {
+      setIsDirty(true);
     }
   };
 
@@ -487,6 +539,9 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
       ...prev,
       [key]: prev[key] === false ? true : false,
     }));
+    if (setIsDirty) {
+      setIsDirty(true);
+    }
   };
 
   // Move Section Up
@@ -497,6 +552,9 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
     newOrder[index - 1] = newOrder[index];
     newOrder[index] = temp;
     setSectionOrder(newOrder);
+    if (setIsDirty) {
+      setIsDirty(true);
+    }
   };
 
   // Move Section Down
@@ -507,6 +565,9 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
     newOrder[index + 1] = newOrder[index];
     newOrder[index] = temp;
     setSectionOrder(newOrder);
+    if (setIsDirty) {
+      setIsDirty(true);
+    }
   };
 
   // Initiate New Custom Section
@@ -536,7 +597,7 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
     setIsCreatingCustom(true);
   };
 
-  // Save Custom Section
+  // Save Custom Section Locally
   const handleSaveCustomSection = () => {
     if (!editingCustomSection) return;
 
@@ -550,8 +611,25 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
       );
     }
 
+    if (setIsDirty) {
+      setIsDirty(true);
+    }
+
     setEditingCustomSection(null);
     setIsCreatingCustom(false);
+  };
+
+  // Save Custom Section & Immediately Publish
+  const handleSaveAndPublishCustom = async () => {
+    handleSaveCustomSection();
+    if (onSaveAndPublish) {
+      setIsPublishing(true);
+      try {
+        await onSaveAndPublish();
+      } finally {
+        setIsPublishing(false);
+      }
+    }
   };
 
   // Delete Custom Section
@@ -564,6 +642,9 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
         delete copy[id];
         return copy;
       });
+      if (setIsDirty) {
+        setIsDirty(true);
+      }
     }
   };
 
@@ -1041,6 +1122,38 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
                   className="w-full px-3.5 py-2.5 bg-[#121212] border border-[#262626] text-white rounded-xl text-sm outline-none focus:border-[#E37500] transition-colors"
                 />
               </div>
+
+              {/* Special Button Config for Hero Banner */}
+              {editingBuiltInKey === 'hero' && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider font-bold text-[#A3A3A3] mb-1.5">
+                      Primary CTA Button Text
+                    </label>
+                    <input
+                      type="text"
+                      value={builtInForm.primaryButton || ''}
+                      onChange={(e) => setBuiltInForm({ ...builtInForm, primaryButton: e.target.value })}
+                      placeholder="START EXPLORING"
+                      className="w-full px-3.5 py-2.5 bg-[#121212] border border-[#262626] text-white rounded-xl text-sm font-semibold outline-none focus:border-[#E37500] transition-colors"
+                    />
+                    <p className="text-[11px] text-[#A3A3A3]/50 mt-1">Left accent button in the hero banner.</p>
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-wider font-bold text-[#A3A3A3] mb-1.5">
+                      Secondary CTA Button Text
+                    </label>
+                    <input
+                      type="text"
+                      value={builtInForm.secondaryButton || ''}
+                      onChange={(e) => setBuiltInForm({ ...builtInForm, secondaryButton: e.target.value })}
+                      placeholder="PLAN TRIP"
+                      className="w-full px-3.5 py-2.5 bg-[#121212] border border-[#262626] text-white rounded-xl text-sm font-semibold outline-none focus:border-[#E37500] transition-colors"
+                    />
+                    <p className="text-[11px] text-[#A3A3A3]/50 mt-1">Right glassmorphic button with arrow.</p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Special Sub-Editor: How It Works Steps */}
@@ -1364,22 +1477,46 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
             )}
 
             {/* Modal Bottom Controls */}
-            <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#262626]">
-              <button
-                type="button"
-                onClick={() => setEditingBuiltInKey(null)}
-                className="px-5 py-2.5 rounded-xl bg-[#181818] hover:bg-[#262626] text-[#A3A3A3] text-xs font-bold uppercase tracking-wider transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleSaveBuiltInEditor}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#E37500] hover:bg-[#C66500] text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-[#E37500]/25 transition-all"
-              >
-                <Check className="w-4 h-4 stroke-[2.5]" />
-                <span>Save Section Content</span>
-              </button>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-[#262626]">
+              <div className="text-xs text-neutral-400">
+                <span>Select <b>Save & Publish Live</b> to sync changes directly to the live website.</span>
+              </div>
+              <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <button
+                  type="button"
+                  onClick={() => setEditingBuiltInKey(null)}
+                  disabled={isPublishing}
+                  className="px-4 py-2.5 rounded-xl bg-[#181818] hover:bg-[#262626] text-[#A3A3A3] text-xs font-bold uppercase tracking-wider transition-colors disabled:opacity-50 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveBuiltInEditor}
+                  disabled={isPublishing}
+                  className="px-4 py-2.5 rounded-xl bg-[#262626] hover:bg-[#333333] text-white text-xs font-bold uppercase tracking-wider border border-white/10 transition-all disabled:opacity-50 cursor-pointer"
+                >
+                  Save Draft
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveAndPublishBuiltIn}
+                  disabled={isPublishing}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#E37500] hover:bg-[#C66500] text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-[#E37500]/25 transition-all disabled:opacity-50 cursor-pointer"
+                >
+                  {isPublishing ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Publishing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Check className="w-4 h-4 stroke-[2.5]" />
+                      <span>Save & Publish Live</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1599,22 +1736,46 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
             </div>
 
             {/* Modal Bottom Controls */}
-            <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#262626]">
-              <button
-                type="button"
-                onClick={() => setEditingCustomSection(null)}
-                className="px-5 py-2 rounded-xl bg-[#181818] hover:bg-[#262626] text-[#A3A3A3] text-xs font-bold uppercase tracking-wider transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleSaveCustomSection}
-                className="flex items-center gap-2 px-6 py-2 rounded-xl bg-[#E37500] hover:bg-[#C66500] text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-[#E37500]/25 transition-all"
-              >
-                <Check className="w-4 h-4 stroke-[2.5]" />
-                <span>{isCreatingCustom ? 'Add to Homepage' : 'Apply Changes'}</span>
-              </button>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-[#262626]">
+              <div className="text-xs text-neutral-400">
+                <span>Save custom section and publish live to site.</span>
+              </div>
+              <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <button
+                  type="button"
+                  onClick={() => setEditingCustomSection(null)}
+                  disabled={isPublishing}
+                  className="px-4 py-2 rounded-xl bg-[#181818] hover:bg-[#262626] text-[#A3A3A3] text-xs font-bold uppercase tracking-wider transition-colors disabled:opacity-50 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveCustomSection}
+                  disabled={isPublishing}
+                  className="px-4 py-2 rounded-xl bg-[#262626] hover:bg-[#333333] text-white text-xs font-bold uppercase tracking-wider border border-white/10 transition-all disabled:opacity-50 cursor-pointer"
+                >
+                  Save Draft
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveAndPublishCustom}
+                  disabled={isPublishing}
+                  className="flex items-center gap-2 px-5 py-2 rounded-xl bg-[#E37500] hover:bg-[#C66500] text-white text-xs font-bold uppercase tracking-wider shadow-md shadow-[#E37500]/25 transition-all disabled:opacity-50 cursor-pointer"
+                >
+                  {isPublishing ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Publishing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Check className="w-4 h-4 stroke-[2.5]" />
+                      <span>Save & Publish Live</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { exec } from 'child_process';
 import util from 'util';
 import path from 'path';
+import fs from 'fs';
 
 const execAsync = util.promisify(exec);
 
@@ -16,7 +17,11 @@ export interface GitSyncResult {
  * Automates committing and pushing cms-data.json changes to GitHub origin/main.
  */
 export async function commitAndPushCmsData(customMessage?: string): Promise<GitSyncResult> {
-  const rootDir = process.cwd();
+  const rootDir = fs.existsSync(path.join(process.cwd(), '.git'))
+    ? process.cwd()
+    : fs.existsSync(path.join(process.cwd(), '..', '.git'))
+    ? path.join(process.cwd(), '..')
+    : process.cwd();
   const targetFile = 'cms-data.json';
 
   try {

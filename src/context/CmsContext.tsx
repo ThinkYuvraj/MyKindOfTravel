@@ -244,9 +244,33 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Publish CMS changes to backend and immediately broadcast to all subscribers
   const publishCms = useCallback(
     async (dataToPublish: Partial<CmsData>) => {
+      const cleanHeroTitle = dataToPublish.heroTitle?.trim() || cmsData.heroTitle || INITIAL_CMS_DATA.heroTitle;
+      const cleanHeroSubtitle = dataToPublish.heroSubtitle?.trim() || cmsData.heroSubtitle || INITIAL_CMS_DATA.heroSubtitle;
+      const cleanHeroBadge = dataToPublish.heroBadge?.trim() || cmsData.heroBadge || INITIAL_CMS_DATA.heroBadge;
+      const cleanPrimaryBtn = dataToPublish.primaryButton?.trim() || cmsData.primaryButton || INITIAL_CMS_DATA.primaryButton;
+      const cleanSecondaryBtn = dataToPublish.secondaryButton?.trim() || cmsData.secondaryButton || INITIAL_CMS_DATA.secondaryButton;
+
+      const cleanHeaders = { ...(cmsData.sectionHeaders || {}), ...(dataToPublish.sectionHeaders || {}) };
+      if (cleanHeaders.hero) {
+        cleanHeaders.hero = {
+          ...cleanHeaders.hero,
+          title: cleanHeaders.hero.title?.trim() || cleanHeroTitle,
+          subtitle: cleanHeaders.hero.subtitle?.trim() || cleanHeroSubtitle,
+          badge: cleanHeaders.hero.badge?.trim() || cleanHeroBadge,
+          primaryButton: cleanHeaders.hero.primaryButton?.trim() || cleanPrimaryBtn,
+          secondaryButton: cleanHeaders.hero.secondaryButton?.trim() || cleanSecondaryBtn,
+        };
+      }
+
       const mergedPayload: CmsData = {
         ...cmsData,
         ...dataToPublish,
+        heroTitle: cleanHeroTitle,
+        heroSubtitle: cleanHeroSubtitle,
+        heroBadge: cleanHeroBadge,
+        primaryButton: cleanPrimaryBtn,
+        secondaryButton: cleanSecondaryBtn,
+        sectionHeaders: cleanHeaders,
         lastPublishedAt: new Date().toISOString(),
         version: (cmsData.version || 1) + 1,
       };

@@ -148,9 +148,9 @@ export default function HomePage() {
           <DestinationsSection
             key="destinations"
             data={cmsData.destinations}
-            customBadge={cmsData.sectionHeaders?.destinations?.badge}
-            customTitle={cmsData.sectionHeaders?.destinations?.title}
-            customSubtitle={cmsData.sectionHeaders?.destinations?.subtitle}
+            customBadge={cmsData.sectionHeaders?.destinations?.badge?.trim() || undefined}
+            customTitle={cmsData.sectionHeaders?.destinations?.title?.trim() || undefined}
+            customSubtitle={cmsData.sectionHeaders?.destinations?.subtitle?.trim() || undefined}
             onSelectDestination={(dest) => setSelectedDestination(dest)}
             onEnquireDestination={handleEnquireDestination}
           />
@@ -164,9 +164,9 @@ export default function HomePage() {
           <ExperiencesSection
             key="experiences"
             pillars={cmsData.experiencePillars}
-            customBadge={cmsData.sectionHeaders?.experiences?.badge}
-            customTitle={cmsData.sectionHeaders?.experiences?.title}
-            customSubtitle={cmsData.sectionHeaders?.experiences?.subtitle}
+            customBadge={cmsData.sectionHeaders?.experiences?.badge?.trim() || undefined}
+            customTitle={cmsData.sectionHeaders?.experiences?.title?.trim() || undefined}
+            customSubtitle={cmsData.sectionHeaders?.experiences?.subtitle?.trim() || undefined}
             onPlanTripType={handlePlanTripType}
           />
         );
@@ -175,9 +175,9 @@ export default function HomePage() {
         return (
           <VipPrivilegesSection
             key="vipPrivileges"
-            customBadge={cmsData.sectionHeaders?.vipPrivileges?.badge}
-            customTitle={cmsData.sectionHeaders?.vipPrivileges?.title}
-            customSubtitle={cmsData.sectionHeaders?.vipPrivileges?.subtitle}
+            customBadge={cmsData.sectionHeaders?.vipPrivileges?.badge?.trim() || undefined}
+            customTitle={cmsData.sectionHeaders?.vipPrivileges?.title?.trim() || undefined}
+            customSubtitle={cmsData.sectionHeaders?.vipPrivileges?.subtitle?.trim() || undefined}
           />
         );
 
@@ -186,9 +186,9 @@ export default function HomePage() {
           <HowItWorksSection
             key="howItWorks"
             steps={cmsData.howItWorksSteps}
-            customBadge={cmsData.sectionHeaders?.howItWorks?.badge}
-            customTitle={cmsData.sectionHeaders?.howItWorks?.title}
-            customSubtitle={cmsData.sectionHeaders?.howItWorks?.subtitle}
+            customBadge={cmsData.sectionHeaders?.howItWorks?.badge?.trim() || undefined}
+            customTitle={cmsData.sectionHeaders?.howItWorks?.title?.trim() || undefined}
+            customSubtitle={cmsData.sectionHeaders?.howItWorks?.subtitle?.trim() || undefined}
             onStartPlanning={handlePlanTripClick}
           />
         );
@@ -198,9 +198,9 @@ export default function HomePage() {
           <PackagesSection
             key="packages"
             data={cmsData.packages}
-            customBadge={cmsData.sectionHeaders?.packages?.badge}
-            customTitle={cmsData.sectionHeaders?.packages?.title}
-            customSubtitle={cmsData.sectionHeaders?.packages?.subtitle}
+            customBadge={cmsData.sectionHeaders?.packages?.badge?.trim() || undefined}
+            customTitle={cmsData.sectionHeaders?.packages?.title?.trim() || undefined}
+            customSubtitle={cmsData.sectionHeaders?.packages?.subtitle?.trim() || undefined}
             onEnquirePackage={handleEnquirePackage}
             onViewPackageDetails={(pkg) => setSelectedPackage(pkg)}
           />
@@ -211,9 +211,9 @@ export default function HomePage() {
           <WanderlustGallery
             key="gallery"
             items={cmsData.gallery}
-            customBadge={cmsData.sectionHeaders?.gallery?.badge}
-            customTitle={cmsData.sectionHeaders?.gallery?.title}
-            customSubtitle={cmsData.sectionHeaders?.gallery?.subtitle}
+            customBadge={cmsData.sectionHeaders?.gallery?.badge?.trim() || undefined}
+            customTitle={cmsData.sectionHeaders?.gallery?.title?.trim() || undefined}
+            customSubtitle={cmsData.sectionHeaders?.gallery?.subtitle?.trim() || undefined}
             onPlanTripForLocation={handleSelectHighlight}
           />
         );
@@ -223,9 +223,9 @@ export default function HomePage() {
           <TestimonialsSection
             key="testimonials"
             testimonials={cmsData.testimonials}
-            customBadge={cmsData.sectionHeaders?.testimonials?.badge}
-            customTitle={cmsData.sectionHeaders?.testimonials?.title}
-            customSubtitle={cmsData.sectionHeaders?.testimonials?.subtitle}
+            customBadge={cmsData.sectionHeaders?.testimonials?.badge?.trim() || undefined}
+            customTitle={cmsData.sectionHeaders?.testimonials?.title?.trim() || undefined}
+            customSubtitle={cmsData.sectionHeaders?.testimonials?.subtitle?.trim() || undefined}
           />
         );
 
@@ -235,9 +235,9 @@ export default function HomePage() {
             key="whyUs"
             companyInfo={cmsData.companyInfo}
             pillars={cmsData.whyUsPillars}
-            customBadge={cmsData.sectionHeaders?.whyUs?.badge}
-            customTitle={cmsData.sectionHeaders?.whyUs?.title}
-            customSubtitle={cmsData.sectionHeaders?.whyUs?.subtitle}
+            customBadge={cmsData.sectionHeaders?.whyUs?.badge?.trim() || undefined}
+            customTitle={cmsData.sectionHeaders?.whyUs?.title?.trim() || undefined}
+            customSubtitle={cmsData.sectionHeaders?.whyUs?.subtitle?.trim() || undefined}
           />
         );
 
@@ -246,9 +246,9 @@ export default function HomePage() {
           <ContactSection
             key="contact"
             companyInfo={cmsData.companyInfo}
-            customBadge={cmsData.sectionHeaders?.contact?.badge}
-            customTitle={cmsData.sectionHeaders?.contact?.title}
-            customSubtitle={cmsData.sectionHeaders?.contact?.subtitle}
+            customBadge={cmsData.sectionHeaders?.contact?.badge?.trim() || undefined}
+            customTitle={cmsData.sectionHeaders?.contact?.title?.trim() || undefined}
+            customSubtitle={cmsData.sectionHeaders?.contact?.subtitle?.trim() || undefined}
             initialDestination={enquiryDestination}
             initialTripType={enquiryTripType}
           />
