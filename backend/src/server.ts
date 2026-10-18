@@ -35,7 +35,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // Explicit 404 handler for API routes - ensures API calls never return index.html or HTML
-app.all('/api/*', (req, res) => {
+app.use('/api', (req, res) => {
   res.status(404).json({ error: `API route not found: ${req.method} ${req.originalUrl}` });
 });
 
