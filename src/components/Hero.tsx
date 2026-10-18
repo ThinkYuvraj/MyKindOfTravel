@@ -26,12 +26,21 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({
   onPlanTrip,
   onExploreDestinations,
-  title = 'EXPLORE. DREAM. DISCOVER.',
-  subtitle = "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers.",
+  title,
+  subtitle,
+  badgeText,
   bgImage,
-  primaryButtonText = 'START EXPLORING',
-  secondaryButtonText = 'PLAN TRIP',
+  primaryButtonText,
+  secondaryButtonText,
 }) => {
+  const displayTitle = title?.trim() ? title : 'EXPLORE. DREAM. DISCOVER.';
+  const displaySubtitle = subtitle?.trim()
+    ? subtitle
+    : "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers.";
+  const displayBadge = badgeText?.trim() ? badgeText : 'My Kind of Travel • Bespoke Journeys';
+  const displayPrimaryBtn = primaryButtonText?.trim() ? primaryButtonText : 'START EXPLORING';
+  const displaySecondaryBtn = secondaryButtonText?.trim() ? secondaryButtonText : 'PLAN TRIP';
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const [customVideoUrl, setCustomVideoUrl] = useState<string | null>(null);
   const [videoFailed, setVideoFailed] = useState<boolean>(false);
@@ -141,14 +150,24 @@ export const Hero: React.FC<HeroProps> = ({
 
       {/* Hero Centered Content Acquiring Full Main Frame */}
       <div className="relative z-10 w-full max-w-6xl 2xl:max-w-7xl 3xl:max-w-[88rem] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 text-center flex flex-col items-center justify-center pt-20 sm:pt-24 pb-20 sm:pb-24">
+        {/* Eyebrow Pill Tagline Badge */}
+        {displayBadge && (
+          <div className="mb-4 sm:mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 hover:bg-black/60 border border-[#E37500]/50 backdrop-blur-md shadow-lg transition-all">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#E37500] animate-pulse" />
+            <span className="text-[11px] sm:text-xs font-semibold tracking-widest uppercase text-white/95">
+              {displayBadge}
+            </span>
+          </div>
+        )}
+
         {/* Main Display Headline - Responsive Fluid Size */}
         <h1 className="font-sans font-extrabold uppercase text-white tracking-[0.03em] sm:tracking-[0.06em] md:tracking-[0.08em] text-2xl xs:text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] 2xl:text-[6.25rem] leading-[1.12] sm:leading-[1.06] drop-shadow-[0_4px_22px_rgba(0,0,0,0.9)] max-w-2xl sm:max-w-4xl lg:max-w-5xl 2xl:max-w-6xl mx-auto">
-          {title}
+          {displayTitle}
         </h1>
 
         {/* Descriptive Subtitle for My Kind of Travel */}
         <p className="mt-4 sm:mt-6 px-1 sm:px-4 text-white/95 text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-[1.35rem] font-normal max-w-xs xs:max-w-md sm:max-w-xl md:max-w-2xl 2xl:max-w-3xl mx-auto leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] whitespace-pre-line">
-          {subtitle}
+          {displaySubtitle}
         </p>
 
         {/* Slogan */}
@@ -164,14 +183,14 @@ export const Hero: React.FC<HeroProps> = ({
             onClick={onExploreDestinations}
             className="w-full sm:w-auto inline-flex items-center justify-center px-6 xs:px-7 sm:px-9 md:px-11 py-3 xs:py-3.5 sm:py-4 bg-[#E37500]/20 hover:bg-[#E37500]/40 backdrop-blur-xl border border-[#E37500]/80 hover:border-white text-white font-extrabold text-[11px] xs:text-xs sm:text-sm tracking-[0.14em] sm:tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_4px_25px_rgba(227,117,0,0.25)] hover:shadow-[0_8px_35px_rgba(227,117,0,0.45)] hover:scale-[1.03] active:scale-95 text-center rounded-full cursor-pointer"
           >
-            {primaryButtonText}
+            {displayPrimaryBtn}
           </button>
 
           <button
             onClick={onPlanTrip}
             className="w-full sm:w-auto justify-center inline-flex items-center gap-2 px-6 xs:px-7 sm:px-9 md:px-10 py-3 xs:py-3.5 sm:py-4 bg-white/5 hover:bg-white/15 backdrop-blur-xl border border-white/40 hover:border-white/80 text-white hover:text-white font-bold text-[11px] xs:text-xs sm:text-sm tracking-[0.14em] sm:tracking-[0.18em] uppercase transition-all duration-300 shadow-[0_4px_25px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_35px_rgba(255,255,255,0.2)] hover:scale-[1.03] active:scale-95 rounded-full text-center cursor-pointer"
           >
-            <span>{secondaryButtonText}</span>
+            <span>{displaySecondaryBtn}</span>
             <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
           </button>
         </div>

@@ -138,6 +138,11 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return {
           ...INITIAL_CMS_DATA,
           ...parsed,
+          heroTitle: parsed.heroTitle?.trim() || INITIAL_CMS_DATA.heroTitle,
+          heroSubtitle: parsed.heroSubtitle?.trim() || INITIAL_CMS_DATA.heroSubtitle,
+          heroBadge: parsed.heroBadge?.trim() || INITIAL_CMS_DATA.heroBadge,
+          primaryButton: parsed.primaryButton?.trim() || INITIAL_CMS_DATA.primaryButton,
+          secondaryButton: parsed.secondaryButton?.trim() || INITIAL_CMS_DATA.secondaryButton,
           places: parsed.places && parsed.places.length > 0 ? parsed.places : INITIAL_CMS_DATA.places,
         };
       }
@@ -156,6 +161,11 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const updated: CmsData = {
         ...prev,
         ...payload,
+        heroTitle: payload.heroTitle?.trim() || prev.heroTitle || INITIAL_CMS_DATA.heroTitle,
+        heroSubtitle: payload.heroSubtitle?.trim() || prev.heroSubtitle || INITIAL_CMS_DATA.heroSubtitle,
+        heroBadge: payload.heroBadge?.trim() || prev.heroBadge || INITIAL_CMS_DATA.heroBadge,
+        primaryButton: payload.primaryButton?.trim() || prev.primaryButton || INITIAL_CMS_DATA.primaryButton,
+        secondaryButton: payload.secondaryButton?.trim() || prev.secondaryButton || INITIAL_CMS_DATA.secondaryButton,
         destinations: payload.destinations || prev.destinations || INITIAL_CMS_DATA.destinations,
         packages: payload.packages || prev.packages || INITIAL_CMS_DATA.packages,
         places: payload.places && payload.places.length > 0 ? payload.places : (prev.places || INITIAL_CMS_DATA.places),

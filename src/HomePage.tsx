@@ -131,12 +131,12 @@ export default function HomePage() {
         return (
           <Hero
             key="hero"
-            title={cmsData.heroTitle}
-            subtitle={cmsData.heroSubtitle}
-            badgeText={cmsData.heroBadge}
+            title={cmsData.sectionHeaders?.hero?.title?.trim() || cmsData.heroTitle?.trim() || 'EXPLORE. DREAM. DISCOVER.'}
+            subtitle={cmsData.sectionHeaders?.hero?.subtitle?.trim() || cmsData.heroSubtitle?.trim() || "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers."}
+            badgeText={cmsData.sectionHeaders?.hero?.badge?.trim() || cmsData.heroBadge?.trim() || 'My Kind of Travel • Bespoke Journeys'}
             bgImage={cmsData.sectionHeaders?.hero?.image || cmsData.heroBgImage}
-            primaryButtonText={cmsData.primaryButton}
-            secondaryButtonText={cmsData.secondaryButton}
+            primaryButtonText={cmsData.primaryButton?.trim() || 'START EXPLORING'}
+            secondaryButtonText={cmsData.secondaryButton?.trim() || 'PLAN TRIP'}
             onPlanTrip={handlePlanTripClick}
             onExploreDestinations={() => scrollToSection('destinations')}
             onSelectHighlight={handleSelectHighlight}

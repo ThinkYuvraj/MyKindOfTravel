@@ -60,6 +60,12 @@ interface SectionsManagerProps {
   setWhyUsPillars?: React.Dispatch<React.SetStateAction<WhyUsPillar[]>>;
   heroBgImage?: string;
   setHeroBgImage?: React.Dispatch<React.SetStateAction<string>>;
+  heroTitle?: string;
+  setHeroTitle?: React.Dispatch<React.SetStateAction<string>>;
+  heroSubtitle?: string;
+  setHeroSubtitle?: React.Dispatch<React.SetStateAction<string>>;
+  heroBadge?: string;
+  setHeroBadge?: React.Dispatch<React.SetStateAction<string>>;
   experiencePillars?: ExperiencePillar[];
   setExperiencePillars?: React.Dispatch<React.SetStateAction<ExperiencePillar[]>>;
   onNavigateTab?: (tab: AdminTab) => void;
@@ -316,6 +322,12 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
   setWhyUsPillars,
   heroBgImage,
   setHeroBgImage,
+  heroTitle,
+  setHeroTitle,
+  heroSubtitle,
+  setHeroSubtitle,
+  heroBadge,
+  setHeroBadge,
   experiencePillars,
   setExperiencePillars,
   onNavigateTab,
@@ -368,14 +380,21 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
     const currentHeader = sectionHeaders[key] || {};
 
     let currentImg = currentHeader.image || '';
-    if (key === 'hero' && !currentImg && heroBgImage) {
-      currentImg = heroBgImage;
+    let currentBadge = currentHeader.badge;
+    let currentTitle = currentHeader.title;
+    let currentSubtitle = currentHeader.subtitle;
+
+    if (key === 'hero') {
+      if (!currentImg && heroBgImage) currentImg = heroBgImage;
+      if (currentBadge === undefined && heroBadge) currentBadge = heroBadge;
+      if (currentTitle === undefined && heroTitle) currentTitle = heroTitle;
+      if (currentSubtitle === undefined && heroSubtitle) currentSubtitle = heroSubtitle;
     }
 
     setBuiltInForm({
-      badge: currentHeader.badge !== undefined ? currentHeader.badge : config?.defaultBadge || '',
-      title: currentHeader.title !== undefined ? currentHeader.title : config?.defaultTitle || '',
-      subtitle: currentHeader.subtitle !== undefined ? currentHeader.subtitle : config?.defaultSubtitle || '',
+      badge: currentBadge !== undefined ? currentBadge : config?.defaultBadge || '',
+      title: currentTitle !== undefined ? currentTitle : config?.defaultTitle || '',
+      subtitle: currentSubtitle !== undefined ? currentSubtitle : config?.defaultSubtitle || '',
       image: currentImg,
       backgroundImage: currentHeader.backgroundImage || '',
     });
@@ -411,8 +430,19 @@ export const SectionsManager: React.FC<SectionsManagerProps> = ({
       }));
     }
 
-    if (editingBuiltInKey === 'hero' && setHeroBgImage && builtInForm.image) {
-      setHeroBgImage(builtInForm.image);
+    if (editingBuiltInKey === 'hero') {
+      if (setHeroBgImage && builtInForm.image) {
+        setHeroBgImage(builtInForm.image);
+      }
+      if (setHeroTitle && builtInForm.title) {
+        setHeroTitle(builtInForm.title);
+      }
+      if (setHeroSubtitle && builtInForm.subtitle) {
+        setHeroSubtitle(builtInForm.subtitle);
+      }
+      if (setHeroBadge && builtInForm.badge) {
+        setHeroBadge(builtInForm.badge);
+      }
     }
 
     if (editingBuiltInKey === 'experiences' && setExperiencePillars) {

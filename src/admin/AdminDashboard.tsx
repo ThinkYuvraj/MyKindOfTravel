@@ -121,12 +121,17 @@ export default function AdminDashboard() {
       const contentType = response.headers.get('content-type') || '';
       if (response.ok && contentType.includes('application/json')) {
         const data = await response.json();
-        setHeroTitle(data.heroTitle || 'EXPLORE. DREAM. DISCOVER.');
-        setHeroSubtitle(data.heroSubtitle || '');
-        setHeroBadge(data.heroBadge || 'My Kind of Travel • Bespoke Journeys');
-        setHeroBgImage(data.heroBgImage || '');
-        setPrimaryButton(data.primaryButton || 'START EXPLORING');
-        setSecondaryButton(data.secondaryButton || 'PLAN TRIP');
+        const heroHdr = data.sectionHeaders?.hero || {};
+        setHeroTitle(data.heroTitle?.trim() || heroHdr.title?.trim() || 'EXPLORE. DREAM. DISCOVER.');
+        setHeroSubtitle(
+          data.heroSubtitle?.trim() ||
+          heroHdr.subtitle?.trim() ||
+          "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers."
+        );
+        setHeroBadge(data.heroBadge?.trim() || heroHdr.badge?.trim() || 'My Kind of Travel • Bespoke Journeys');
+        setHeroBgImage(data.heroBgImage?.trim() || heroHdr.image?.trim() || '');
+        setPrimaryButton(data.primaryButton?.trim() || 'START EXPLORING');
+        setSecondaryButton(data.secondaryButton?.trim() || 'PLAN TRIP');
         if (data.sectionOrder && Array.isArray(data.sectionOrder)) {
           setSectionOrder(data.sectionOrder.filter((k: string) => k !== 'dreamToDeparture'));
         }
@@ -162,13 +167,34 @@ export default function AdminDashboard() {
     setSaving(true);
     setSaveBanner(null);
     try {
+      const cleanHeroTitle = heroTitle?.trim() || sectionHeaders?.hero?.title?.trim() || 'EXPLORE. DREAM. DISCOVER.';
+      const cleanHeroSubtitle =
+        heroSubtitle?.trim() ||
+        sectionHeaders?.hero?.subtitle?.trim() ||
+        "Handcrafted luxury holidays, private European chalets, honeymoon cliffside villas, and bespoke journeys tailored for India's discerning travellers.";
+      const cleanHeroBadge = heroBadge?.trim() || sectionHeaders?.hero?.badge?.trim() || 'My Kind of Travel • Bespoke Journeys';
+      const cleanHeroBg = heroBgImage?.trim() || sectionHeaders?.hero?.image || '';
+      const cleanPrimaryBtn = primaryButton?.trim() || 'START EXPLORING';
+      const cleanSecondaryBtn = secondaryButton?.trim() || 'PLAN TRIP';
+
+      const mergedSectionHeaders = {
+        ...sectionHeaders,
+        hero: {
+          ...(sectionHeaders?.hero || {}),
+          badge: cleanHeroBadge,
+          title: cleanHeroTitle,
+          subtitle: cleanHeroSubtitle,
+          image: cleanHeroBg,
+        },
+      };
+
       const result = await publishCms({
-        heroTitle,
-        heroSubtitle,
-        heroBadge,
-        heroBgImage,
-        primaryButton,
-        secondaryButton,
+        heroTitle: cleanHeroTitle,
+        heroSubtitle: cleanHeroSubtitle,
+        heroBadge: cleanHeroBadge,
+        heroBgImage: cleanHeroBg,
+        primaryButton: cleanPrimaryBtn,
+        secondaryButton: cleanSecondaryBtn,
         sectionOrder,
         sectionVisibility,
         destinations,
@@ -180,7 +206,7 @@ export default function AdminDashboard() {
         gallery,
         customSections,
         companyInfo,
-        sectionHeaders,
+        sectionHeaders: mergedSectionHeaders,
         howItWorksSteps,
         whyUsPillars,
       });
@@ -535,6 +561,12 @@ export default function AdminDashboard() {
                 setWhyUsPillars={setWhyUsPillars}
                 heroBgImage={heroBgImage}
                 setHeroBgImage={setHeroBgImage}
+                heroTitle={heroTitle}
+                setHeroTitle={setHeroTitle}
+                heroSubtitle={heroSubtitle}
+                setHeroSubtitle={setHeroSubtitle}
+                heroBadge={heroBadge}
+                setHeroBadge={setHeroBadge}
                 experiencePillars={experiencePillars}
                 setExperiencePillars={setExperiencePillars}
                 onNavigateTab={(tab) => setActiveTab(tab)}
