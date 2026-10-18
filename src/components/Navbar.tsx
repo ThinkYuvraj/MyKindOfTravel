@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Compass, Search, ChevronDown, Menu, X, ArrowRight, Sun, Moon, MapPin, Heart } from 'lucide-react';
+import { Compass, Search, ChevronDown, Menu, X, ArrowRight, Sun, Moon, MapPin } from 'lucide-react';
 import { DESTINATIONS } from '../data/travelData';
 import { useTheme } from '../context/ThemeContext';
-import { useWishlist } from '../context/WishlistContext';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 interface NavbarProps {
@@ -30,7 +29,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const { isDark, toggleTheme } = useTheme();
-  const { totalSavedCount, openWishlist } = useWishlist();
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const handlePlanClick = () => {
@@ -287,20 +285,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
             </button>
 
-            {/* Wishlist */}
-            <button
-              onClick={openWishlist}
-              className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-neutral-900 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-all cursor-pointer touch-manipulation active:scale-90"
-              title="Saved Journeys"
-              aria-label="Wishlist"
-            >
-              <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2] ${totalSavedCount > 0 ? 'fill-[#E37500] text-[#E37500]' : ''}`} />
-              {totalSavedCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#E37500] text-white text-[8px] font-bold flex items-center justify-center shadow-xs">
-                  {totalSavedCount}
-                </span>
-              )}
-            </button>
 
             {/* Theme Toggle */}
             <button

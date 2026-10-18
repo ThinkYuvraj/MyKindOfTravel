@@ -10,13 +10,18 @@
   RewriteCond %{HTTPS} off
   RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-  # 2. Pass requests to Node.js App or SPA router fallback
-  # If files/directories exist on filesystem, serve directly
+  # 2. Forward /api requests to local Node.js backend if mod_proxy is enabled
+  <IfModule mod_proxy.c>
+    RewriteRule ^api/(.*) http://127.0.0.1:3000/api/$1 [P,L]
+  </IfModule>
+
+  # 3. If files/directories exist on filesystem, serve directly
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # Route all SPA paths to index.html for client-side React Router navigation
+  # 4. Route SPA paths to index.html for client-side React Router navigation (excluding /api routes)
+  RewriteCond %{REQUEST_URI} !^/api
   RewriteRule ^ index.html [L]
 </IfModule>
 

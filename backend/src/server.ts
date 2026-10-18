@@ -34,6 +34,21 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'healthy', environment: env.nodeEnv, timestamp: new Date().toISOString() });
 });
 
+// Explicit 404 handler for API routes - ensures API calls never return index.html or HTML
+app.all('/api/*', (req, res) => {
+  res.status(404).json({ error: `API route not found: ${req.method} ${req.originalUrl}` });
+});
+
+// Global API error handler ensuring JSON responses
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  if (req.path.startsWith('/api')) {
+    console.error('[API Error]:', err);
+    res.status(err.status || 500).json({ error: err.message || 'Internal API Error' });
+  } else {
+    next(err);
+  }
+});
+
 // Vite Middleware (Development Mode) vs Static File Serving (Production Mode / Hostinger)
 async function startServer() {
   if (env.nodeEnv === 'development') {

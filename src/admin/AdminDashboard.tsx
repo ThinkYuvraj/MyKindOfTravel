@@ -116,7 +116,8 @@ export default function AdminDashboard() {
   const fetchData = async () => {
     try {
       const response = await fetch('/api/cms');
-      if (response.ok) {
+      const contentType = response.headers.get('content-type') || '';
+      if (response.ok && contentType.includes('application/json')) {
         const data = await response.json();
         setHeroTitle(data.heroTitle || 'EXPLORE. DREAM. DISCOVER.');
         setHeroSubtitle(data.heroSubtitle || '');

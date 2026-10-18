@@ -25,13 +25,6 @@ export const MarqueeTicker: React.FC<MarqueeTickerProps> = ({ items = MARQUEE_IT
           </div>
         ))}
       </div>
-
-      <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
-      `}</style>
     </div>
   );
 };

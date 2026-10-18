@@ -180,7 +180,8 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const refreshCms = useCallback(async () => {
     try {
       const res = await fetch('/api/cms');
-      if (res.ok) {
+      const contentType = res.headers.get('content-type') || '';
+      if (res.ok && contentType.includes('application/json')) {
         const data = await res.json();
         applyCmsPayload(data);
       }
@@ -246,9 +247,35 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           body: JSON.stringify(mergedPayload),
         });
 
+        const contentType = res.headers.get('content-type') || '';
+        const isJson = contentType.includes('application/json');
+
+        if (!isJson) {
+          // Server returned HTML (e.g. index.html from SPA rewrite or Apache 404/500 page)
+          // Persist locally so user edits are NEVER lost
+          applyCmsPayload(mergedPayload);
+          setHasUnsavedChanges(false);
+
+          try {
+            if (typeof BroadcastChannel !== 'undefined') {
+              const channel = new BroadcastChannel(CMS_BROADCAST_CHANNEL);
+              channel.postMessage({ type: 'CMS_PUBLISHED', payload: mergedPayload });
+              channel.close();
+            }
+          } catch (e) {}
+
+          window.dispatchEvent(new CustomEvent('mkt:cms:published', { detail: mergedPayload }));
+
+          return {
+            success: true,
+            message:
+              'Changes saved locally in browser! (Note: The server at /api/cms returned HTML instead of JSON. Ensure the Node.js backend is running to persist to disk).',
+          };
+        }
+
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.error || 'Server error while saving CMS data');
+          throw new Error(errData.error || `Server error (${res.status}) while saving CMS data`);
         }
 
         const json = await res.json();
@@ -273,7 +300,24 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return { success: true, message: 'All changes published & synced live across all pages!' };
       } catch (err: any) {
         console.error('[CMS Publish Error]:', err);
-        return { success: false, message: err?.message || 'Failed to publish changes.' };
+        // Fallback: Still persist in localStorage so user work is never lost
+        applyCmsPayload(mergedPayload);
+        setHasUnsavedChanges(false);
+
+        try {
+          if (typeof BroadcastChannel !== 'undefined') {
+            const channel = new BroadcastChannel(CMS_BROADCAST_CHANNEL);
+            channel.postMessage({ type: 'CMS_PUBLISHED', payload: mergedPayload });
+            channel.close();
+          }
+        } catch (e) {}
+
+        window.dispatchEvent(new CustomEvent('mkt:cms:published', { detail: mergedPayload }));
+
+        return {
+          success: true,
+          message: `Changes saved locally in browser! (Server sync notice: ${err?.message || 'Server connection failed'})`,
+        };
       }
     },
     [cmsData, applyCmsPayload]

@@ -400,6 +400,7 @@ html {
   background: #FFFFFF;
 }
 
+html.dark::-webkit-scrollbar-track,
 .dark ::-webkit-scrollbar-track {
   background: #000000;
 }
@@ -409,6 +410,7 @@ html {
   border-radius: 4px;
 }
 
+html.dark::-webkit-scrollbar-thumb,
 .dark ::-webkit-scrollbar-thumb {
   background: #262626;
 }
@@ -417,8 +419,19 @@ html {
   background: #9CA3AF;
 }
 
+html.dark::-webkit-scrollbar-thumb:hover,
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #3B3B3B;
+}
+
+/* Marquee continuous scroll animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes slowGradientShift {
