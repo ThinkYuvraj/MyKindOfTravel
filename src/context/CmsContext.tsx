@@ -98,7 +98,8 @@ interface CmsContextType {
   hasUnsavedChanges: boolean;
   setHasUnsavedChanges: (val: boolean) => void;
   refreshCms: () => Promise<void>;
-  publishCms: (dataToPublish: Partial<CmsData>) => Promise<{ success: boolean; message?: string }>;
+  publishCms: (dataToPublish: Partial<CmsData>) => Promise<{ success: boolean; message?: string; git?: any }>;
+  syncToGitHub: () => Promise<{ success: boolean; pushed: boolean; message: string; commitHash?: string }>;
   // Fast direct accessors
   destinations: DestinationItem[];
   packages: TravelPackage[];
@@ -297,7 +298,11 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         // Dispatch local event
         window.dispatchEvent(new CustomEvent('mkt:cms:published', { detail: finalData }));
 
-        return { success: true, message: 'All changes published & synced live across all pages!' };
+        const message = json.git?.pushed
+          ? `All changes published & pushed to GitHub (${json.git.commitHash})!`
+          : json.message || 'All changes published & synced live across all pages!';
+
+        return { success: true, message, git: json.git };
       } catch (err: any) {
         console.error('[CMS Publish Error]:', err);
         // Fallback: Still persist in localStorage so user work is never lost
@@ -322,6 +327,30 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     },
     [cmsData, applyCmsPayload]
   );
+
+  const syncToGitHub = useCallback(async () => {
+    try {
+      const res = await fetch('/api/cms/git-push', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        return {
+          success: false,
+          pushed: false,
+          message: 'Server returned HTML instead of JSON. Ensure the Node.js backend is running.',
+        };
+      }
+      return await res.json();
+    } catch (e: any) {
+      return {
+        success: false,
+        pushed: false,
+        message: e?.message || 'Network error triggering git push',
+      };
+    }
+  }, []);
 
   const heroData = useMemo(
     () => ({
@@ -351,6 +380,7 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setHasUnsavedChanges,
       refreshCms,
       publishCms,
+      syncToGitHub,
       destinations: cmsData.destinations,
       packages: cmsData.packages,
       places: cmsData.places,
@@ -366,7 +396,7 @@ export const CmsProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       sectionVisibility: cmsData.sectionVisibility,
       heroData,
     }),
-    [cmsData, isLoading, hasUnsavedChanges, refreshCms, publishCms, heroData]
+    [cmsData, isLoading, hasUnsavedChanges, refreshCms, publishCms, syncToGitHub, heroData]
   );
 
   return <CmsContext.Provider value={value}>{children}</CmsContext.Provider>;

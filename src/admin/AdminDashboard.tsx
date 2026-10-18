@@ -41,6 +41,7 @@ import {
   PhoneCall,
   Award,
   Heart,
+  GitBranch,
 } from 'lucide-react';
 import { SectionsManager } from './SectionsManager';
 import { InquiriesManager } from './InquiriesManager';
@@ -63,9 +64,10 @@ import {
 type Tab = 'sections' | 'hero' | 'destinations' | 'packages' | 'places' | 'gallery' | 'content' | 'leads' | 'settings';
 
 export default function AdminDashboard() {
-  const { publishCms, lastPublishedAt: serverLastPublishedAt } = useCms();
+  const { publishCms, syncToGitHub, lastPublishedAt: serverLastPublishedAt } = useCms();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [gitSyncing, setGitSyncing] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
   const [saveBanner, setSaveBanner] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const navigate = useNavigate();
@@ -201,6 +203,34 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleGitPush = async () => {
+    setGitSyncing(true);
+    try {
+      const res = await syncToGitHub();
+      if (res.success && res.pushed) {
+        setSaveBanner({
+          type: 'success',
+          message: `Pushed latest changes to GitHub successfully (${res.commitHash})!`,
+        });
+      } else if (res.success) {
+        setSaveBanner({
+          type: 'success',
+          message: res.message || 'GitHub repository is already up to date.',
+        });
+      } else {
+        setSaveBanner({
+          type: 'error',
+          message: `GitHub Push: ${res.message}. Ensure the Node.js server is running.`,
+        });
+      }
+    } catch (e: any) {
+      setSaveBanner({ type: 'error', message: 'Failed to push to GitHub.' });
+    } finally {
+      setGitSyncing(false);
+      setTimeout(() => setSaveBanner(null), 6000);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('isAdminLoggedIn');
     navigate('/admin/login');
@@ -279,7 +309,7 @@ export default function AdminDashboard() {
 
           <button
             onClick={handleSave}
-            disabled={saving}
+            disabled={saving || gitSyncing}
             className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all disabled:opacity-50 shadow-md active:scale-95 cursor-pointer ${
               isDirty
                 ? 'bg-[#E37500] hover:bg-[#C66500] text-white shadow-[#E37500]/30 animate-pulse'
@@ -288,6 +318,16 @@ export default function AdminDashboard() {
           >
             <Save className={`w-3.5 h-3.5 ${saving ? 'animate-spin' : ''}`} />
             <span>{saving ? 'Syncing...' : 'Publish Changes'}</span>
+          </button>
+
+          <button
+            onClick={handleGitPush}
+            disabled={gitSyncing || saving}
+            title="Push latest CMS changes to GitHub"
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#181818] hover:bg-[#262626] text-[#A3A3A3] hover:text-white text-xs font-semibold transition-colors border border-[#262626] disabled:opacity-50 cursor-pointer"
+          >
+            <GitBranch className={`w-3.5 h-3.5 text-[#E37500] ${gitSyncing ? 'animate-spin' : ''}`} />
+            <span>{gitSyncing ? 'Pushing...' : 'Push to GitHub'}</span>
           </button>
 
           <button

@@ -13,6 +13,7 @@ import {
   WHY_US_PILLARS,
 } from '../../../src/data/travelData';
 import { CURATED_PLACES_DATA } from '../../../src/data/curatedPlacesData';
+import { commitAndPushCmsData, GitSyncResult } from '../services/gitService';
 
 export const cmsRouter = express.Router();
 export const DATA_FILE = path.join(process.cwd(), 'cms-data.json');
@@ -118,7 +119,7 @@ cmsRouter.get('/status', (req, res) => {
   });
 });
 
-cmsRouter.post('/', (req, res) => {
+cmsRouter.post('/', async (req, res) => {
   try {
     const newVersion = (cmsData.version || 1) + 1;
     const publishedTimestamp = new Date().toISOString();
@@ -144,16 +145,41 @@ cmsRouter.post('/', (req, res) => {
     };
 
     fs.writeFileSync(DATA_FILE, JSON.stringify(cmsData, null, 2));
+
+    // Auto-commit and push to GitHub origin/main
+    const gitResult: GitSyncResult = await commitAndPushCmsData(
+      `chore(cms): publish live updates v${newVersion} [${publishedTimestamp.substring(0, 19).replace('T', ' ')}]`
+    ).catch((err) => ({
+      success: false,
+      pushed: false,
+      commitHash: undefined,
+      message: err?.message || 'Git execution error',
+    }));
+
     res.json({
       success: true,
-      message: 'CMS updated and synced successfully!',
+      message: gitResult.pushed
+        ? `CMS updated & pushed to GitHub live (${gitResult.commitHash})!`
+        : 'CMS updated and synced to server disk!',
       data: cmsData,
       publishedAt: publishedTimestamp,
       version: newVersion,
+      git: gitResult,
     });
   } catch (err: any) {
     console.error('Error saving CMS data:', err);
     res.status(500).json({ error: 'Failed to save CMS data to server storage.' });
+  }
+});
+
+// Dedicated manual endpoint to trigger Git commit & push
+cmsRouter.post('/git-push', async (req, res) => {
+  try {
+    const { message } = req.body || {};
+    const result = await commitAndPushCmsData(message);
+    res.json(result);
+  } catch (err: any) {
+    res.status(500).json({ success: false, pushed: false, message: err?.message || 'Failed to trigger git push.' });
   }
 });
 
